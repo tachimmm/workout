@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name='_csrf'>
+    <meta name='_csrf_header'>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style-work-out.css}">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/fullcalendar.css' />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/fullcalendar.js'></script>
+    <!-- Thymeleafを使用してサーバーサイドからデータを渡す -->
+    <script th:inline="javascript">
+        //var chartData = [[${chartData}]];
+    </script>
+
+    <title>Training Record</title>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- Sidebar Section -->
+        <aside>
+            <div class="toggle">
+                <div class="logo">
+                    <img th:src="@{/images/hash-regular-24.png}">
+                    <h2>Work<span class="danger">Out</span></h2>
+                </div>
+                <div class="close" id="close-btn">
+                    <span class="material-icons-sharp">
+                        close
+                    </span>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <a th:href="@{content-work-out-top}">
+                    <span class="material-icons-sharp">
+                        dashboard
+                    </span>
+                    <h3>Dashboard</h3>
+                </a>
+                <a th:href="@{content-work-out-ScheduleCalender}">
+                    <span class="material-icons-sharp">
+                        person_outline
+                    </span>
+                    <h3>Schedule</h3>
+                </a>
+                <a th:href="@{content-work-out-recorde}" class="active">
+                    <span class="material-icons-sharp">
+                        receipt_long
+                    </span>
+                    <h3>Recode</h3>
+                </a>
+                <a th:href="@{content-work-out-analytics}">
+                    <span class="material-icons-sharp">
+                        insights
+                    </span>
+                    <h3>Analytics</h3>
+                </a>
+                <a th:if="${username != null}" th:href="@{/logout}">
+                    <span class="material-icons-sharp">logout</span>
+                    <h3>Log out</h3>
+                </a>
+                <a th:unless="${username != null}" th:href="@{login}">
+                    <span class="material-icons-sharp">login</span>
+                    <h3>Sign Up</h3>
+                </a>
+            </div>
+        </aside>
+        <!-- End of Sidebar Section -->
+
+        <!-- Main Content -->
+        <main>
+            <h1>Analytics</h1>
+            <!-- Analyses -->
+            <div class="analyse">
+                <div class="sales">
+                    <div class="status">
+                        <div class="info">
+                            <h3>今月のトレーニング回数</h3>
+                            <h1>$#####</h1>
+                        </div>
+                        <div class="progresss">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="percentage">
+                                <p>+##%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="visits">
+                    <div class="status">
+                        <div class="info">
+                            <h3>今月のトレーニング時間</h3>
+                            <h1>####</h1>
+                        </div>
+                        <div class="progresss">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="percentage">
+                                <p>-##%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="searches">
+                    <div class="status">
+                        <div class="info">
+                            <h3>今月の総重量</h3>
+                            <h1 th:text="${totalWeight}"></h1>
+                        </div>
+                        <div class="progresss">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="percentage">
+                                <p>+##%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Analyses -->
+
+            <div class="user-list">
+                <h2>Recode List</h2>
+                <div class="float-end">
+                    <a th:href="@{RecodeAdd}" class="btn btn-primary">新規記録</a>
+                    <a th:href="@{RecodeSearch}" class="btn btn-primary">検索</a>
+                </div>
+                <table class="table-striped">
+                    <thead>
+                        <tr>
+                            <th>日付</th>
+                            <th>部位</th>
+                            <th>種目</th>
+                            <th>SET</th>
+                            <th>重量</th>
+                            <th>REP</th>
+                            <th>削除</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="user : ${itemlist}" th:object="${user}" class="align-middle">
+                            <td th:text="*{date_column}"></td>
+                            <td th:text="*{item}"></td>
+                            <td th:text="*{event}"></td>
+                            <td>
+                                <span th:text="${user.set_column}"></span> set
+                            </td>
+                            <td>
+                                <span th:text="${user.weight}"></span> kg
+                            </td>
+                            <td>
+                                <span th:text="${user.rep}"></span> rep
+                            </td>
+                            <td>
+                                <form th:action="@{/usefulltools/RecodeDelete}" method="post">
+                                    <input type="submit" class="btn btn-outline-danger" name="delete" value="削除">
+                                    <input type="hidden" name="id" th:value="${user.save_id}">
+                                </form>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+           
+        
+        </main>
+
+    </div>
+
+</body>
+
+</html>

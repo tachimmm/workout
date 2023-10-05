@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style-work-out.css}">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/fullcalendar.css' />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/fullcalendar.js'></script>
+    <!-- Thymeleafを使用してサーバーサイドからデータを渡す -->
+    <script th:inline="javascript">
+        //var chartData = [[${chartData}]];
+    </script>
+
+    <title>Training Schedulu</title>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- Sidebar Section -->
+        <aside>
+            <div class="toggle">
+                <div class="logo">
+                    <img th:src="@{/images/hash-regular-24.png}">
+                    <h2>Work<span class="danger">Out</span></h2>
+                </div>
+                <div class="close" id="close-btn">
+                    <span class="material-icons-sharp">
+                        close
+                    </span>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <a th:href="@{content-work-out-top}">
+                    <span class="material-icons-sharp">
+                        dashboard
+                    </span>
+                    <h3>Dashboard</h3>
+                </a>
+                <a th:href="@{content-work-out-ScheduleCalender}" class="active">
+                    <span class="material-icons-sharp">
+                        person_outline
+                    </span>
+                    <h3>Schedule</h3>
+                </a>
+                <a th:href="@{content-work-out-recorde}">
+                    <span class="material-icons-sharp">
+                        receipt_long
+                    </span>
+                    <h3>Recode</h3>
+                </a>
+                <a th:href="@{content-work-out-analytics}">
+                    <span class="material-icons-sharp">
+                        insights
+                    </span>
+                    <h3>Analytics</h3>
+
+                </a>
+                <a th:if="${username != null}" th:href="@{/logout}">
+                    <span class="material-icons-sharp">logout</span>
+                    <h3>Log out</h3>
+                </a>
+                <a th:unless="${username != null}" th:href="@{login}">
+                    <span class="material-icons-sharp">login</span>
+                    <h3>Sign Up</h3>
+                </a>
+            </div>
+        </aside>
+        <!-- End of Sidebar Section -->
+
+        <!-- Main Content -->
+        <main>
+            <h1>Analytics</h1>
+            <span th:text="|Welcome,${username}|"></span>
+            <!-- Analyses -->
+            <div class="analyse">
+                <div class="sales">
+                    <div class="status">
+                        <div class="info">
+                            <h3>今月のトレーニング回数</h3>
+                            <h1>$#####</h1>
+                        </div>
+                        <div class="progresss">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="percentage">
+                                <p>+##%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="visits">
+                    <div class="status">
+                        <div class="info">
+                            <h3>今月のトレーニング時間</h3>
+                            <h1>####</h1>
+                        </div>
+                        <div class="progresss">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="percentage">
+                                <p>-##%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="searches">
+                    <div class="status">
+                        <div class="info">
+                            <h3>今月の総重量</h3>
+                            <h1>#####</h1>
+                        </div>
+                        <div class="progresss">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="percentage">
+                                <p>+##%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- End of Analyses -->
+
+            <div class="new-calender">
+                <h2>Schedule</h2>
+                <!-- 追加ボタン -->
+                <!-- 予定を追加するためのフォーム -->
+                <div class="float-end">
+                    <a th:href="@{ScheduleAdd}" class="btn btn-primary">予定を追加</a>
+                    <a th:href="@{content-work-out-ScheduleList}" class="btn btn-primary">一覧</a>
+                </div>
+                <div class="calendar-list">
+
+                    <!-- FullCalendarを表示する要素 -->
+                    <div id="calendar" class="calendar-container"></div>
+
+                    <!-- FullCalendarの初期化 -->
+                    <script th:inline="javascript">
+                        // CSRFトークンを取得して変数に設定
+                        var csrfToken = /*[[${_csrf.token}]]*/ '';
+
+                        // FullCalendarの初期化部分
+                        $(document).ready(function () {
+                            $('#calendar').fullCalendar({
+                                events: {
+                                    url: '/api/data/fetch-events', // データを提供するRESTfulエンドポイントのURLを指定
+                                    type: 'GET',
+                                    dataType: 'json'
+                                },
+                                eventRender: function (event, element) {
+                                    element.bind('dblclick', function () {
+                                        // ダブルクリックされたときの処理
+                                        var eventId = event.id; // イベントのIDを取得
+                                        if (eventId === undefined || eventId === null) {
+                                            // eventIdがundefinedまたはnullの場合、エラー処理などを行うか、リクエストを送信しないようにします。
+                                            console.error('Event ID is undefined or null.');
+                                            return;
+                                        }
+                                        
+
+                                        // ダイアログを表示して確認メッセージを表示
+                                        var confirmation = confirm('このイベントを削除しますか？');
+
+                                        if (confirmation) {
+                                            // サーバーにイベントの削除リクエストを送信
+                                            $.ajax({
+                                                url: '/usefulltools/delete-event/' + eventId, // eventIdを具体的な値に置き換える
+                                                type: 'DELETE',
+                                                headers: {
+                                                    'X-CSRF-TOKEN': csrfToken
+                                                },
+                                                success: function (response) {
+                                                    console.log('Success:', response);
+                                                },
+                                                error: function (error) {
+                                                    console.error('Error:', error);
+                                                }
+                                            });
+
+                                        }
+                                    });
+                                }
+                            });
+
+                            // 予定を追加するボタンのクリックイベント
+                            $('#addEventButton').on('click', function () {
+                                // フォームで入力された情報を取得
+                                const title = $('#eventTitle').val();
+                                const startDate = $('#eventStartDate').val();
+                                const endDate = $('#eventEndDate').val();
+
+                                // 入力値のチェック
+                                if (title.trim() === '' || startDate.trim() === '' || endDate.trim() === '') {
+                                    alert('すべてのフィールドを入力してください。');
+                                    return; // 入力が不完全な場合、予定を追加せずに終了
+                                }
+
+                                // FullCalendarのイベントオブジェクトに変換して追加
+                                const event = {
+                                    title: title,
+                                    start: startDate,
+                                    end: endDate,
+                                    allDay: true // 終日のイベントかどうか（trueなら終日）
+                                };
+                                $('#calendar').fullCalendar('renderEvent', event, true);
+
+                                // フォームの入力をリセット
+                                $('#eventTitle').val('');
+                                $('#eventStartDate').val('');
+                                $('#eventEndDate').val('');
+
+                                // サーバーにデータを送信（ここでAjaxリクエストを行う）
+                                $.ajax({
+                                    url: '/usefulltools/content-work-out-scheduled',
+                                    type: 'POST',
+                                    contentType: 'application/json',
+                                    data: JSON.stringify(event),
+                                    headers: {
+                                        'X-CSRF-TOKEN': csrfToken // CSRFトークンをヘッダーに追加
+                                    },
+                                    success: function (response) {
+                                        // サーバーからの応答を処理（必要に応じて）
+                                        console.log('Success:', response);
+                                    },
+                                    error: function (error) {
+                                        // エラーハンドリング（必要に応じて）
+                                        console.error('Error:', error);
+                                    }
+                                });
+                            });
+                        });
+                    </script>
+
+                    <script th:inline="javascript">
+                        // CSRFトークンを取得して変数に設定
+                        var csrfToken = /*[[${_csrf.token}]]*/ '';
+
+                        // 以下、既存のスクリプトコード
+                        $(document).ready(function () {
+                            // ...
+                        });
+                    </script>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+</body>
+
+</html>
