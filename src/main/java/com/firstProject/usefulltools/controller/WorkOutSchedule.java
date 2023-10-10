@@ -95,12 +95,6 @@ public class WorkOutSchedule {
     @RestController
     @RequestMapping("/api/data")
     public class DataController {
-        
-        private final CalendarEventService calendarEventService;
-
-        public DataController(CalendarEventService calendarEventService) {
-            this.calendarEventService = calendarEventService;
-        }
 
         @GetMapping("/fetch-events")
         public List<EventInfo> getAllCalendarEvents() {

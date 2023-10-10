@@ -70,7 +70,8 @@ public class WorkOut {
         return alllWeight;
         
     }
-
+    
+    @SuppressWarnings("unused")
     private int caculateTotalCount(List<RecodeInfo>itemlist){
         
         int allCount = 0;
