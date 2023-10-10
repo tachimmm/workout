@@ -24,14 +24,21 @@ public class RegisterController {
     @PostMapping(UrlConst.REGISTERS)
     public String register(Model model, RegisterForm form) {
         // ユーザーIDが既に存在するかチェック
-        var userInfoOpt = service.resistUserInfo(form);
+        
 
+        if (form.getPassword() == null || form.getPassword().length() < 6 || !form.getPassword().matches(".*[a-zA-Z].*") || !form.getPassword().matches(".*\\d.*")) {
+            model.addAttribute("errorMsg", "パスワードは6文字以上かつ、英字と数字を含む必要があります");
+            return "register";
+        }
+
+        var userInfoOpt = service.resistUserInfo(form);
         if (userInfoOpt.isEmpty()) {
             model.addAttribute("errorMsg", "このユーザーIDは既に登録されています");
             return "register"; // 登録失敗時は登録画面に戻る
-        } else {
-            service.resistUserInfo(form); // ユーザーIDが存在しない場合は登録を実行
-            return "redirect:" + UrlConst.LOGIN; // 登録成功時はログイン画面にリダイレクト
         }
+        
+        // バリデーションエラーがなく、かつユーザーIDの重複もない場合の処理
+        return "redirect:" + UrlConst.LOGIN; // 登録成功時はログイン画面にリダイレクト
+        
     }
 }

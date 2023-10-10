@@ -56,6 +56,9 @@
       background-color: orange;
       border-color: orange;
     }
+    span {
+      color: red;
+    }
     
   </style>
 </head>
@@ -66,7 +69,8 @@
       <div class="col-md-6 mx-auto">
         <div class="login-form">
             <h2 class="text-center p-5">ユーザー登録</h2>
-            <span th:text="${errorMsg}"></span><a th:href="@{/usefulltools/login}">ログインはこちら</a>
+            <span th:text="${errorMsg}"></span>
+            <div><a th:href="@{/usefulltools/login}">ログインはこちら</a></div>        
             <form th:action="@{/usefulltools/register-s}" method="post" th:object="${registerForm}">
             <div class="form-group">
               <label for="loginId">ユーザーID</label>

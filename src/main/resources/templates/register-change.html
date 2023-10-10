@@ -56,10 +56,10 @@
       background-color: orange;
       border-color: orange;
     }
-    span{
+
+    span {
       color: red;
     }
-    
   </style>
 </head>
 
@@ -68,10 +68,10 @@
     <div class="row mt-5">
       <div class="col-md-6 mx-auto">
         <div class="login-form">
-            <h2 class="text-center p-5">パスワード変更</h2>
-            <span th:text="${errorMsg}"></span>
-            <form th:action="@{/usefulltools/register-change}" method="post" th:object="${registerChangeForm}">
-                <div class="form-group">
+          <h2 class="text-center p-5">パスワード変更</h2>
+          <span th:text="${errorMsg}"></span>
+          <form th:action="@{/usefulltools/register-change}" method="post" th:object="${registerChangeForm}">
+            <div class="form-group">
               <label for="loginId">ユーザーID</label>
               <input type="text" class="form-control" th:field="*{loginId}" id="loginId" required>
             </div>
@@ -80,16 +80,14 @@
               <input type="password" th:field="*{password}" class="form-control" id="password" required>
             </div>
             <div class="form-group">
-                <label for="password">新しいパスワード</label>
-                <input type="password" th:field="*{newPassword}" class="form-control" id="password" required>
+              <label for="password">新しいパスワード</label>
+              <input type="password" th:field="*{newPassword}" class="form-control" id="password" required>
             </div>
-               <div class="form-group">
-                <label for="confirmPassword">新しいパスワード確認</label>
-                <input type="password" th:field="*{confirmPassword}" class="form-control" id="password" required>
+            <div class="form-group">
+              <label for="confirmPassword">新しいパスワード確認</label>
+              <input type="password" th:field="*{confirmPassword}" class="form-control" id="password" required>
             </div>
-              <div th:if="${password != null and confirmPassword != null}">
-                <p th:if="${password != confirmPassword}" class="text-danger">パスワードと確認用パスワードが一致しません。</p>
-            </div>
+            <span th:text="${pwerrorMsg}"></span>
             <div class="d-grid mb-3">
               <button class="btn btn-primary custom-login-button">変更</button>
             </div>
