@@ -153,7 +153,7 @@
                             <td th:text="*{end}"></td>
                             <td>
                                 <form th:action="@{/usefulltools/ScheduleDelete}" method="post">
-                                    <input type="submit" class="btn btn-outline-danger" name="delete" value="削除">
+                                    <input type="submit" class="btn btn-primary" name="delete" value="削除">
                                     <input type="hidden" name="id" th:value="${user.save_id}">
                                 </form>
                             </td>

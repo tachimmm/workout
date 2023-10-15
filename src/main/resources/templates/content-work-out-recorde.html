@@ -8,15 +8,9 @@
     <meta name='_csrf'>
     <meta name='_csrf_header'>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
+    
     <link rel="stylesheet" th:href="@{/css/style-work-out.css}">
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/fullcalendar.css' />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/fullcalendar.js'></script>
-    <!-- Thymeleafを使用してサーバーサイドからデータを渡す -->
-    <script th:inline="javascript">
-        //var chartData = [[${chartData}]];
-    </script>
+
 
     <title>Training Record</title>
 </head>
@@ -165,7 +159,7 @@
                             </td>
                             <td>
                                 <form th:action="@{/usefulltools/RecodeDelete}" method="post">
-                                    <input type="submit" class="btn btn-outline-danger" name="delete" value="削除">
+                                    <input type="submit" class="btn btn-primary" name="delete" value="削除">
                                     <input type="hidden" name="id" th:value="${user.save_id}">
                                 </form>
                             </td>
