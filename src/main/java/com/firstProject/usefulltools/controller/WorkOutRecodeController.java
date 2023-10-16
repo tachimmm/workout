@@ -12,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.firstProject.usefulltools.content.Analytics;
 import com.firstProject.usefulltools.entity.RecodeInfo;
 import com.firstProject.usefulltools.form.RecodeForm;
 import com.firstProject.usefulltools.form.RecodeSearchForm;
@@ -36,11 +38,21 @@ public class WorkOutRecodeController {
         String username = getCurrentUsername();
         if (username != null) {
             model.addAttribute("username", username);
-
-            // ログインユーザーのusernameに関連するワークアウト情報を取得
+            List<RecodeInfo> LastList = recodeService.findLatesRecodeInfo(getCurrentUsername());
             List<RecodeInfo> itemlist = recodeService.findByUsername(username);
+        
+            double totalWeight = Analytics.calculateTotalWeight(itemlist);
+            double totalCount = Analytics.caculateTotalCount(itemlist);
+            String dayAndTime = Analytics.dayAndTime();
+            long dayfromday = Analytics.caculatefromday(LastList);
 
-            // モデルに追加
+
+            model.addAttribute("username", username);
+            model.addAttribute("totalWeight", totalWeight);
+            model.addAttribute("totalCount", totalCount);
+            model.addAttribute("dayAndTime", dayAndTime);
+            model.addAttribute("dayfromday", dayfromday);
+
             model.addAttribute("itemlist", itemlist);
 
         }
@@ -66,7 +78,21 @@ public class WorkOutRecodeController {
     public String SearchView(Model model) {
         String username = getCurrentUsername();
         if (username != null) {
+          
+            List<RecodeInfo> LastList = recodeService.findLatesRecodeInfo(getCurrentUsername());
+            List<RecodeInfo> itemlist = recodeService.findByUsername(username);
+        
+            double totalWeight = Analytics.calculateTotalWeight(itemlist);
+            double totalCount = Analytics.caculateTotalCount(itemlist);
+            String dayAndTime = Analytics.dayAndTime();
+            long dayfromday = Analytics.caculatefromday(LastList);
+
+
             model.addAttribute("username", username);
+            model.addAttribute("totalWeight", totalWeight);
+            model.addAttribute("totalCount", totalCount);
+            model.addAttribute("dayAndTime", dayAndTime);
+            model.addAttribute("dayfromday", dayfromday);
         }
         return "RecodeSearch";
     }
@@ -76,9 +102,23 @@ public class WorkOutRecodeController {
         String username = getCurrentUsername();
         form.setUsername(username);
         // 検索にヒットするワークアウト情報を取得
-        List<RecodeInfo> itemlist = recodeService.findByUsernameSearch(form);
+        List<RecodeInfo> LastList = recodeService.findLatesRecodeInfo(getCurrentUsername());
+        List<RecodeInfo> itemlist = recodeService.findByUsername(username);
+    
+        double totalWeight = Analytics.calculateTotalWeight(itemlist);
+        double totalCount = Analytics.caculateTotalCount(itemlist);
+        String dayAndTime = Analytics.dayAndTime();
+        long dayfromday = Analytics.caculatefromday(LastList);
+
+
+        model.addAttribute("username", username);
+        model.addAttribute("totalWeight", totalWeight);
+        model.addAttribute("totalCount", totalCount);
+        model.addAttribute("dayAndTime", dayAndTime);
+        model.addAttribute("dayfromday", dayfromday);
+        List<RecodeInfo> itemlists = recodeService.findByUsernameSearch(form);
         // モデルに追加
-        model.addAttribute("itemlist", itemlist);
+        model.addAttribute("itemlist", itemlists);
         model.addAttribute("username", username);
         return "RecodeSearch";
     }

@@ -77,20 +77,22 @@
         <!-- Main Content -->
         <main>
             <h1>Analytics</h1>
+            <span th:text="|Welcome,${username}|"></span>
+            <span th:text="|${dayAndTime}|"></span>
             <!-- Analyses -->
             <div class="analyse">
                 <div class="sales">
                     <div class="status">
                         <div class="info">
-                            <h3>今月のトレーニング回数</h3>
-                            <h1>$#####</h1>
+                            <h3>前回からの経過日数</h3>
+                            <h1 th:text="${dayfromday} + '日'">日</h1>
                         </div>
                         <div class="progresss">
                             <svg>
                                 <circle cx="38" cy="38" r="36"></circle>
                             </svg>
                             <div class="percentage">
-                                <p>+##%</p>
+                                <p></p>
                             </div>
                         </div>
                     </div>
@@ -98,8 +100,8 @@
                 <div class="visits">
                     <div class="status">
                         <div class="info">
-                            <h3>今月のトレーニング時間</h3>
-                            <h1>####</h1>
+                            <h3>今日のトータルSET</h3>
+                            <h1 th:text="${totalCount} + ' set'">set</h1>
                         </div>
                         <div class="progresss">
                             <svg>
@@ -114,8 +116,8 @@
                 <div class="searches">
                     <div class="status">
                         <div class="info">
-                            <h3>今月の総重量</h3>
-                            <h1>#####</h1>
+                            <h3>今日のトータル重量</h3>
+                            <h1 th:text="${totalWeight} + ' kg'">kg</h1>
                         </div>
                         <div class="progresss">
                             <svg>

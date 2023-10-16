@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.firstProject.usefulltools.entity.EventInfo;
+import com.firstProject.usefulltools.entity.RecodeInfo;
 import com.firstProject.usefulltools.form.ScheduleForm;
 import com.firstProject.usefulltools.repository.EventInfoRepository;
 import com.firstProject.usefulltools.service.CalendarEventService;
+import com.firstProject.usefulltools.service.RecodeService;
+import com.firstProject.usefulltools.content.Analytics;
 
 @Controller
 public class WorkOutSchedule {
@@ -44,22 +47,52 @@ public class WorkOutSchedule {
 
     @GetMapping("/usefulltools/content-work-out-ScheduleList")
     public String ListView(Model model) {
-        String username =getCurrentUsername();
-        if(username != null){
-            model.addAttribute("username",username);
+        String username = getCurrentUsername();
+        if (username != null) {
+            model.addAttribute("username", username);
+                        List<RecodeInfo> LastList = recodeService.findLatesRecodeInfo(getCurrentUsername());
+            List<RecodeInfo> itemlist = recodeService.findByUsername(username);
+        
+            double totalWeight = Analytics.calculateTotalWeight(itemlist);
+            double totalCount = Analytics.caculateTotalCount(itemlist);
+            String dayAndTime = Analytics.dayAndTime();
+            long dayfromday = Analytics.caculatefromday(LastList);
 
-            List<EventInfo> itemlist = calendarEventService.findByUsername(username);
 
-            model.addAttribute("itemlist",itemlist);
+            model.addAttribute("username", username);
+            model.addAttribute("totalWeight", totalWeight);
+            model.addAttribute("totalCount", totalCount);
+            model.addAttribute("dayAndTime", dayAndTime);
+            model.addAttribute("dayfromday", dayfromday);
+
+            List<EventInfo> itemlists = calendarEventService.findByUsername(username);
+
+            model.addAttribute("itemlist", itemlists);
         }
         return "content-work-out-ScheduleList";
     }
+
+    @Autowired
+    RecodeService recodeService;
 
     @GetMapping("/usefulltools/content-work-out-ScheduleCalender")
     public String WorkOutScheduleCalenderView(Model model) {
         String username = getCurrentUsername();
         if (username != null) {
+            List<RecodeInfo> LastList = recodeService.findLatesRecodeInfo(getCurrentUsername());
+            List<RecodeInfo> itemlist = recodeService.findByUsername(username);
+        
+            double totalWeight = Analytics.calculateTotalWeight(itemlist);
+            double totalCount = Analytics.caculateTotalCount(itemlist);
+            String dayAndTime = Analytics.dayAndTime();
+            long dayfromday = Analytics.caculatefromday(LastList);
+
+
             model.addAttribute("username", username);
+            model.addAttribute("totalWeight", totalWeight);
+            model.addAttribute("totalCount", totalCount);
+            model.addAttribute("dayAndTime", dayAndTime);
+            model.addAttribute("dayfromday", dayfromday);
         }
         return "content-work-out-ScheduleCalender";
     }
@@ -71,7 +104,7 @@ public class WorkOutSchedule {
     }
 
     @PostMapping("/usefulltools/ScheduleDelete")
-    String delete(@RequestParam Integer id){
+    String delete(@RequestParam Integer id) {
         Long longId = Long.valueOf(id);
         calendarEventService.deleteDataById(longId);
 
@@ -83,14 +116,13 @@ public class WorkOutSchedule {
     private CalendarEventService calendarEventService;
 
     @PostMapping("/usefulltools/ScheduleAdd")
-    public String ScheduleAdd(Model model ,ScheduleForm form) {
-            String username = getCurrentUsername();
+    public String ScheduleAdd(Model model, ScheduleForm form) {
+        String username = getCurrentUsername();
         form.setUsername(username); // RecodeFormにusernameをセット
 
         calendarEventService.create(form);
         return "redirect:/usefulltools/content-work-out-ScheduleList";
     }
-
 
     @RestController
     @RequestMapping("/api/data")

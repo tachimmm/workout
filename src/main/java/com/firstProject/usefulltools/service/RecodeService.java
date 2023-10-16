@@ -35,6 +35,10 @@ public class RecodeService {
         recodeRepository.deleteById(save_id);
     }
 
+    public List<RecodeInfo> findLatesRecodeInfo(String username){
+        return recodeRepository.findByUsernameAndLastDate(username);
+    }
+
     
 
     public List<RecodeInfo> findByUsernameSearch(RecodeSearchForm recodeSearchForm) {
