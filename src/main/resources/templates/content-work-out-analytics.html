@@ -77,7 +77,7 @@
         <main>
             <h1>Analytics</h1>
             <span th:text="|Welcome,${username}|"></span>
-            <span th:text="|${dayAndTime}|"></span>
+            <span th:text="|${yearAndMonthAndDay}|"></span>
             <!-- Analyses -->
             <div class="analyse">
                 <div class="sales">
@@ -107,7 +107,7 @@
                                 <circle cx="38" cy="38" r="36"></circle>
                             </svg>
                             <div class="percentage">
-                                <p>-##%</p>
+                                <p th:text="${calculatePreviousDayCountPercentage} + '%'"></p>
                             </div>
                         </div>
                     </div>
@@ -123,15 +123,113 @@
                                 <circle cx="38" cy="38" r="36"></circle>
                             </svg>
                             <div class="percentage">
-                                <p>+##%</p>
+                                <p th:text="${calculatePreviousDayWeightPercentage} + '%'"></p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- End of Analyses -->
-
-           
+            <div class="analyse">
+                <div class="sales">
+                    <div class="status">
+                        <div class="info">
+                            <h3>今月のトレーニング数</h3>
+                            <h1 th:text="${calculateTotalTrainingCount} + '日'">日</h1>
+                        </div>
+                        <div class="progresss">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="percentage">
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="visits">
+                    <div class="status">
+                        <div class="info">
+                            <h3>今月のトータルSET</h3>
+                            <h1 th:text="${calculateMonthTotalCount} + ' set'">set</h1>
+                        </div>
+                        <div class="progresss">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="percentage">
+                                <p th:text="${calculatePreviousMonthPercentage} + '%'"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="searches">
+                    <div class="status">
+                        <div class="info">
+                            <h3>今月のトータル重量</h3>
+                            <h1 th:text="${calculateMonthTotalWeight} + ' kg'">kg</h1>
+                        </div>
+                        <div class="progresss">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="percentage">
+                                <p th:text="${calculateMonthTotalWeightPercentage} + '%'"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="analyse">
+                <div class="sales">
+                    <div class="status">
+                        <div class="info">
+                            <h3>ベンチプレスMAX重量</h3>
+                            <h1 th:text="${maxBenchPress} + 'kg'">日</h1>
+                        </div>
+                        <div class="progresss">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="percentage">
+                                <p th:text="${lastMaxBenchPress} + ' 日経過'"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="visits">
+                    <div class="status">
+                        <div class="info">
+                            <h3>スクワットMAX重量</h3>
+                            <h1 th:text="${maxSquat} + ' kg'">set</h1>
+                        </div>
+                        <div class="progresss">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="percentage">
+                                <pt th:text="${lastMaxSquat} + ' 日経過'"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="searches">
+                    <div class="status">
+                        <div class="info">
+                            <h3>デットリフトMAX重量</h3>
+                            <h1 th:text="${maxDeadLift} + ' kg'">kg</h1>
+                        </div>
+                        <div class="progresss">
+                            <svg>
+                                <circle cx="38" cy="38" r="36"></circle>
+                            </svg>
+                            <div class="percentage">
+                                <p th:text="${lastaMaxDeadLift} + ' 日経過'"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 </body>
 

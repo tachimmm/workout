@@ -50,20 +50,23 @@ public class WorkOutSchedule {
         String username = getCurrentUsername();
         if (username != null) {
             model.addAttribute("username", username);
-                        List<RecodeInfo> LastList = recodeService.findLatesRecodeInfo(getCurrentUsername());
+            List<RecodeInfo> LastList = recodeService.findLatesRecodeInfo(getCurrentUsername());
             List<RecodeInfo> itemlist = recodeService.findByUsername(username);
-        
+
+            double calculatePreviousDayCountPercentage = Analytics.calculatePreviousDayCountPercentage(itemlist);
+            double calculatePreviousDayWeightPercentage = Analytics.calculatePreviousDayWeightPercentage(itemlist);
             double totalWeight = Analytics.calculateTotalWeight(itemlist);
             double totalCount = Analytics.caculateTotalCount(itemlist);
-            String dayAndTime = Analytics.dayAndTime();
+            String yearAndMonthAndDay = Analytics.yearAndMonthAndDay();
             long dayfromday = Analytics.caculatefromday(LastList);
-
 
             model.addAttribute("username", username);
             model.addAttribute("totalWeight", totalWeight);
             model.addAttribute("totalCount", totalCount);
-            model.addAttribute("dayAndTime", dayAndTime);
+            model.addAttribute("yearAndMonthAndDay", yearAndMonthAndDay);
             model.addAttribute("dayfromday", dayfromday);
+            model.addAttribute("calculatePreviousDayCountPercentage", calculatePreviousDayCountPercentage);
+            model.addAttribute("calculatePreviousDayWeightPercentage", calculatePreviousDayWeightPercentage);
 
             List<EventInfo> itemlists = calendarEventService.findByUsername(username);
 
@@ -81,17 +84,20 @@ public class WorkOutSchedule {
         if (username != null) {
             List<RecodeInfo> LastList = recodeService.findLatesRecodeInfo(getCurrentUsername());
             List<RecodeInfo> itemlist = recodeService.findByUsername(username);
-        
+
+            double calculatePreviousDayCountPercentage = Analytics.calculatePreviousDayCountPercentage(itemlist);
+            double calculatePreviousDayWeightPercentage = Analytics.calculatePreviousDayWeightPercentage(itemlist);
             double totalWeight = Analytics.calculateTotalWeight(itemlist);
             double totalCount = Analytics.caculateTotalCount(itemlist);
-            String dayAndTime = Analytics.dayAndTime();
+            String yearAndMonthAndDay = Analytics.yearAndMonthAndDay();
             long dayfromday = Analytics.caculatefromday(LastList);
 
-
+            model.addAttribute("calculatePreviousDayCountPercentage", calculatePreviousDayCountPercentage);
+            model.addAttribute("calculatePreviousDayWeightPercentage", calculatePreviousDayWeightPercentage);
             model.addAttribute("username", username);
             model.addAttribute("totalWeight", totalWeight);
             model.addAttribute("totalCount", totalCount);
-            model.addAttribute("dayAndTime", dayAndTime);
+            model.addAttribute("yearAndMonthAndDay", yearAndMonthAndDay);
             model.addAttribute("dayfromday", dayfromday);
         }
         return "content-work-out-ScheduleCalender";

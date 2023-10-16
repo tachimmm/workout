@@ -39,13 +39,17 @@ public class WorkOut {
 
             double totalWeight = Analytics.calculateTotalWeight(itemlist);
             double totalCount = Analytics.caculateTotalCount(itemlist);
-            String dayAndTime = Analytics.dayAndTime();
+            double calculatePreviousDayCountPercentage = Analytics.calculatePreviousDayCountPercentage(itemlist);
+            double calculatePreviousDayWeightPercentage = Analytics.calculatePreviousDayWeightPercentage(itemlist);
+            String yearAndMonthAndDay = Analytics.yearAndMonthAndDay();
             long dayfromday = Analytics.caculatefromday(LastList);
 
+            model.addAttribute("calculatePreviousDayCountPercentage", calculatePreviousDayCountPercentage);
+            model.addAttribute("calculatePreviousDayWeightPercentage", calculatePreviousDayWeightPercentage);
             model.addAttribute("username", username);
             model.addAttribute("totalWeight", totalWeight);
             model.addAttribute("totalCount", totalCount);
-            model.addAttribute("dayAndTime", dayAndTime);
+            model.addAttribute("yearAndMonthAndDay", yearAndMonthAndDay);
             model.addAttribute("dayfromday", dayfromday);
             model.addAttribute("username", username);
         }

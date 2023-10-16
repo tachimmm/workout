@@ -41,20 +41,48 @@ public class WorkOutnalytics {
     public String WorkOutAnalytics(Model model) {
         String username = getCurrentUsername();
         if (username != null) {
-    List<RecodeInfo> LastList = recodeService.findLatesRecodeInfo(getCurrentUsername());
+            List<RecodeInfo> LastList = recodeService.findLatesRecodeInfo(getCurrentUsername());
             List<RecodeInfo> itemlist = recodeService.findByUsername(username);
-        
+
+            String yearAndMonthAndDay = Analytics.yearAndMonthAndDay();
+            double calculateMonthTotalWeight = Analytics.calculateMonthTotalWeight(itemlist);
             double totalWeight = Analytics.calculateTotalWeight(itemlist);
-            double totalCount = Analytics.caculateTotalCount(itemlist);
-            String dayAndTime = Analytics.dayAndTime();
+            double maxBenchPress = Analytics.maxBenchPress(itemlist);
+            double maxSquat = Analytics.maxSquat(itemlist);
+            double maxDeadLift = Analytics.maxDeadLift(itemlist);
+            double calculatePreviousMonthPercentage = Analytics.calculatePreviousMonthPercentage(itemlist);
+            double calculateMonthTotalWeightPercentage = Analytics.calculateMonthTotalWeightPercentage(itemlist);
+            double calculatePreviousDayCountPercentage = Analytics.calculatePreviousDayCountPercentage(itemlist);
+            double calculatePreviousDayWeightPercentage = Analytics.calculatePreviousDayWeightPercentage(itemlist);
+            int totalCount = Analytics.caculateTotalCount(itemlist);
+            int calculateMonthTotalCount = Analytics.calculateMonthTotalCount(itemlist);
+            int calculateTotalTrainingCount = Analytics.calculateTotalTrainingCount(itemlist);
             long dayfromday = Analytics.caculatefromday(LastList);
+            long lastMaxBenchPress = Analytics.lastMaxBenchPress(itemlist);
+            long lastMaxSquat = Analytics.lastMaxSquat(itemlist);
+            long lastaMaxDeadLift = Analytics.lastaMaxDeadLift(itemlist);
 
 
             model.addAttribute("username", username);
             model.addAttribute("totalWeight", totalWeight);
+            model.addAttribute("calculateMonthTotalWeight", calculateMonthTotalWeight);
             model.addAttribute("totalCount", totalCount);
-            model.addAttribute("dayAndTime", dayAndTime);
+            model.addAttribute("calculateMonthTotalCount", calculateMonthTotalCount);
+            model.addAttribute("calculatePreviousMonthPercentage", calculatePreviousMonthPercentage);
+            model.addAttribute("calculateMonthTotalWeightPercentage", calculateMonthTotalWeightPercentage);
+            model.addAttribute("calculatePreviousDayCountPercentage", calculatePreviousDayCountPercentage);
+            model.addAttribute("calculatePreviousDayWeightPercentage", calculatePreviousDayWeightPercentage);
+            model.addAttribute("calculateTotalTrainingCount", calculateTotalTrainingCount);
+            model.addAttribute("yearAndMonthAndDay", yearAndMonthAndDay);
+            model.addAttribute("maxBenchPress", maxBenchPress);
+            model.addAttribute("maxSquat", maxSquat);
+            model.addAttribute("maxDeadLift", maxDeadLift);
             model.addAttribute("dayfromday", dayfromday);
+            model.addAttribute("lastMaxBenchPress", lastMaxBenchPress);
+            model.addAttribute("lastMaxSquat", lastMaxSquat);
+            model.addAttribute("lastaMaxDeadLift", lastaMaxDeadLift);
+
+
         }
         return "content-work-out-analytics";
     }

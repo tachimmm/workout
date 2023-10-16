@@ -76,7 +76,7 @@
         <main>
             <h1>Analytics</h1>
             <span th:text="|Welcome,${username}|"></span>
-            <span th:text="|${dayAndTime}|"></span>
+            <span th:text="|${yearAndMonthAndDay}|"></span>
             <!-- Analyses -->
             <div class="analyse">
                 <div class="sales">
@@ -106,7 +106,7 @@
                                 <circle cx="38" cy="38" r="36"></circle>
                             </svg>
                             <div class="percentage">
-                                <p>-##%</p>
+                                <p th:text="${calculatePreviousDayCountPercentage} + '%'"></p>
                             </div>
                         </div>
                     </div>
@@ -122,7 +122,7 @@
                                 <circle cx="38" cy="38" r="36"></circle>
                             </svg>
                             <div class="percentage">
-                                <p>+##%</p>
+                                <p th:text="${calculatePreviousDayWeightPercentage} + '%'"></p>
                             </div>
                         </div>
                     </div>
@@ -142,7 +142,7 @@
                             <option value="腕">腕</option>
                             <option value="胸">胸</option>
                             <option value="腹筋">腹筋</option>
-                            <option value="足">足</option>
+                            <option value="脚">脚</option>
                             <option value="">なし</option>
                         </select>
                         <label>日付</label>

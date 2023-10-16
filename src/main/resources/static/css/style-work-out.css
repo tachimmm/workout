@@ -241,26 +241,26 @@ main .analyse svg {
 
 main .analyse svg circle {
     fill: none;
-    stroke-width: 10;
+    stroke-width: 8;
     stroke-linecap: round;
     transform: translate(5px, 5px);
 }
 
 main .analyse .sales svg circle {
     stroke: var(--color-success);
-    stroke-dashoffset: -30;
+    stroke-dashoffset: -10;
     stroke-dasharray: 200;
 }
 
 main .analyse .visits svg circle {
     stroke: var(--color-danger);
-    stroke-dashoffset: -30;
+    stroke-dashoffset: -10;
     stroke-dasharray: 200;
 }
 
 main .analyse .searches svg circle {
     stroke: var(--color-primary);
-    stroke-dashoffset: -30;
+    stroke-dashoffset: -10;
     stroke-dasharray: 200;
 }
 
