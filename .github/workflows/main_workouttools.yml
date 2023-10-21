@@ -49,5 +49,5 @@ jobs:
         with:
           app-name: 'Workouttools'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_F4749218593E4537867AB225465F3832 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_7B1636EB5DB04171AA1E8B9CBD46D4BB }}
           package: '*.war'
