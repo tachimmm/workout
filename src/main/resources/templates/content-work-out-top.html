@@ -12,13 +12,64 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/fullcalendar.js'></script>
     <!-- Thymeleafを使用してサーバーサイドからデータを渡す -->
     <script th:inline="javascript">
-    //var chartData = [[${chartData}]];
+        //var chartData = [[${chartData}]];
     </script>
 
     <title>Training Record</title>
 </head>
 
 <body>
+    <style>
+        body {
+            background-color: #f1f3f6;
+        }
+
+        .login-form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            size: 6px;
+        }
+
+        .custom-login-button {
+            background-color: orange;
+            border-color: orange;
+        }
+
+        .subtitle {
+            margin: 30px;
+        }
+
+        .horizontal-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .horizontal-row label {
+            width: 150px;
+
+            margin-right: 10px;
+
+        }
+
+        .horizontal-row input {
+            flex: 1;
+
+        }
+    </style>
 
     <div class="container">
         <!-- Sidebar Section -->
@@ -36,19 +87,19 @@
             </div>
 
             <div class="sidebar">
-                <a th:href="@{content-work-out-top}" class="active" >
+                <a th:href="@{content-work-out-top}" class="active">
                     <span class="material-icons-sharp">
                         dashboard
                     </span>
                     <h3>Dashboard</h3>
                 </a>
-                <a th:href="@{content-work-out-ScheduleCalender}" >
+                <a th:href="@{content-work-out-ScheduleCalender}">
                     <span class="material-icons-sharp">
                         person_outline
                     </span>
                     <h3>Schedule</h3>
                 </a>
-                <a th:href="@{content-work-out-recorde}" >
+                <a th:href="@{content-work-out-recorde}">
                     <span class="material-icons-sharp">
                         receipt_long
                     </span>
@@ -60,7 +111,7 @@
                     </span>
                     <h3>Analytics</h3>
                 </a>
-                
+
                 <a th:if="${username != null}" th:href="@{/logout}">
                     <span class="material-icons-sharp">logout</span>
                     <h3>Log out</h3>
@@ -69,7 +120,7 @@
                     <span class="material-icons-sharp">login</span>
                     <h3>Sign Up</h3>
                 </a>
-                
+
             </div>
         </aside>
         <!-- End of Sidebar Section -->
@@ -77,8 +128,15 @@
         <!-- Main Content -->
         <main>
             <h1>Analytics</h1>
-            <span th:text="|Welcome,${username}|"></span>
+            
+            <a th:if="${username != null}" >
+                <span th:text="|Welcome,${username}|"></span>
             <span th:text="|${yearAndMonthAndDay}|"></span>
+            </a>
+            <a th:unless="${username != null}">
+                <span >Welcome,ゲスト</span>
+                
+            </a>
             <!-- Analyses -->
             <div class="analyse">
                 <div class="sales">
@@ -132,11 +190,36 @@
             </div>
             <!-- End of Analyses -->
 
-              
+            <div class="tools">
+                <h1 class="subtitle">計算ツール</h1>
+                <div class="container">
+                    <div class="login-form">
+                        <form th:action="@{/usefulltools/content-work-out-top}" method="post" th:object="${RmForm}">
+                            <div class="form-group horizontal-row">
+                                <label for="">使用重量(Kg)</label>
+                                <input type="number" th:field="*{weight}" class="form-control" required>
+                            </div>
+                            <div class="form-group horizontal-row">
+                                <label for="">REP数</label>
+                                <input type="number" th:field="*{rep}" class="form-control" required>
+                            </div>
+                            <div class="form-group horizontal-row">
+                                <label for="max-weight">最大重量(Kg)</label>
+                                <output  th:text="${maxWeight}" class="form-control"></output>
+                            </div>
+                            <div class="d-grid mb-3">
+                                <button class="btn btn-primary custom-login-button">計算</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+
             </div>
 
+
         </main>
-       
+
     </div>
 
 </body>

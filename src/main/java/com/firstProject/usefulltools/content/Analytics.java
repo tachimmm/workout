@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.firstProject.usefulltools.entity.RecodeInfo;
+import com.firstProject.usefulltools.form.RmForm;
 import com.firstProject.usefulltools.service.RecodeService;
 
 public class Analytics {
@@ -327,4 +328,17 @@ public class Analytics {
 
         return daysBetween;
     }
+
+   public static double rmExchange(RmForm rmForm){
+
+    double weight = rmForm.getWeight();
+    double rep = rmForm.getRep();
+    double maxWeight = 0.0;
+
+    maxWeight = weight * ( 1 + ( rep / 40 ));
+
+    return maxWeight;
+
+   }
+    
 }
