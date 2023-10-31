@@ -1,7 +1,6 @@
 package com.firstProject.usefulltools.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,19 +18,26 @@ import com.firstProject.usefulltools.service.RecodeService;
 public class WorkOutnalytics {
 
     private String getCurrentUsername() {
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
             return userDetails.getUsername();
         }
+
         return null; // 認証されていない場合はnullを返す
     }
 
     public String dayAndTime() {
+
         LocalDate currentDate = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String formattedDate = currentDate.format(formatter);
+
         return formattedDate;
+
     }
 
     @Autowired
@@ -39,8 +45,11 @@ public class WorkOutnalytics {
 
     @GetMapping("/usefulltools/content-work-out-analytics")
     public String WorkOutAnalytics(Model model) {
+
         String username = getCurrentUsername();
+
         if (username != null) {
+
             List<RecodeInfo> LastList = recodeService.findLatesRecodeInfo(getCurrentUsername());
             List<RecodeInfo> itemlist = recodeService.findByUsername(username);
 
@@ -62,7 +71,6 @@ public class WorkOutnalytics {
             long lastMaxSquat = Analytics.lastMaxSquat(itemlist);
             long lastaMaxDeadLift = Analytics.lastaMaxDeadLift(itemlist);
 
-
             model.addAttribute("username", username);
             model.addAttribute("totalWeight", totalWeight);
             model.addAttribute("calculateMonthTotalWeight", calculateMonthTotalWeight);
@@ -82,8 +90,8 @@ public class WorkOutnalytics {
             model.addAttribute("lastMaxSquat", lastMaxSquat);
             model.addAttribute("lastaMaxDeadLift", lastaMaxDeadLift);
 
-
         }
+        
         return "content-work-out-analytics";
     }
 }

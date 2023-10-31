@@ -196,15 +196,15 @@
                     <div class="login-form">
                         <form th:action="@{/usefulltools/content-work-out-top}" method="post" th:object="${RmForm}">
                             <div class="form-group horizontal-row">
-                                <label for="">使用重量(Kg)</label>
+                                <label >使用重量(Kg)</label>
                                 <input type="number" th:field="*{weight}" class="form-control" required>
                             </div>
                             <div class="form-group horizontal-row">
-                                <label for="">REP数</label>
+                                <label >REP数</label>
                                 <input type="number" th:field="*{rep}" class="form-control" required>
                             </div>
                             <div class="form-group horizontal-row">
-                                <label for="max-weight">最大重量(Kg)</label>
+                                <label >最大重量(Kg)</label>
                                 <output  th:text="${maxWeight}" class="form-control"></output>
                             </div>
                             <div class="d-grid mb-3">

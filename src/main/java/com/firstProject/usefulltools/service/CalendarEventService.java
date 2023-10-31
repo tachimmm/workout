@@ -13,32 +13,50 @@ import com.firstProject.usefulltools.repository.EventInfoRepository;
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class CalendarEventService {
+
     @Autowired
     EventInfoRepository eventInfoRepository;
 
+
     public CalendarEventService(EventInfoRepository eventInfoRepository) {
+
         this.eventInfoRepository = eventInfoRepository;
+
     }
+
 
     public List<EventInfo> getAllCalendarEvents() {
+
         return eventInfoRepository.findAll();
+
     }
+
 
         public void create(ScheduleForm scheduleForm) {
+
         EventInfo eventInfo = createSchedule(scheduleForm);
         eventInfoRepository.save(eventInfo);
+
     }
 
+
     public List<EventInfo> findByUsername(String username){
+
         return eventInfoRepository.findByUsername(username);
+
     }
 
     public void deleteDataById(Long id) {
+
         Long save_id = id;
+
         eventInfoRepository.deleteById(save_id);
+
     }
 
+
     private EventInfo createSchedule(ScheduleForm scheduleForm) {
+        
         EventInfo eventInfo = new EventInfo();
         
         // EventInfoクラスのセッターメソッドを使用して値をセット

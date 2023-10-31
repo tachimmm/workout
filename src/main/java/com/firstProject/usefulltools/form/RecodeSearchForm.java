@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class RecodeSearchForm {
+    
     private String username;
 
     private String item;

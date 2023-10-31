@@ -29,11 +29,15 @@ public class WorkOutSchedule {
     private EventInfoRepository eventInfoRepository; // EventInfoRepositoryを使用する
 
     private String getCurrentUsername() {
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
             return userDetails.getUsername();
         }
+
         return null; // 認証されていない場合はnullを返す
     }
 
@@ -42,14 +46,20 @@ public class WorkOutSchedule {
 
         // リクエストボディからデータを受け取り、データベースに保存
         EventInfo savedEvent = eventInfoRepository.save(eventInfo);
+
         return ResponseEntity.ok("Event created successfully with ID: " + savedEvent.getSave_id());
     }
 
+
     @GetMapping("/usefulltools/content-work-out-ScheduleList")
     public String ListView(Model model) {
+
         String username = getCurrentUsername();
+
         if (username != null) {
+
             model.addAttribute("username", username);
+
             List<RecodeInfo> LastList = recodeService.findLatesRecodeInfo(getCurrentUsername());
             List<RecodeInfo> itemlist = recodeService.findByUsername(username);
 
@@ -72,6 +82,7 @@ public class WorkOutSchedule {
 
             model.addAttribute("itemlist", itemlists);
         }
+
         return "content-work-out-ScheduleList";
     }
 
@@ -80,8 +91,11 @@ public class WorkOutSchedule {
 
     @GetMapping("/usefulltools/content-work-out-ScheduleCalender")
     public String WorkOutScheduleCalenderView(Model model) {
+
         String username = getCurrentUsername();
+
         if (username != null) {
+
             List<RecodeInfo> LastList = recodeService.findLatesRecodeInfo(getCurrentUsername());
             List<RecodeInfo> itemlist = recodeService.findByUsername(username);
 
@@ -100,17 +114,21 @@ public class WorkOutSchedule {
             model.addAttribute("yearAndMonthAndDay", yearAndMonthAndDay);
             model.addAttribute("dayfromday", dayfromday);
         }
+
         return "content-work-out-ScheduleCalender";
     }
 
     @GetMapping("/usefulltools/ScheduleAdd")
     public String ScheduleAddView(Model model, ScheduleForm form) {
+
         model.addAttribute("ScheduleForm", form);
+
         return "scheduleAdd";
     }
 
     @PostMapping("/usefulltools/ScheduleDelete")
     String delete(@RequestParam Integer id) {
+
         Long longId = Long.valueOf(id);
         calendarEventService.deleteDataById(longId);
 
@@ -123,12 +141,15 @@ public class WorkOutSchedule {
 
     @PostMapping("/usefulltools/ScheduleAdd")
     public String ScheduleAdd(Model model, ScheduleForm form) {
+
         String username = getCurrentUsername();
         form.setUsername(username); // RecodeFormにusernameをセット
 
         calendarEventService.create(form);
+
         return "redirect:/usefulltools/content-work-out-ScheduleList";
     }
+
 
     @RestController
     @RequestMapping("/api/data")
@@ -136,8 +157,11 @@ public class WorkOutSchedule {
 
         @GetMapping("/fetch-events")
         public List<EventInfo> getAllCalendarEvents() {
+
             String username = getCurrentUsername();
+
             return eventInfoRepository.findByUsername(username);
+            
         }
 
     }

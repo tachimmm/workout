@@ -5,10 +5,8 @@ import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
 import com.firstProject.usefulltools.content.UrlConst;
 import com.firstProject.usefulltools.form.LoginForm;
-
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
@@ -46,7 +44,9 @@ public class LoginController {
 	 */
 	@GetMapping(value = UrlConst.LOGIN, params = "error")
 	public String viewWithError(Model model, LoginForm form) {
+
 		var errorInfo = (Exception) session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+		
 		model.addAttribute("errorMsg", errorInfo.getMessage());
 		return "login";
 	}

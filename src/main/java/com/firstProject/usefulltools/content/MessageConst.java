@@ -1,6 +1,7 @@
 package com.firstProject.usefulltools.content;
 
-public class MessageConst {
+public class MessageConst { //メッセージを取得するクラス
+
     /** 共通：入力内容誤り*/
 	public static final String FORM_ERROR = "common.formError";
 

@@ -9,13 +9,17 @@ import org.springframework.stereotype.Component;
 public class SecuritySession {
 
     public String getUsername() {
+
         // SecurityContextHolderから
         // org.springframework.security.core.Authenticationオブジェクトを取得
         Authentication authentication = SecurityContextHolder.getContext()
                 .getAuthentication();
+
         if (authentication != null) {
+
             // AuthenticationオブジェクトからUserDetailsオブジェクトを取得
             Object principal = authentication.getPrincipal();
+            
             if (principal instanceof UserDetails) {
                 // UserDetailsオブジェクトから、ユーザ名を取得
                 return ((UserDetails) principal).getUsername();

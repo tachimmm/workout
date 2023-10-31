@@ -1,7 +1,6 @@
 package com.firstProject.usefulltools.service;
 
 import java.util.Optional;
-
 import org.dozer.DozerBeanMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,9 +23,6 @@ public class RegisterService {
 
     /** ユーザー情報テーブルDAO */
     private final UserInfoRepository repository;
-
-    /**Dozer Mapper */
-    
 
     /**PasswordEncoder */
     private final PasswordEncoder passwordEncoder;

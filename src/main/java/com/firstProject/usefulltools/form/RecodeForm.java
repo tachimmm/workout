@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class RecodeForm {
+    
     private String username;
 
     private String event;

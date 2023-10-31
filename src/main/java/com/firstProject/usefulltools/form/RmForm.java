@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class RmForm {
+    
     private double weight;
   
     private double rep;

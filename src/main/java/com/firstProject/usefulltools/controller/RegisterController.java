@@ -21,6 +21,7 @@ public class RegisterController {
         return "register";
     }
 
+
     @PostMapping(UrlConst.REGISTERS)
     public String register(Model model, RegisterForm form) {
         // ユーザーIDが既に存在するかチェック
