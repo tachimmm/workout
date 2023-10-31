@@ -1,0 +1,23 @@
+# Name work out
+筋トレを行う際に簡単に記録できるサイトを作りました。
+
+*アカウント登録・ログイン・アカウント削除
+*トレーニングの記録・過去記録検索
+*比や過去最大重量などデータの抽出
+*RM換算機(重量＊REP数から最大重量を算出)
+*スケジュールの登録・可視化
+
+
+
+# Requirement
+
+*Java 17
+*SpringBoot 3.1.5
+*HTML
+*MySQL
+*JavaScript
+
+*fullCalendar
+*BootStrap
+
+
