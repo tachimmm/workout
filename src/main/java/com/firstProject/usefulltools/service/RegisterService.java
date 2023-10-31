@@ -46,4 +46,13 @@ public class RegisterService {
 
         return Optional.of(repository.save(userInfo));
     }
+
+
+    public void deleteDataById(String loginId) {
+        
+        String Login_id = loginId;
+
+        repository.deleteById(Login_id);
+
+    }
 }

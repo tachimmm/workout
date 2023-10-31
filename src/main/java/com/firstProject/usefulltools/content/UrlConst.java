@@ -23,9 +23,13 @@ public class UrlConst {
     /**パスワード変更画面 */
     public static final String REGISTERCHANGE = "/usefulltools/register-change";
 
+    public static final String help = "/usefulltools/help";
+
+    public static final String AccountDelete = "/usefulltools/AccountDelete";
+
     /**ログイン画面 */
     public static final String [] NO_AUTHENTICATION = {REGISTER,REGISTERS,LOGIN,
-        WORKOUTTOP,WORKOUT,LOGINS,REGISTERCHANGE,"/css/**", "/js/**","/images/**",} ;
+        WORKOUTTOP,WORKOUT,LOGINS,REGISTERCHANGE,help,AccountDelete,"/css/**", "/js/**","/images/**",} ;
     
 
 

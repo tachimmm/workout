@@ -4,18 +4,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="_csrf" th:content="${_csrf.token}" />
-    <meta name='_csrf'>
-    <meta name='_csrf_header'>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
-    
     <link rel="stylesheet" th:href="@{/css/style-work-out.css}">
-
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/fullcalendar.css' />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/fullcalendar.js'></script>
+    <!-- Thymeleafを使用してサーバーサイドからデータを渡す -->
+    <script th:inline="javascript">
+        //var chartData = [[${chartData}]];
+    </script>
 
     <title>Training Record</title>
 </head>
 
 <body>
+    <style>
+        body {
+            background-color: #f1f3f6;
+        }
+
+        .login-form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            size: 6px;
+        }
+
+        .custom-login-button {
+            background-color: orange;
+            border-color: orange;
+        }
+
+        .subtitle {
+            margin: 30px;
+        }
+
+        .horizontal-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .horizontal-row label {
+            width: 150px;
+
+            margin-right: 10px;
+
+        }
+
+        .horizontal-row input {
+            flex: 1;
+
+        }
+
+        .help a{
+            font-size: 15px;
+            margin: 20px;
+        }
+
+        .help h2{
+            margin-top: 20px;
+        }
+    </style>
 
     <div class="container">
         <!-- Sidebar Section -->
@@ -45,7 +108,7 @@
                     </span>
                     <h3>Schedule</h3>
                 </a>
-                <a th:href="@{content-work-out-recorde}" class="active">
+                <a th:href="@{content-work-out-recorde}">
                     <span class="material-icons-sharp">
                         receipt_long
                     </span>
@@ -57,12 +120,13 @@
                     </span>
                     <h3>Analytics</h3>
                 </a>
-                <a th:href="@{/usefulltools/help}">
+                <a th:href="@{/usefulltools/help}" class="active">
                     <span class="material-icons-sharp">
                         info
                     </span>
                     <h3>Help</h3>
                 </a>
+
                 <a th:if="${username != null}" th:href="@{/logout}">
                     <span class="material-icons-sharp">logout</span>
                     <h3>Log out</h3>
@@ -71,6 +135,7 @@
                     <span class="material-icons-sharp">login</span>
                     <h3>Sign Up</h3>
                 </a>
+
             </div>
         </aside>
         <!-- End of Sidebar Section -->
@@ -78,8 +143,15 @@
         <!-- Main Content -->
         <main>
             <h1>Analytics</h1>
-            <span th:text="|Welcome,${username}|"></span>
-            <span th:text="|${yearAndMonthAndDay}|"></span>
+
+            <a th:if="${username != null}">
+                <span th:text="|Welcome,${username}|"></span>
+                <span th:text="|${yearAndMonthAndDay}|"></span>
+            </a>
+            <a th:unless="${username != null}">
+                <span>Welcome,ゲスト</span>
+
+            </a>
             <!-- Analyses -->
             <div class="analyse">
                 <div class="sales">
@@ -133,53 +205,25 @@
             </div>
             <!-- End of Analyses -->
 
-            <div class="user-list">
-                <h2>Recode List</h2>
-                <div class="float-end">
-                    <a th:href="@{RecodeAdd}" class="btn btn-primary">新規記録</a>
-                    <a th:href="@{RecodeSearch}" class="btn btn-primary">検索</a>
+            <div class="tools">
+                <h1 class="subtitle">FAQ</h1>
+                <div class="help">
+                    <h2>・どんな機能がありますか？</h2>
+                    <a href="">Scheduleにいつどの部位をトレーニングするか。Recordにどの部位を重量・REP数でトレーニングしたかなど記録することができます。
+                        また、Dashboardの計算機から重量×REP数から最大挙上重量を算出することができます。
+                    </a>
+                    <h2>・RM換算機とはなんですか？</h2>
+                    <a href="">重量×REP数から最大挙上重量を算出することができます。</a>
+                    <h2>・アカウント削除はどこからできますか？</h2>
+                    <a th:href="@{/usefulltools/AccountDelete}">ここをクリックすると削除ページに移動します。</a>
+                    <h2>・パスワードを忘れました</h2>
+                    <a href="">パスワードを忘れると再設定できません。もう一度アカウントを作り直してください。そのうち実装します</a>
                 </div>
-                <table class="table-striped">
-                    <thead>
-                        <tr>
-                            <th>日付</th>
-                            <th>部位</th>
-                            <th>種目</th>
-                            <th>SET</th>
-                            <th>重量</th>
-                            <th>REP</th>
-                            <th>削除</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="user : ${itemlist}" th:object="${user}" class="align-middle">
-                            <td th:text="*{date_column}"></td>
-                            <td th:text="*{item}"></td>
-                            <td th:text="*{event}"></td>
-                            <td>
-                                <span th:text="${user.set_column}"></span> set
-                            </td>
-                            <td>
-                                <span th:text="${user.weight}"></span> kg
-                            </td>
-                            <td>
-                                <span th:text="${user.rep}"></span> rep
-                            </td>
-                            <td>
-                                <form th:action="@{/usefulltools/RecodeDelete}" method="post">
-                                    <input type="submit" class="btn btn-primary" name="delete" value="削除">
-                                    <input type="hidden" name="id" th:value="${user.save_id}">
-                                </form>
-                            </td>
-                        </tr>
 
-                    </tbody>
-
-                </table>
 
             </div>
-           
-        
+
+
         </main>
 
     </div>

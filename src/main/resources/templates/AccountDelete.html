@@ -52,17 +52,15 @@
       background-color: #0056b3;
     }
 
-    p{
-      color: #374151;
-      font-size: small;
-    }
-
     .custom-login-button {
       background-color: orange;
       border-color: orange;
     }
-    span {
-      color: red;
+  
+
+    .pw-reflash{
+      font-size: 13px;
+      text-align: center;
     }
     
   </style>
@@ -73,23 +71,33 @@
     <div class="row mt-5">
       <div class="col-md-6 mx-auto">
         <div class="login-form">
-            <h2 class="text-center p-5">ユーザー登録</h2>
+          <h2>アカウント削除</h2>
+          <div class="alert alert-danger" role="alert" th:if="${errorMsg}">
             <span th:text="${errorMsg}"></span>
-            <div><a th:href="@{/usefulltools/login}">ログインはこちら</a></div>        
-            <form th:action="@{/usefulltools/register-s}" method="post" th:object="${registerForm}">
+          </div>
+          
+          <form class="loginandregisterform" th:action="@{/usefulltools/AccountDelete}" method="post"
+            th:object="${loginForm}">
             <div class="form-group">
               <label for="loginId">ユーザーID</label>
               <input type="text" class="form-control" th:field="*{loginId}" id="loginId" required>
             </div>
             <div class="form-group">
               <label for="password">パスワード</label>
-              <p>6文字以上かつ、英字と数字を含む必要があります</p>
               <input type="password" th:field="*{password}" class="form-control" id="password" required>
             </div>
+            <div class="pw-reflash">
+              <a th:href="@{/usefulltools/register-change}" style="text-decoration:none;">パスワード変更はこちらから</a>
+            </div>
             <div class="d-grid mb-3">
-              <button class="btn btn-primary custom-login-button">登録</button>
+              <button class="btn btn-primary custom-login-button">アカウント削除</button>
             </div>
           </form>
+          <a th:href="@{/usefulltools/content-work-out-top}">
+            <span class="material-icons-sharp">
+              Top 
+            </span>
+        </a>
         </div>
       </div>
     </div>
