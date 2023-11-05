@@ -18,7 +18,7 @@ import com.firstProject.usefulltools.entity.EventInfo;
 import com.firstProject.usefulltools.entity.RecodeInfo;
 import com.firstProject.usefulltools.form.ScheduleForm;
 import com.firstProject.usefulltools.repository.EventInfoRepository;
-import com.firstProject.usefulltools.service.CalendarEventService;
+import com.firstProject.usefulltools.service.EventService;
 import com.firstProject.usefulltools.service.RecodeService;
 import com.firstProject.usefulltools.content.Analytics;
 
@@ -78,7 +78,7 @@ public class WorkOutSchedule {
             model.addAttribute("calculatePreviousDayCountPercentage", calculatePreviousDayCountPercentage);
             model.addAttribute("calculatePreviousDayWeightPercentage", calculatePreviousDayWeightPercentage);
 
-            List<EventInfo> itemlists = calendarEventService.findByUsername(username);
+            List<EventInfo> itemlists = eventService.findByUsername(username);
 
             model.addAttribute("itemlist", itemlists);
         }
@@ -130,14 +130,14 @@ public class WorkOutSchedule {
     String delete(@RequestParam Integer id) {
 
         Long longId = Long.valueOf(id);
-        calendarEventService.deleteDataById(longId);
+        eventService.deleteDataById(longId);
 
         return "redirect:/usefulltools/content-work-out-ScheduleList";
     }
 
     // コントローラーにスケジュール削除エンドポイントを追加
     @Autowired
-    private CalendarEventService calendarEventService;
+    private EventService eventService;
 
     @PostMapping("/usefulltools/ScheduleAdd")
     public String ScheduleAdd(Model model, ScheduleForm form) {
@@ -145,7 +145,7 @@ public class WorkOutSchedule {
         String username = getCurrentUsername();
         form.setUsername(username); // RecodeFormにusernameをセット
 
-        calendarEventService.create(form);
+       eventService.create(form);
 
         return "redirect:/usefulltools/content-work-out-ScheduleList";
     }

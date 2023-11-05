@@ -47,6 +47,13 @@ public class RecodeService {
     }
 
 
+    public void deleteByName(String loginId){
+
+        String username = loginId;
+        recodeRepository.deleteByUsername(username);
+    }
+
+
     public List<RecodeInfo> findLatesRecodeInfo(String username){
 
         return recodeRepository.findByUsernameAndLastDate(username);

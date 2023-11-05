@@ -12,13 +12,13 @@ import com.firstProject.usefulltools.repository.EventInfoRepository;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class CalendarEventService {
+public class EventService {
 
     @Autowired
     EventInfoRepository eventInfoRepository;
 
 
-    public CalendarEventService(EventInfoRepository eventInfoRepository) {
+    public EventService(EventInfoRepository eventInfoRepository) {
 
         this.eventInfoRepository = eventInfoRepository;
 
@@ -52,6 +52,13 @@ public class CalendarEventService {
 
         eventInfoRepository.deleteById(save_id);
 
+    }
+
+
+    public void deleteByUsername(String loginId){
+        String username = loginId;
+
+        eventInfoRepository.deleteByUsername(username);
     }
 
 

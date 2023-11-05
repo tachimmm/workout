@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import com.firstProject.usefulltools.content.UrlConst;
 import com.firstProject.usefulltools.form.LoginForm;
 import com.firstProject.usefulltools.form.RegisterForm;
+import com.firstProject.usefulltools.service.EventService;
 import com.firstProject.usefulltools.service.LoginService;
-
+import com.firstProject.usefulltools.service.RecodeService;
 import com.firstProject.usefulltools.service.RegisterService;
 import lombok.RequiredArgsConstructor;
 
@@ -22,6 +23,7 @@ public class RegisterController {
     private final LoginService loginService;
 
     private final PasswordEncoder passwordEncoder;
+
     private final RegisterService service;
 
     @GetMapping(UrlConst.REGISTER)
@@ -36,6 +38,11 @@ public class RegisterController {
         if (form.getPassword() == null || form.getPassword().length() < 6 || !form.getPassword().matches(".*[a-zA-Z].*")
                 || !form.getPassword().matches(".*\\d.*")) {
             model.addAttribute("errorMsg", "パスワードは6文字以上かつ、英字と数字を含む必要があります");
+            return "register";
+        }
+
+        if (!form.getPassword().equals(form.getConfirmPassword())) {
+            model.addAttribute("errorMsg", "パスワードと確認用パスワードが一致しません。");
             return "register";
         }
 
@@ -57,7 +64,13 @@ public class RegisterController {
     }
 
     @Autowired
-    RegisterService registerService;
+    private final RegisterService registerService;
+
+    @Autowired
+    private final RecodeService recodeService;
+
+    @Autowired
+    private final EventService eventService;
 
     @PostMapping(UrlConst.AccountDelete)
     public String accountDelete(Model model, LoginForm form) {
@@ -69,8 +82,12 @@ public class RegisterController {
         String loginId = userInfo.get().getLoginId();
 
         if (isCorrectUserAuth) {
-            // データベースに新しいパスワードを上書きする処理
+            // アカウント削除処理
             registerService.deleteDataById(loginId);
+            // データベースからアカウントに紐づいたデータをすべて消す
+            recodeService.deleteByName(loginId);
+
+            eventService.deleteByUsername(loginId);
 
             return "redirect:" + "/logout"; // toppageに遷移
 

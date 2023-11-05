@@ -54,7 +54,7 @@ public class Analytics { //様々なデータを計算しているクラス
 
     public static String getPreviousYearDay() { // 前日の日付を取得
 
-        LocalDate currentDate = LocalDate.parse(yearAndMonthAndDay() + "-01");
+        LocalDate currentDate = LocalDate.parse(yearAndMonthAndDay());
         LocalDate previousMonthDate = currentDate.minusMonths(1);
 
         return previousMonthDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
