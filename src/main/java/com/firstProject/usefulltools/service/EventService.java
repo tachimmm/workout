@@ -46,9 +46,9 @@ public class EventService {
 
     }
 
-    public void deleteDataById(Long id) {
+    public void deleteDataById(Long eventId) {
 
-        Long save_id = id;
+        Long save_id = eventId;
 
         eventInfoRepository.deleteById(save_id);
 
@@ -60,6 +60,7 @@ public class EventService {
 
         eventInfoRepository.deleteByUsername(username);
     }
+    
 
 
     private EventInfo createSchedule(ScheduleForm scheduleForm) {

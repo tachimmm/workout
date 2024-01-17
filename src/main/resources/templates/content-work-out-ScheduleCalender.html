@@ -159,102 +159,39 @@
                         $(document).ready(function () {
                             $('#calendar').fullCalendar({
                                 events: {
-                                    url: '/api/data/fetch-events', // データを提供するRESTfulエンドポイントのURLを指定
+                                    url: '/api/data/fetch-events',
                                     type: 'GET',
                                     dataType: 'json'
                                 },
-                                eventRender: function (event, element) {
-                                    element.bind('dblclick', function () {
-                                        // ダブルクリックされたときの処理
-                                        var eventId = event.id; // イベントのIDを取得
-                                        if (eventId === undefined || eventId === null) {
-                                            // eventIdがundefinedまたはnullの場合、エラー処理などを行うか、リクエストを送信しないようにします。
-                                            console.error('Event ID is undefined or null.');
-                                            return;
-                                        }
-                                        
+                                eventClick: function (event) {
+                                    // クリックされたスケジュールのIDを取得
+                                    var eventId = event.id;
 
-                                        // ダイアログを表示して確認メッセージを表示
-                                        var confirmation = confirm('このイベントを削除しますか？');
-
-                                        if (confirmation) {
-                                            // サーバーにイベントの削除リクエストを送信
-                                            $.ajax({
-                                                url: '/usefulltools/delete-event/' + eventId, // eventIdを具体的な値に置き換える
-                                                type: 'DELETE',
-                                                headers: {
-                                                    'X-CSRF-TOKEN': csrfToken
-                                                },
-                                                success: function (response) {
-                                                    console.log('Success:', response);
-                                                },
-                                                error: function (error) {
-                                                    console.error('Error:', error);
-                                                }
-                                            });
-
-                                        }
-                                    });
-                                }
-                            });
-
-                            // 予定を追加するボタンのクリックイベント
-                            $('#addEventButton').on('click', function () {
-                                // フォームで入力された情報を取得
-                                const title = $('#eventTitle').val();
-                                const startDate = $('#eventStartDate').val();
-                                const endDate = $('#eventEndDate').val();
-
-                                // 入力値のチェック
-                                if (title.trim() === '' || startDate.trim() === '' || endDate.trim() === '') {
-                                    alert('すべてのフィールドを入力してください。');
-                                    return; // 入力が不完全な場合、予定を追加せずに終了
-                                }
-
-                                // FullCalendarのイベントオブジェクトに変換して追加
-                                const event = {
-                                    title: title,
-                                    start: startDate,
-                                    end: endDate,
-                                    allDay: true // 終日のイベントかどうか（trueなら終日）
-                                };
-                                $('#calendar').fullCalendar('renderEvent', event, true);
-
-                                // フォームの入力をリセット
-                                $('#eventTitle').val('');
-                                $('#eventStartDate').val('');
-                                $('#eventEndDate').val('');
-
-                                // サーバーにデータを送信（ここでAjaxリクエストを行う）
-                                $.ajax({
-                                    url: '/usefulltools/content-work-out-scheduled',
-                                    type: 'POST',
-                                    contentType: 'application/json',
-                                    data: JSON.stringify(event),
-                                    headers: {
-                                        'X-CSRF-TOKEN': csrfToken // CSRFトークンをヘッダーに追加
-                                    },
-                                    success: function (response) {
-                                        // サーバーからの応答を処理（必要に応じて）
-                                        console.log('Success:', response);
-                                    },
-                                    error: function (error) {
-                                        // エラーハンドリング（必要に応じて）
-                                        console.error('Error:', error);
+                                    // 確認ポップアップを表示
+                                    if (confirm('このスケジュールを削除しますか？')) {
+                                        // ユーザーが OK ボタンをクリックした場合の処理
+                                        // ここで eventId を使って削除のリクエストをサーバーに送信するなどの処理を行います
+                                        $.ajax({
+                                            url: '/api/data/delete-event/' + eventId,
+                                            type: 'DELETE',
+                                            success: function () {
+                                                // 成功時の処理
+                                                $('#calendar').fullCalendar('refetchEvents'); // カレンダーを再描画
+                                            },
+                                            error: function () {
+                                                // エラー時の処理
+                                                alert('削除に失敗しました');
+                                            }
+                                        });
+                                    } else {
+                                        // ユーザーがキャンセルボタンをクリックした場合の処理
+                                        // 何もしないか、必要に応じてキャンセル時の処理を追加します
                                     }
-                                });
+                                }
                             });
                         });
-                    </script>
 
-                    <script th:inline="javascript">
-                        // CSRFトークンを取得して変数に設定
-                        var csrfToken = /*[[${_csrf.token}]]*/ '';
 
-                        // 以下、既存のスクリプトコード
-                        $(document).ready(function () {
-                            // ...
-                        });
                     </script>
 
                 </div>
