@@ -13,5 +13,3 @@ EXPOSE 8080
 # Define environment variable
 ENV NAME World
 
-# Run the application using spring-boot:run
-CMD ["java", "-jar", "target/usefulltools-0.0.1-SNAPSHOT.jar"]
