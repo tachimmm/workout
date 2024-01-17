@@ -7,8 +7,6 @@ WORKDIR /app
 # Copy the contents of the local src directory to the container at /app
 COPY . /app
 
-# Build the application with Maven
-RUN mvn clean package -DskipTests=true
 # Expose port 8080 to the outside world
 EXPOSE 8080
 
