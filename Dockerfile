@@ -14,4 +14,4 @@ EXPOSE 8080
 ENV NAME World
 
 # Run the application using spring-boot:run
-CMD ["java", "-jar", "target/workout-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "target/usefulltools-0.0.1-SNAPSHOT.jar"]
