@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . /app
 
 # Build the application with Maven
-RUN mvn clean package -Dmaven.test.skip=true
+RUN mvn clean package -DskipTests=true
 # Expose port 8080 to the outside world
 EXPOSE 8080
 
