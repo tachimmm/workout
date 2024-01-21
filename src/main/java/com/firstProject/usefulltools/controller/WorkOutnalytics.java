@@ -29,6 +29,7 @@ public class WorkOutnalytics {
 
         return null; // 認証されていない場合はnullを返す
     }
+    
 
     public String dayAndTime() {
 
@@ -91,7 +92,8 @@ public class WorkOutnalytics {
             model.addAttribute("lastaMaxDeadLift", lastaMaxDeadLift);
 
         }
-        
+
         return "content-work-out-analytics";
     }
+
 }

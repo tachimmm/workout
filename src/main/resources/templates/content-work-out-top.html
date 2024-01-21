@@ -6,15 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/style-work-out.css}">
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/fullcalendar.css' />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/fullcalendar.js'></script>
-    <!-- Thymeleafを使用してサーバーサイドからデータを渡す -->
-    <script th:inline="javascript">
-        //var chartData = [[${chartData}]];
-    </script>
-
     <title>Training Record</title>
 </head>
 
@@ -68,6 +59,15 @@
         .horizontal-row input {
             flex: 1;
 
+        }
+
+    
+        /* 画面サイズが767pxより大きい場合 */
+        @media screen and (min-width: 768px) {
+            .analyse .status {
+                flex-direction: row;
+                /* ロウ方向に変更 */
+            }
         }
     </style>
 
@@ -134,14 +134,14 @@
         <!-- Main Content -->
         <main>
             <h1>Analytics</h1>
-            
-            <a th:if="${username != null}" >
+
+            <a th:if="${username != null}">
                 <span th:text="|Welcome,${username}|"></span>
-            <span th:text="|${yearAndMonthAndDay}|"></span>
+                <span th:text="|${yearAndMonthAndDay}|"></span>
             </a>
             <a th:unless="${username != null}">
-                <span >Welcome,ゲスト</span>
-                
+                <span>Welcome,ゲスト</span>
+
             </a>
             <!-- Analyses -->
             <div class="analyse">
@@ -202,16 +202,16 @@
                     <div class="login-form">
                         <form th:action="@{/usefulltools/content-work-out-top}" method="post" th:object="${RmForm}">
                             <div class="form-group horizontal-row">
-                                <label >使用重量(Kg)</label>
+                                <label>使用重量(Kg)</label>
                                 <input type="number" th:field="*{weight}" class="form-control" required>
                             </div>
                             <div class="form-group horizontal-row">
-                                <label >REP数</label>
+                                <label>REP数</label>
                                 <input type="number" th:field="*{rep}" class="form-control" required>
                             </div>
                             <div class="form-group horizontal-row">
-                                <label >最大重量(Kg)</label>
-                                <output  th:text="${maxWeight}" class="form-control"></output>
+                                <label>最大重量(Kg)</label>
+                                <output th:text="${maxWeight}" class="form-control"></output>
                             </div>
                             <div class="d-grid mb-3">
                                 <button class="btn btn-primary custom-login-button">計算</button>

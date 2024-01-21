@@ -65,8 +65,7 @@ public class WebSecurityConfig {
 								.usernameParameter(USERNAME_PARAMETER) // ユーザ名パラメータのname属性
 								.defaultSuccessUrl(UrlConst.WORKOUTTOP)); // ログイン成功後のリダイレクトURL
 		http.logout(logout -> {
-			logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-					.logoutSuccessUrl(UrlConst.WORKOUTTOP);
+			logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
 		});
 
 		return http.build();

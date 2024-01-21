@@ -163,31 +163,6 @@
                                     type: 'GET',
                                     dataType: 'json'
                                 },
-                                eventClick: function (event) {
-                                    // クリックされたスケジュールのIDを取得
-                                    var eventId = event.id;
-
-                                    // 確認ポップアップを表示
-                                    if (confirm('このスケジュールを削除しますか？')) {
-                                        // ユーザーが OK ボタンをクリックした場合の処理
-                                        // ここで eventId を使って削除のリクエストをサーバーに送信するなどの処理を行います
-                                        $.ajax({
-                                            url: '/api/data/delete-event/' + eventId,
-                                            type: 'DELETE',
-                                            success: function () {
-                                                // 成功時の処理
-                                                $('#calendar').fullCalendar('refetchEvents'); // カレンダーを再描画
-                                            },
-                                            error: function () {
-                                                // エラー時の処理
-                                                alert('削除に失敗しました');
-                                            }
-                                        });
-                                    } else {
-                                        // ユーザーがキャンセルボタンをクリックした場合の処理
-                                        // 何もしないか、必要に応じてキャンセル時の処理を追加します
-                                    }
-                                }
                             });
                         });
 

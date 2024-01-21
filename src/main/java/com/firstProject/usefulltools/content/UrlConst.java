@@ -29,7 +29,7 @@ public class UrlConst {
 
     /**ログイン画面 */
     public static final String [] NO_AUTHENTICATION = {REGISTER,REGISTERS,LOGIN,
-        WORKOUTTOP,WORKOUT,LOGINS,REGISTERCHANGE,help,AccountDelete,"/css/**", "/js/**","/images/**",} ;
+        WORKOUTTOP,WORKOUT,LOGINS,REGISTERCHANGE,help,AccountDelete,"/css/**", "/js/**","/images/**","/templates/**"} ;
     
 
 
