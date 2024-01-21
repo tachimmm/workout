@@ -70,7 +70,7 @@ public class WorkOut {
         return "content-work-out-top";
     }
 
-    @PostMapping("/usefulltools/content-work-out-top")
+    @PostMapping(UrlConst.WORKOUTTOP)
     public String rmCaculate(Model model, RmForm form) {
 
         double maxWeight = Analytics.rmExchange(form);

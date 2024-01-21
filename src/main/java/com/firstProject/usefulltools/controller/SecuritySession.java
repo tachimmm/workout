@@ -20,9 +20,9 @@ public class SecuritySession {
             // AuthenticationオブジェクトからUserDetailsオブジェクトを取得
             Object principal = authentication.getPrincipal();
             
-            if (principal instanceof UserDetails) {
+            if (principal instanceof UserDetails details) {
                 // UserDetailsオブジェクトから、ユーザ名を取得
-                return ((UserDetails) principal).getUsername();
+                return details.getUsername();
             }
         }
         return null;
