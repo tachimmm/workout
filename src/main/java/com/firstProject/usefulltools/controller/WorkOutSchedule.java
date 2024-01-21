@@ -67,7 +67,6 @@ public class WorkOutSchedule {
             List<RecodeInfo> itemlist = recodeService.findByUsername(username);
 
             double calculatePreviousDayCountPercentage = Analytics.calculatePreviousDayCountPercentage(itemlist);
-            double calculatePreviousDayWeightPercentage = Analytics.calculatePreviousDayWeightPercentage(itemlist);
             double totalWeight = Analytics.calculateTotalWeight(itemlist);
             double totalCount = Analytics.caculateTotalCount(itemlist);
             String yearAndMonthAndDay = Analytics.yearAndMonthAndDay();
@@ -79,7 +78,6 @@ public class WorkOutSchedule {
             model.addAttribute("yearAndMonthAndDay", yearAndMonthAndDay);
             model.addAttribute("dayfromday", dayfromday);
             model.addAttribute("calculatePreviousDayCountPercentage", calculatePreviousDayCountPercentage);
-            model.addAttribute("calculatePreviousDayWeightPercentage", calculatePreviousDayWeightPercentage);
 
             List<EventInfo> itemlists = eventService.findByUsername(username);
 
@@ -103,15 +101,13 @@ public class WorkOutSchedule {
             List<RecodeInfo> itemlist = recodeService.findByUsername(username);
 
             double calculatePreviousDayCountPercentage = Analytics.calculatePreviousDayCountPercentage(itemlist);
-            double calculatePreviousDayWeightPercentage = Analytics.calculatePreviousDayWeightPercentage(itemlist);
             double totalWeight = Analytics.calculateTotalWeight(itemlist);
             double totalCount = Analytics.caculateTotalCount(itemlist);
             String yearAndMonthAndDay = Analytics.yearAndMonthAndDay();
             long dayfromday = Analytics.caculatefromday(LastList);
 
-            model.addAttribute("calculatePreviousDayCountPercentage", calculatePreviousDayCountPercentage);
-            model.addAttribute("calculatePreviousDayWeightPercentage", calculatePreviousDayWeightPercentage);
             model.addAttribute("username", username);
+            model.addAttribute("calculatePreviousDayCountPercentage", calculatePreviousDayCountPercentage);
             model.addAttribute("totalWeight", totalWeight);
             model.addAttribute("totalCount", totalCount);
             model.addAttribute("yearAndMonthAndDay", yearAndMonthAndDay);

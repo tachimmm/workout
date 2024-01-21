@@ -11,12 +11,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import com.firstProject.usefulltools.entity.RecodeInfo;
+import com.firstProject.usefulltools.form.BmiForm;
 import com.firstProject.usefulltools.form.RmForm;
 import com.firstProject.usefulltools.service.RecodeService;
 
-
-
-public class Analytics { //様々なデータを計算しているクラス
+public class Analytics { // 様々なデータを計算しているクラス
 
     public String getCurrentUsername() { // ログインしているusernameを取ってくる
 
@@ -31,7 +30,6 @@ public class Analytics { //様々なデータを計算しているクラス
         return null; // 認証されていない場合はnullを返す
     }
 
-
     public static String yearAndMonthAndDay() { // 現在の日付を取得
 
         LocalDate currentDate = LocalDate.now();
@@ -40,7 +38,6 @@ public class Analytics { //様々なデータを計算しているクラス
 
         return formattedDate;
     }
-
 
     public static String yearAndMonth() { // 現在の年月取得
 
@@ -51,7 +48,6 @@ public class Analytics { //様々なデータを計算しているクラス
         return formatterDate;
     }
 
-
     public static String getPreviousYearDay() { // 前日の日付を取得
 
         LocalDate currentDate = LocalDate.parse(yearAndMonthAndDay());
@@ -59,7 +55,6 @@ public class Analytics { //様々なデータを計算しているクラス
 
         return previousMonthDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }
-
 
     public static double calculateTotalWeight(List<RecodeInfo> itemlist) { // 当日のトータル重量を計算
 
@@ -73,7 +68,6 @@ public class Analytics { //様々なデータを計算しているクラス
 
     }
 
-
     public static double calculatePreviousTotalWeight(List<RecodeInfo> itemlist) { // 前日のトータル重量を計算
 
         double alllWeight = 0.0;
@@ -85,7 +79,6 @@ public class Analytics { //様々なデータを計算しているクラス
         return alllWeight;
 
     }
-
 
     public static double calculatePreviousDayCountPercentage(List<RecodeInfo> itemlist) { // 前月比を計算
 
@@ -100,20 +93,22 @@ public class Analytics { //様々なデータを計算しているクラス
         }
     }
 
-
-    public static double calculatePreviousDayWeightPercentage(List<RecodeInfo> itemlist) { // 前月比を計算
-
+    public static double calculatePreviousMonthWeightPercentage(List<RecodeInfo> itemlist) {
+        // 現在の月の合計重量を計算
         double currentMonthCount = calculateTotalWeight(itemlist);
+
+        // 前月の合計重量を計算
         double previousMonthCount = calculatePreviousTotalWeight(itemlist);
 
         // パーセンテージを計算
         if (previousMonthCount == 0) {
-            return 0.0; // 前月のデータがない場合、0% を返す
+            return 0.0; // 前月のデータがない場合、0.0% を返す
         } else {
-            return ((double) (currentMonthCount - previousMonthCount) / previousMonthCount) * 100.0;
+            double percentage = ((currentMonthCount - previousMonthCount) / previousMonthCount) * 100.0;
+            return Math.floor(percentage * 100.0) / 100.0;
+            // 小数点以下二桁までの計算として切り捨て
         }
     }
-
 
     public static double calculateMonthTotalWeight(List<RecodeInfo> itemlist) { // 当月のトータル重量を計算
 
@@ -126,9 +121,9 @@ public class Analytics { //様々なデータを計算しているクラス
         return alllWeight;
     }
 
-
     @Autowired
     RecodeService recodeService;
+
     public static long caculatefromday(List<RecodeInfo> LastList) { // 最後のトレーニング日からの経過日数を取得
 
         if (LastList.isEmpty()) {
@@ -148,7 +143,6 @@ public class Analytics { //様々なデータを計算しているクラス
         return daysBetween;
     }
 
-
     public static int caculateTotalCount(List<RecodeInfo> itemlist) { // 当日のトータル重量を取得
 
         int allCount = 0;
@@ -159,7 +153,6 @@ public class Analytics { //様々なデータを計算しているクラス
         }
         return allCount;
     }
-
 
     public static int calculatepreviousMonthWeight(List<RecodeInfo> itemlist) { // 当月のトータル重量を計算
 
@@ -172,22 +165,21 @@ public class Analytics { //様々なデータを計算しているクラス
         return allCount;
     }
 
-
-    public static double calculateMonthTotalWeightPercentage(List<RecodeInfo> itemlist) { // 前月比を計算
-
-        double currentMonthWeight = calculateMonthTotalWeight(itemlist);
-        double previousMontWeight = calculatepreviousMonthWeight(itemlist);
+    public static double calculateMonthTotalWeightPercentage(List<RecodeInfo> itemlist) {
+        double currentMonthWeight = 100;
+        double previousMonthWeight = 51;
 
         // パーセンテージを計算
-        if (previousMontWeight == 0) {
-            return 0.0; // 前月のデータがない場合、0% を返す
+        if (previousMonthWeight == 0) {
+            return 0.0; // 前月のデータがない場合、0.0% を返す
         } else {
-            return ((double) (currentMonthWeight - previousMontWeight) / previousMontWeight) * 100.0;
+            double percentage = ((currentMonthWeight - previousMonthWeight) / previousMonthWeight) * 100.0;
+            return Math.floor(percentage * 100.0) / 1.0;
+            // 小数点以下二桁までの計算として切り捨て
         }
     }
 
-
-    public static int caculatePreviousTotalCount(List<RecodeInfo> itemlist) { //当日のトレーニング回数を計算
+    public static int caculatePreviousTotalCount(List<RecodeInfo> itemlist) { // 当日のトレーニング回数を計算
 
         int allCount = 0;
 
@@ -198,8 +190,7 @@ public class Analytics { //様々なデータを計算しているクラス
         return allCount;
     }
 
-
-    public static int calculateMonthTotalCount(List<RecodeInfo> itemlist) { //当月のトレーニング回数を計算
+    public static int calculateMonthTotalCount(List<RecodeInfo> itemlist) { // 当月のトレーニング回数を計算
 
         int allCount = 0;
 
@@ -210,8 +201,7 @@ public class Analytics { //様々なデータを計算しているクラス
         return allCount;
     }
 
-
-    public static int calculatepreviousMonthCount(List<RecodeInfo> itemlist) { //前月のトレーニング回数を計算
+    public static int calculatepreviousMonthCount(List<RecodeInfo> itemlist) { // 前月のトレーニング回数を計算
 
         int allCount = 0;
 
@@ -222,14 +212,12 @@ public class Analytics { //様々なデータを計算しているクラス
         return allCount;
     }
 
-
-    public static String getPreviousYearMonth() { //前月を取得
+    public static String getPreviousYearMonth() { // 前月を取得
 
         LocalDate currentDate = LocalDate.parse(yearAndMonth() + "-01");
         LocalDate previousMonthDate = currentDate.minusMonths(1);
         return previousMonthDate.format(DateTimeFormatter.ofPattern("yyyy-MM"));
     }
-
 
     public static double calculatePreviousMonthPercentage(List<RecodeInfo> itemlist) {
 
@@ -244,8 +232,7 @@ public class Analytics { //様々なデータを計算しているクラス
         }
     }
 
-
-    public static int calculateTotalTrainingCount(List<RecodeInfo> itemlist) { //当月のトレーニング回数
+    public static int calculateTotalTrainingCount(List<RecodeInfo> itemlist) { // 当月のトレーニング回数
 
         int count = 0;
         String currentYearAndMonth = yearAndMonth();
@@ -266,8 +253,7 @@ public class Analytics { //様々なデータを計算しているクラス
         return count;
     }
 
-
-    public static double maxBenchPress(List<RecodeInfo> itemlist) { //ベンチプレスの最高記録
+    public static double maxBenchPress(List<RecodeInfo> itemlist) { // ベンチプレスの最高記録
 
         double maxWeight = 0.0;
         String BenchPress = "ベンチプレス";
@@ -280,8 +266,7 @@ public class Analytics { //様々なデータを計算しているクラス
 
     }
 
-
-    public static double maxSquat(List<RecodeInfo> itemlist) { //スクワットの最高記録
+    public static double maxSquat(List<RecodeInfo> itemlist) { // スクワットの最高記録
 
         double maxWeight = 0.0;
         String BenchPress = "スクワット";
@@ -294,8 +279,7 @@ public class Analytics { //様々なデータを計算しているクラス
 
     }
 
-
-    public static double maxDeadLift(List<RecodeInfo> itemlist) { //デットリフトの最高記録
+    public static double maxDeadLift(List<RecodeInfo> itemlist) { // デットリフトの最高記録
 
         double maxWeight = 0.0;
         String BenchPress = "デットリフト";
@@ -308,8 +292,7 @@ public class Analytics { //様々なデータを計算しているクラス
 
     }
 
-
-    public static long lastMaxBenchPress(List<RecodeInfo> itemlist) { //最後の記録更新から経過した日数
+    public static long lastMaxBenchPress(List<RecodeInfo> itemlist) { // 最後の記録更新から経過した日数
 
         double maxWeight = 0.0;
         String BenchPress = "ベンチプレス";
@@ -332,8 +315,7 @@ public class Analytics { //様々なデータを計算しているクラス
         return daysBetween;
     }
 
-
-    public static long lastMaxSquat(List<RecodeInfo> itemlist) { //最後の記録更新から経過した日数
+    public static long lastMaxSquat(List<RecodeInfo> itemlist) { // 最後の記録更新から経過した日数
 
         double maxWeight = 0.0;
         long daysBetween = 0;
@@ -356,8 +338,7 @@ public class Analytics { //様々なデータを計算しているクラス
         return daysBetween;
     }
 
-
-    public static long lastaMaxDeadLift(List<RecodeInfo> itemlist) { //最後の記録更新から経過した日数
+    public static long lastaMaxDeadLift(List<RecodeInfo> itemlist) { // 最後の記録更新から経過した日数
 
         double maxWeight = 0.0;
         long daysBetween = 0;
@@ -380,10 +361,9 @@ public class Analytics { //様々なデータを計算しているクラス
         return daysBetween;
     }
 
+    public static double rmExchange(RmForm rmForm) { // RM換算機
 
-    public static double rmExchange(RmForm rmForm) { //RM換算機
-
-        double weight = rmForm.getWeight();
+        double weight = rmForm.getRmWeight();
         double rep = rmForm.getRep();
         double maxWeight = 0.0;
 
@@ -393,4 +373,18 @@ public class Analytics { //様々なデータを計算しているクラス
 
     }
 
+    public static double bmiConverter(BmiForm bmiForm) {
+        double weight = bmiForm.getBmiWeight();
+        double height = bmiForm.getHight() / 100.0;
+        double bmi = 0.0;
+    
+        if (weight == 0.0 || height == 0.0) {
+            bmi = 0.0;
+        } else {
+            bmi = Math.floor(weight / (height * height)) / 1.0;
+        }
+    
+        return bmi;
+    
+    }
 }

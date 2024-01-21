@@ -12,7 +12,7 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/fullcalendar.js'></script>
     <!-- Thymeleafを使用してサーバーサイドからデータを渡す -->
     <script th:inline="javascript">
-    //var chartData = [[${chartData}]];
+        //var chartData = [[${chartData}]];
     </script>
 
     <title>Training Analytics</title>
@@ -42,7 +42,7 @@
                     </span>
                     <h3>Dashboard</h3>
                 </a>
-                <a th:href="@{content-work-out-ScheduleCalender}" >
+                <a th:href="@{content-work-out-ScheduleCalender}">
                     <span class="material-icons-sharp">
                         date_range
                     </span>
@@ -74,7 +74,7 @@
                     <span class="material-icons-sharp">login</span>
                     <h3>Sign Up</h3>
                 </a>
-                
+
             </div>
         </aside>
         <!-- End of Sidebar Section -->
@@ -97,7 +97,9 @@
                                 <circle cx="38" cy="38" r="36"></circle>
                             </svg>
                             <div class="percentage">
-                                <p></p>
+                                <span class="material-icons-sharp">
+                                    trending_up
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -113,7 +115,9 @@
                                 <circle cx="38" cy="38" r="36"></circle>
                             </svg>
                             <div class="percentage">
-                                <p th:text="${calculatePreviousDayCountPercentage} + '%'"></p>
+                                <span class="material-icons-sharp">
+                                    rocket_launch
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -129,7 +133,9 @@
                                 <circle cx="38" cy="38" r="36"></circle>
                             </svg>
                             <div class="percentage">
-                                <p th:text="${calculatePreviousDayWeightPercentage} + '%'"></p>
+                                <span class="material-icons-sharp">
+                                    fitness_center
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -180,7 +186,7 @@
                                 <circle cx="38" cy="38" r="36"></circle>
                             </svg>
                             <div class="percentage">
-                                <p th:text="${calculateMonthTotalWeightPercentage} + '%'"></p>
+                                <p th:text="${calculatePreviousMonthWeightPercentage} + '%'"></p>
                             </div>
                         </div>
                     </div>
@@ -214,7 +220,8 @@
                                 <circle cx="38" cy="38" r="36"></circle>
                             </svg>
                             <div class="percentage">
-                                <pt th:text="${lastMaxSquat} + ' 日経過'"></p>
+                                <pt th:text="${lastMaxSquat} + ' 日経過'">
+                                    </p>
                             </div>
                         </div>
                     </div>

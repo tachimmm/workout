@@ -70,13 +70,29 @@
 
         }
 
-        .help a{
+        .help a {
             font-size: 15px;
             margin: 20px;
         }
 
-        .help h2{
+        .help h2 {
             margin-top: 20px;
+        }
+
+        .faq {
+            display: flex;
+            flex-direction: column;
+            /* 子要素を縦に配置するための設定 */
+            align-items: center;
+            /* 子要素を中央に配置するための設定 */
+            background-color: var(--color-white);
+            padding: var(--card-padding);
+            border-radius: var(--card-border-radius);
+            margin-top: 1rem;
+            box-shadow: var(--box-shadow);
+            gap: 0.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
     </style>
 
@@ -165,7 +181,9 @@
                                 <circle cx="38" cy="38" r="36"></circle>
                             </svg>
                             <div class="percentage">
-                                <p></p>
+                                <span class="material-icons-sharp">
+                                    trending_up
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -181,7 +199,9 @@
                                 <circle cx="38" cy="38" r="36"></circle>
                             </svg>
                             <div class="percentage">
-                                <p th:text="${calculatePreviousDayCountPercentage} + '%'"></p>
+                                <span class="material-icons-sharp">
+                                    rocket_launch
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -197,7 +217,9 @@
                                 <circle cx="38" cy="38" r="36"></circle>
                             </svg>
                             <div class="percentage">
-                                <p th:text="${calculatePreviousDayWeightPercentage} + '%'"></p>
+                                <span class="material-icons-sharp">
+                                    fitness_center
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -208,16 +230,17 @@
             <div class="tools">
                 <h1 class="subtitle">FAQ</h1>
                 <div class="help">
-                    <h2>・どんな機能がありますか？</h2>
-                    <a href="">Scheduleにいつどの部位をトレーニングするか。Recordにどの部位を重量・REP数でトレーニングしたかなど記録することができます。
-                        また、Dashboardの計算機から重量×REP数から最大挙上重量を算出することができます。
-                    </a>
-                    <h2>・RM換算機とはなんですか？</h2>
-                    <a href="">重量×REP数から最大挙上重量を算出することができます。</a>
-                    <h2>・アカウント削除はどこからできますか？</h2>
-                    <a th:href="@{/usefulltools/AccountDelete}">ここをクリックすると削除ページに移動します。</a>
-                    <h2>・パスワードを忘れました</h2>
-                    <a href="">パスワードを忘れると再設定できません。もう一度アカウントを作り直してください。そのうち実装します</a>
+                    <div class="faq">
+                        <h2>どんな機能がありますか？</h2>
+                        <p>Scheduleにいつどの部位をトレーニングするか。Recordにどの部位を重量・REP数でトレーニングしたかなど記録することができます。</p>
+                        <p>また、Dashboardの計算機から重量×REP数から最大挙上重量を算出することができます。</p>
+                        <h2>RM換算機とはなんですか？</h2>
+                        <p>重量×REP数から最大挙上重量を算出することができます。</p>
+                        <h2>アカウント削除はどこからできますか？</h2>
+                        <a th:href="@{/usefulltools/AccountDelete}">ここをクリックすると削除ページに移動します。</a>
+                        <h2>パスワードを忘れました</h2>
+                        <p>パスワードを忘れると再設定できません。もう一度アカウントを作り直してください。そのうち実装します</p>
+                    </div>
                 </div>
 
 

@@ -3,9 +3,9 @@ package com.firstProject.usefulltools.form;
 import lombok.Data;
 
 @Data
-public class RmForm {
+public class BmiForm {
     
-    private double RmWeight;
+    private double bmiWeight;
   
-    private double rep;
+    private double hight;
 }

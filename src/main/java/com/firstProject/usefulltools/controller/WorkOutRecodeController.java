@@ -50,7 +50,6 @@ public class WorkOutRecodeController {
             Collections.reverse(itemlist);
 
             double calculatePreviousDayCountPercentage = Analytics.calculatePreviousDayCountPercentage(itemlist);
-            double calculatePreviousDayWeightPercentage = Analytics.calculatePreviousDayWeightPercentage(itemlist);
             double totalWeight = Analytics.calculateTotalWeight(itemlist);
             double totalCount = Analytics.caculateTotalCount(itemlist);
             String yearAndMonthAndDay = Analytics.yearAndMonthAndDay();
@@ -62,7 +61,7 @@ public class WorkOutRecodeController {
             model.addAttribute("yearAndMonthAndDay", yearAndMonthAndDay);
             model.addAttribute("dayfromday", dayfromday);
             model.addAttribute("calculatePreviousDayCountPercentage", calculatePreviousDayCountPercentage);
-            model.addAttribute("calculatePreviousDayWeightPercentage", calculatePreviousDayWeightPercentage);
+
             model.addAttribute("itemlist", itemlist);
 
         }
@@ -100,14 +99,12 @@ public class WorkOutRecodeController {
             List<RecodeInfo> itemlist = recodeService.findByUsername(username);
 
             double calculatePreviousDayCountPercentage = Analytics.calculatePreviousDayCountPercentage(itemlist);
-            double calculatePreviousDayWeightPercentage = Analytics.calculatePreviousDayWeightPercentage(itemlist);
             double totalWeight = Analytics.calculateTotalWeight(itemlist);
             double totalCount = Analytics.caculateTotalCount(itemlist);
             String yearAndMonthAndDay = Analytics.yearAndMonthAndDay();
             long dayfromday = Analytics.caculatefromday(LastList);
 
             model.addAttribute("calculatePreviousDayCountPercentage", calculatePreviousDayCountPercentage);
-            model.addAttribute("calculatePreviousDayWeightPercentage", calculatePreviousDayWeightPercentage);
             model.addAttribute("username", username);
             model.addAttribute("totalWeight", totalWeight);
             model.addAttribute("totalCount", totalCount);

@@ -63,7 +63,7 @@ public class WorkOutnalytics {
             double calculatePreviousMonthPercentage = Analytics.calculatePreviousMonthPercentage(itemlist);
             double calculateMonthTotalWeightPercentage = Analytics.calculateMonthTotalWeightPercentage(itemlist);
             double calculatePreviousDayCountPercentage = Analytics.calculatePreviousDayCountPercentage(itemlist);
-            double calculatePreviousDayWeightPercentage = Analytics.calculatePreviousDayWeightPercentage(itemlist);
+            double calculatePreviousMonthWeightPercentage = Analytics.calculatePreviousMonthWeightPercentage(itemlist);
             int totalCount = Analytics.caculateTotalCount(itemlist);
             int calculateMonthTotalCount = Analytics.calculateMonthTotalCount(itemlist);
             int calculateTotalTrainingCount = Analytics.calculateTotalTrainingCount(itemlist);
@@ -80,7 +80,7 @@ public class WorkOutnalytics {
             model.addAttribute("calculatePreviousMonthPercentage", calculatePreviousMonthPercentage);
             model.addAttribute("calculateMonthTotalWeightPercentage", calculateMonthTotalWeightPercentage);
             model.addAttribute("calculatePreviousDayCountPercentage", calculatePreviousDayCountPercentage);
-            model.addAttribute("calculatePreviousDayWeightPercentage", calculatePreviousDayWeightPercentage);
+            model.addAttribute("calculatePreviousMonthWeightPercentage", calculatePreviousMonthWeightPercentage);
             model.addAttribute("calculateTotalTrainingCount", calculateTotalTrainingCount);
             model.addAttribute("yearAndMonthAndDay", yearAndMonthAndDay);
             model.addAttribute("maxBenchPress", maxBenchPress);

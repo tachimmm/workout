@@ -61,7 +61,62 @@
 
         }
 
-    
+        .rmconverter {
+            display: flex;
+            flex-direction: column;
+            /* 子要素を縦に配置するための設定 */
+            align-items: center;
+            /* 子要素を中央に配置するための設定 */
+            background-color: var(--color-white);
+            padding: var(--card-padding);
+            border-radius: var(--card-border-radius);
+            margin-top: 1rem;
+            box-shadow: var(--box-shadow);
+            gap: 0.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .bmiconverter {
+            display: flex;
+            flex-direction: column;
+            /* 子要素を縦に配置するための設定 */
+            align-items: center;
+            /* 子要素を中央に配置するための設定 */
+            background-color: var(--color-white);
+            padding: var(--card-padding);
+            border-radius: var(--card-border-radius);
+            margin-top: 1rem;
+            box-shadow: var(--box-shadow);
+            gap: 0.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            align-items: center;
+            justify-content: space-between;
+            margin-left: 20px;
+        }
+
+        .d-grid {
+            display: grid;
+            place-items: center;
+            /* 中央に配置するための設定 */
+        }
+
+        .Tools {
+            display: flex;
+
+        }
+        .toolslogo{
+            font-size: 30px;
+            margin-top: 30px;
+        }
+        .toolslogo .ten{
+            color: palevioletred;
+        }
+
+
         /* 画面サイズが767pxより大きい場合 */
         @media screen and (min-width: 768px) {
             .analyse .status {
@@ -156,7 +211,9 @@
                                 <circle cx="38" cy="38" r="36"></circle>
                             </svg>
                             <div class="percentage">
-                                <p></p>
+                                <span class="material-icons-sharp">
+                                    trending_up
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -172,7 +229,9 @@
                                 <circle cx="38" cy="38" r="36"></circle>
                             </svg>
                             <div class="percentage">
-                                <p th:text="${calculatePreviousDayCountPercentage} + '%'"></p>
+                                <span class="material-icons-sharp">
+                                    rocket_launch
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -188,22 +247,24 @@
                                 <circle cx="38" cy="38" r="36"></circle>
                             </svg>
                             <div class="percentage">
-                                <p th:text="${calculatePreviousDayWeightPercentage} + '%'"></p>
+                                <span class="material-icons-sharp">
+                                    fitness_center
+                                </span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <!-- End of Analyses -->
-
-            <div class="tools">
-                <h1 class="subtitle">計算ツール</h1>
-                <div class="container">
-                    <div class="login-form">
+            <h1 class="toolslogo">Tools<a class="ten">.</a></h1>
+            <div class="Tools">
+                <div class="rmconverter">
+                    <h1 class="subtitle">RM Converter</h1>
+                    <div>
                         <form th:action="@{/usefulltools/content-work-out-top}" method="post" th:object="${RmForm}">
                             <div class="form-group horizontal-row">
                                 <label>使用重量(Kg)</label>
-                                <input type="number" th:field="*{weight}" class="form-control" required>
+                                <input type="number" th:field="*{RmWeight}" class="form-control" required>
                             </div>
                             <div class="form-group horizontal-row">
                                 <label>REP数</label>
@@ -214,15 +275,34 @@
                                 <output th:text="${maxWeight}" class="form-control"></output>
                             </div>
                             <div class="d-grid mb-3">
-                                <button class="btn btn-primary custom-login-button">計算</button>
+                                <button class="btn btn-primary custom-login-button">GO</button>
                             </div>
                         </form>
                     </div>
                 </div>
-
-
+                <div class="bmiconverter">
+                    <h1 class="subtitle">BMI Converter</h1>
+                    <div>
+                        <form th:action="@{/usefulltools/content-work-out-top}" method="post" th:object="${BmiForm}">
+                            <div class="form-group horizontal-row">
+                                <label>身長(cm)</label>
+                                <input type="number" th:field="*{hight}" class="form-control" required>
+                            </div>
+                            <div class="form-group horizontal-row">
+                                <label>体重(kg)</label>
+                                <input type="number" th:field="*{BmiWeight}" class="form-control" required>
+                            </div>
+                            <div class="form-group horizontal-row">
+                                <label>BMI</label>
+                                <output th:text="${bmi}" class="form-control"></output>
+                            </div>
+                            <div class="d-grid mb-3">
+                                <button class="btn btn-primary custom-login-button">GO</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-
 
         </main>
 
