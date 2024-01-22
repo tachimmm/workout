@@ -41,7 +41,7 @@ public class WorkOut {
 
         if (username != null) {
 
-            List<RecodeInfo> LastList = recodeService.findLatesRecodeInfo(getCurrentUsername());
+            List<RecodeInfo> LastList = recodeService.findLatesRecodeInfo(username);
             List<RecodeInfo> itemlist = recodeService.findByUsername(username);
 
             double totalWeight = Analytics.calculateTotalWeight(itemlist);

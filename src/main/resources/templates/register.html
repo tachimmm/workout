@@ -52,7 +52,7 @@
       background-color: #0056b3;
     }
 
-    p{
+    p {
       color: #374151;
       font-size: small;
     }
@@ -61,10 +61,6 @@
       background-color: orange;
       border-color: orange;
     }
-    span {
-      color: red;
-    }
-    
   </style>
 </head>
 
@@ -73,10 +69,9 @@
     <div class="row mt-5">
       <div class="col-md-6 mx-auto">
         <div class="login-form">
-            <h2 class="text-center p-5">ユーザー登録</h2>
-            <span th:text="${errorMsg}"></span>
-            <div><a th:href="@{/usefulltools/login}">ログインはこちら</a></div>        
-            <form th:action="@{/usefulltools/register-s}" method="post" th:object="${registerForm}">
+          <h2>ユーザー登録</h2>
+          <span th:text="${errorMsg}"></span>
+          <form th:action="@{/usefulltools/register-s}" method="post" th:object="${registerForm}">
             <div class="form-group">
               <label for="loginId">ユーザーID</label>
               <input type="text" class="form-control" th:field="*{loginId}" id="loginId" required>
@@ -94,6 +89,16 @@
               <button class="btn btn-primary custom-login-button">登録</button>
             </div>
           </form>
+          <div >
+            <a th:href="@{/usefulltools/content-work-out-top}">
+              <span class="material-icons-sharp">
+                Top
+              </span>
+            </a>
+          </div>
+          <div style="text-align: right;">
+            <a th:href="@{/usefulltools/login}">ログインはこちら</a>
+          </div>
         </div>
       </div>
     </div>

@@ -49,7 +49,7 @@
         }
 
         .subtitle {
-            margin: 30px;
+            margin-top: 30px;
         }
 
         .horizontal-row {
@@ -79,7 +79,7 @@
             margin-top: 20px;
         }
 
-        .faq {
+        .info{
             display: flex;
             flex-direction: column;
             /* 子要素を縦に配置するための設定 */
@@ -93,6 +93,11 @@
             gap: 0.1rem;
             cursor: pointer;
             transition: all 0.3s ease;
+            
+        }
+
+        .info a{
+            font-size: 20px;
         }
     </style>
 
@@ -228,18 +233,11 @@
             <!-- End of Analyses -->
 
             <div class="tools">
-                <h1 class="subtitle">FAQ</h1>
+                <h1 class="subtitle">INFO</h1>
                 <div class="help">
-                    <div class="faq">
-                        <h2>どんな機能がありますか？</h2>
-                        <p>Scheduleにいつどの部位をトレーニングするか。Recordにどの部位を重量・REP数でトレーニングしたかなど記録することができます。</p>
-                        <p>また、Dashboardの計算機から重量×REP数から最大挙上重量を算出することができます。</p>
-                        <h2>RM換算機とはなんですか？</h2>
-                        <p>重量×REP数から最大挙上重量を算出することができます。</p>
-                        <h2>アカウント削除はどこからできますか？</h2>
-                        <a th:href="@{/usefulltools/AccountDelete}">ここをクリックすると削除ページに移動します。</a>
-                        <h2>パスワードを忘れました</h2>
-                        <p>パスワードを忘れると再設定できません。もう一度アカウントを作り直してください。そのうち実装します</p>
+                    <div class="info">
+                        <a th:href="@{/usefulltools/register}">アカウント登録はこちらをクリック</a>
+                        <a th:href="@{/usefulltools/AccountDelete}">アカウント削除はこちらをクリック</a>
                     </div>
                 </div>
 

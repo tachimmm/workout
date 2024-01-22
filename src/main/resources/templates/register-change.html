@@ -57,14 +57,12 @@
       border-color: orange;
     }
 
-    p{
+    p {
       color: #374151;
       font-size: small;
     }
-    
-    span {
-      color: red;
-    }
+
+ 
   </style>
 </head>
 
@@ -98,6 +96,16 @@
               <button class="btn btn-primary custom-login-button">変更</button>
             </div>
           </form>
+          <div>
+            <a th:href="@{/usefulltools/content-work-out-top}">
+              <span class="material-icons-sharp">
+                Top
+              </span>
+            </a>
+          </div>
+          <div style="text-align: right;">
+            <a th:href="@{/usefulltools/login}">ログインはこちら</a>
+          </div>
         </div>
       </div>
     </div>

@@ -22,7 +22,7 @@ public interface RecodeRepository extends JpaRepository<RecodeInfo, Long> {
         List<RecodeInfo> findByUsernameAndDateColumn(@Param("username") String username,
                         @Param("date_column") String date_column);
 
-        @Query("SELECT r FROM RecodeInfo r ORDER BY r.date_column DESC")
+        @Query("SELECT r FROM RecodeInfo r WHERE r.username = :username ORDER BY r.date_column DESC")
         List<RecodeInfo> findByUsernameAndLastDate(@Param("username") String username);
 
         void deleteByUsername(@Param("username") String username);

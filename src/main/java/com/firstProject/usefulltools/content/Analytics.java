@@ -126,7 +126,7 @@ public class Analytics { // 様々なデータを計算しているクラス
 
     public static long caculatefromday(List<RecodeInfo> LastList) { // 最後のトレーニング日からの経過日数を取得
 
-        if (LastList.isEmpty()) {
+        if (LastList == null || LastList.isEmpty()) {
             return 0; // もしくはエラーハンドリングの方法に応じて適切な値を返す
         }
 

@@ -16,6 +16,28 @@
 </head>
 
 <body>
+    <style>
+        .user-list {
+            display: flex;
+            flex-direction: column;
+            /* 子要素を縦に配置するための設定 */
+            align-items: center;
+            /* 子要素を中央に配置するための設定 */
+            background-color: var(--color-white);
+            padding: var(--card-padding);
+            border-radius: var(--card-border-radius);
+            margin-top: 1rem;
+            box-shadow: var(--box-shadow);
+            gap: 0.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .recodelistlogo{
+            margin-top: 30px;
+            font-size: 30px;
+        }
+    </style>
 
     <div class="container">
         <!-- Sidebar Section -->
@@ -138,9 +160,9 @@
                 </div>
             </div>
             <!-- End of Analyses -->
-
+            <h2 class="recodelistlogo">Recode List</h2>
             <div class="user-list">
-                <h2>Recode List</h2>
+
                 <div class="float-end">
                     <a th:href="@{RecodeAdd}" class="btn btn-primary">新規記録</a>
                     <a th:href="@{RecodeSearch}" class="btn btn-primary">検索</a>
