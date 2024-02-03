@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import com.firstProject.usefulltools.entity.RecodeInfo;
 import com.firstProject.usefulltools.form.BmiForm;
+import com.firstProject.usefulltools.form.PfcForm;
 import com.firstProject.usefulltools.form.RmForm;
 import com.firstProject.usefulltools.service.RecodeService;
 
@@ -62,7 +63,7 @@ public class Analytics { // 様々なデータを計算しているクラス
 
         for (RecodeInfo info : itemlist) {
             if (yearAndMonthAndDay().equals(info.getDate_column()))
-                alllWeight += info.getWeight();
+                alllWeight += info.getWeight() * info.getRep();
         }
         return alllWeight;
 
@@ -74,7 +75,7 @@ public class Analytics { // 様々なデータを計算しているクラス
 
         for (RecodeInfo info : itemlist) {
             if (getPreviousYearDay().equals(info.getDate_column()))
-                alllWeight += info.getWeight();
+                alllWeight += info.getWeight() * info.getRep();
         }
         return alllWeight;
 
@@ -103,9 +104,8 @@ public class Analytics { // 様々なデータを計算しているクラス
         // パーセンテージを計算
         if (previousMonthCount == 0) {
             return 0.0; // 前月のデータがない場合、0.0% を返す
-        } else {
-            double percentage = ((currentMonthCount - previousMonthCount) / previousMonthCount) * 100.0;
-            return Math.floor(percentage * 100.0) / 100.0;
+        } else {     
+            return Math.floor(((currentMonthCount - previousMonthCount) / previousMonthCount) * 100.0) ;
             // 小数点以下二桁までの計算として切り捨て
         }
     }
@@ -116,7 +116,7 @@ public class Analytics { // 様々なデータを計算しているクラス
 
         for (RecodeInfo info : itemlist) {
             if (yearAndMonth().equals(info.getDate_column().substring(0, 7)))
-                alllWeight += info.getWeight();
+                alllWeight += info.getWeight() * info.getRep();
         }
         return alllWeight;
     }
@@ -156,13 +156,15 @@ public class Analytics { // 様々なデータを計算しているクラス
 
     public static int calculatepreviousMonthWeight(List<RecodeInfo> itemlist) { // 当月のトータル重量を計算
 
-        int allCount = 0;
+        int alllWeight = 0;
 
         for (RecodeInfo info : itemlist) {
             if (getPreviousYearMonth().equals(info.getDate_column().substring(0, 7)))
-                allCount++;
+                alllWeight += info.getWeight() * info.getRep();
         }
-        return allCount;
+
+        return alllWeight;
+
     }
 
     public static double calculateMonthTotalWeightPercentage(List<RecodeInfo> itemlist) {
@@ -228,7 +230,7 @@ public class Analytics { // 様々なデータを計算しているクラス
         if (previousMonthCount == 0) {
             return 0.0; // 前月のデータがない場合、0% を返す
         } else {
-            return ((double) (currentMonthCount - previousMonthCount) / previousMonthCount) * 100.0;
+            return (int) ((double) (currentMonthCount - previousMonthCount) / previousMonthCount * 100.0);
         }
     }
 
@@ -377,14 +379,84 @@ public class Analytics { // 様々なデータを計算しているクラス
         double weight = bmiForm.getBmiWeight();
         double height = bmiForm.getHight() / 100.0;
         double bmi = 0.0;
-    
+
         if (weight == 0.0 || height == 0.0) {
             bmi = 0.0;
         } else {
             bmi = Math.floor(weight / (height * height)) / 1.0;
         }
-    
+
         return bmi;
-    
+
     }
+
+    public static double basalMetabolismRateCalculator(PfcForm pfcform) {
+        double bmr = 0.0;
+
+        String sex = pfcform.getPfcSex();
+        if (sex != null && sex.equals("男")) {
+            bmr = Math.floor(
+                    (66.5 + pfcform.getPfcWeight() * 13.8 + pfcform.getPfcHight() * 5.0 - pfcform.getPfcAge() * 6.8));
+        } else if (sex != null) {
+            bmr = Math.floor(
+                    (665 + pfcform.getPfcWeight() * 9.6 + pfcform.getPfcHight() * 1.9 - pfcform.getPfcAge() * 4.7));
+        }
+
+        return bmr;
+    }
+
+    public static double totalCalCalculator(PfcForm pfcform) {
+        double totalCal = 0.0;
+        totalCal = Math.floor(basalMetabolismRateCalculator(pfcform) * pfcform.getActivelevel());
+
+        return totalCal;
+    }
+
+    public static double idealBasalMetabolismCalculator(PfcForm pfcform) {
+        double bmr = 0.0;
+
+        String sex = pfcform.getPfcSex();
+        if (sex != null && sex.equals("男")) {
+            bmr = Math.floor((66.5 + (pfcform.getPfcWeight() * 13.8) + (pfcform.getPfcHight() * 5.0)
+                    - (pfcform.getPfcAge() * 6.8))
+                    * pfcform.getActivelevel());
+        } else if (sex != null) {
+            bmr = Math.floor(
+                    (665 + pfcform.getPfcWeight() * 9.6 + pfcform.getPfcHight() * 1.9 - pfcform.getPfcAge() * 4.7)
+                            * pfcform.getActivelevel());
+        }
+
+        return bmr;
+    }
+
+    public static double idealTotalCalCalculator(PfcForm pfcform) {
+        double idealTotalCal = 0.0;
+        idealTotalCal = Math.floor(basalMetabolismRateCalculator(pfcform) + totalCalCalculator(pfcform) / 2);
+
+        return idealTotalCal;
+    }
+
+    public static double proteinCalculator(PfcForm pfcform) {
+        double protein = 0.0;
+        protein = Math.floor(pfcform.getPfcWeight() * 1.6);
+
+        return protein;
+    }
+
+    public static double fatCalculator(PfcForm pfcform) {
+        double fat = 0.0;
+
+        fat = Math.floor((0.3 * idealTotalCalCalculator(pfcform)) / 9);
+
+        return fat;
+    }
+
+    public static double carbohydrateCalculator(PfcForm pfcform) {
+        double carbohydrate = 0.0;
+
+        carbohydrate = Math.floor((0.7 * idealTotalCalCalculator(pfcform)) / 4);
+
+        return carbohydrate;
+    }
+
 }

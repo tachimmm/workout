@@ -198,7 +198,8 @@ main {
 
 main .analyse {
 
-    text-align: center; /* テキストを中央揃えにする */
+    text-align: center;
+    /* テキストを中央揃えにする */
 }
 
 main .analyse {
@@ -313,21 +314,6 @@ main .new-calender .calendar-list {
     /* 適切な間隔を設定 */
 }
 
-/* 画面サイズが767px以下の場合（スマートフォンなど） */
-@media screen and (max-width: 767px) {
-    .analyse .status {
-        flex-direction: column;
-        /* カラム方向に変更 */
-        align-items: center;
-        /* 中央揃え */
-    }
-
-    .progresss {
-        margin-top: 10px;
-        /* 必要に応じて余白を調整 */
-    }
-}
-
 /* テーブル全体のスタイル */
 table {
     width: 100%;
@@ -427,4 +413,117 @@ td {
     border-radius: 5px;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2);
     /* フォームに影を追加 */
+}
+
+body {
+    background-color: #f1f3f6;
+}
+
+.login-form {
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+.login-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.login-btn:hover {
+    background-color: #0056b3;
+}
+
+.custom-login-button {
+    background-color: orange;
+    border-color: orange;
+}
+
+
+@media screen and (max-width: 1200px) {
+
+    aside .sidebar a {
+        width: 5.6rem;
+    }
+
+    aside .sidebar a:last-child {
+        position: relative;
+        margin-top: 1.8rem;
+    }
+
+    main .analyse {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    main .new-users .user-list .user {
+        flex-basis: 40%;
+    }
+
+    main .recent-orders {
+        width: 94%;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        margin: 2rem 0 0 0.8rem;
+    }
+
+    main .recent-orders table {
+        width: 83vw;
+    }
+
+}
+
+/* 画面サイズが767px以下の場合（スマートフォンなど） */
+@media screen and (max-width: 700px) {
+
+    .container {
+        width: 95%;
+        grid-template-columns: 5.5rem auto 23rem;
+    }
+
+    .analyse .status {
+        flex-direction: column;
+        /* カラム方向に変更 */
+        align-items: center;
+        /* 中央揃え */
+    }
+
+    aside .logo h2 {
+        display: none;
+    }
+
+    aside .sidebar h3 {
+        display: none;
+    }
+
+    .progresss {
+        margin-top: 10px;
+        /* 必要に応じて余白を調整 */
+    }
+
+
 }

@@ -38,14 +38,17 @@
             gap: 0.1rem;
             cursor: pointer;
             transition: all 0.3s ease;
+            overflow-y: auto;
+            max-height: 400px;
+            /* 適切な高さを設定してください */
         }
 
-        .recodelistlogo{
+        .recodelistlogo {
             margin-top: 30px;
             font-size: 30px;
         }
     </style>
-    
+
     <div class="container">
         <!-- Sidebar Section -->
         <aside>
@@ -169,7 +172,7 @@
             <!-- End of Analyses -->
             <h2 class="recodelistlogo">Recode List</h2>
             <div class="user-list">
-                
+
                 <div class="float-end">
                     <a th:href="@{ScheduleAdd}" class="btn btn-primary">予定を追加</a>
                     <a th:href="@{content-work-out-ScheduleCalender}" class="btn btn-primary">カレンダー</a>

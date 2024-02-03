@@ -20,6 +20,32 @@
 
 <body>
 
+    <style>
+        .user-list {
+            display: flex;
+            flex-direction: column;
+            /* 子要素を縦に配置するための設定 */
+            align-items: center;
+            /* 子要素を中央に配置するための設定 */
+            background-color: var(--color-white);
+            padding: var(--card-padding);
+            border-radius: var(--card-border-radius);
+            margin-top: 1rem;
+            box-shadow: var(--box-shadow);
+            gap: 0.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            overflow-y: auto;
+            max-height: 400px;
+
+        }
+
+        .recodelistlogo {
+            margin-top: 30px;
+            font-size: 30px;
+        }
+    </style>
+
     <div class="container">
         <!-- Sidebar Section -->
         <aside>
@@ -96,7 +122,9 @@
                                 <circle cx="38" cy="38" r="36"></circle>
                             </svg>
                             <div class="percentage">
-                                <p></p>
+                                <span class="material-icons-sharp">
+                                    trending_up
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -112,7 +140,9 @@
                                 <circle cx="38" cy="38" r="36"></circle>
                             </svg>
                             <div class="percentage">
-                                <p th:text="${calculatePreviousDayCountPercentage} + '%'"></p>
+                                <span class="material-icons-sharp">
+                                    rocket_launch
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -128,7 +158,9 @@
                                 <circle cx="38" cy="38" r="36"></circle>
                             </svg>
                             <div class="percentage">
-                                <p th:text="${calculatePreviousDayWeightPercentage} + '%'"></p>
+                                <span class="material-icons-sharp">
+                                    fitness_center
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -136,26 +168,27 @@
             </div>
             <!-- End of Analyses -->
 
-            <div class="user-list">
-                <h2>Recode List</h2>
-                <div class="float-end">
+            <h2 class="recodelistlogo">Recode List</h2>
+            <div class="float-end">
+                <form th:action="@{/usefulltools/RecodeSearch}" method="post" th:object="${RecodeSearchForm}">
+                    <label for="item">部位</label>
+                    <select class="form-control" id="item" name="item">
+                        <option value="背中">背中</option>
+                        <option value="肩">肩</option>
+                        <option value="腕">腕</option>
+                        <option value="胸">胸</option>
+                        <option value="腹筋">腹筋</option>
+                        <option value="脚">脚</option>
+                        <option value="">なし</option>
+                    </select>
+                    <label>日付</label>
+                    <input type="date" name="date_column">
+                    <button class="btn btn-primary">検索</button>
                     <a th:href="@{RecodeAdd}" class="btn btn-primary">新規記録</a>
-                    <form th:action="@{/usefulltools/RecodeSearch}" method="post" th:object="${RecodeSearchForm}">
-                        <label for="item">部位</label>
-                        <select class="form-control" id="item" name="item">
-                            <option value="背中">背中</option>
-                            <option value="肩">肩</option>
-                            <option value="腕">腕</option>
-                            <option value="胸">胸</option>
-                            <option value="腹筋">腹筋</option>
-                            <option value="脚">脚</option>
-                            <option value="">なし</option>
-                        </select>
-                        <label>日付</label>
-                        <input type="date" name="date_column">
-                        <button class="btn btn-primary custom-login-button">検索</button>
-                    </form>
-                </div>
+                </form>
+            </div>
+            <div class="user-list">
+              
                 <div></div>
                 <table class="table-striped">
                     <thead>
@@ -185,12 +218,13 @@
                             </td>
                             <td>
                                 <form th:action="@{/usefulltools/RecodeDelete}" method="post">
-                                    <input type="submit" class="btn btn-primary custom-login-button" name="delete" value="削除">
+                                    <input type="submit" class="btn btn-primary custom-login-button" name="delete"
+                                        value="削除">
                                     <input type="hidden" name="id" th:value="${user.save_id}">
                                 </form>
                             </td>
                         </tr>
-                        
+
                     </tbody>
 
                 </table>

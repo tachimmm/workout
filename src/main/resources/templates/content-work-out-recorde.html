@@ -31,9 +31,12 @@
             gap: 0.1rem;
             cursor: pointer;
             transition: all 0.3s ease;
+            overflow-y: auto;
+            max-height: 600px;
+            
         }
 
-        .recodelistlogo{
+        .recodelistlogo {
             margin-top: 30px;
             font-size: 30px;
         }
@@ -161,12 +164,11 @@
             </div>
             <!-- End of Analyses -->
             <h2 class="recodelistlogo">Recode List</h2>
+            <div class="float-end">
+                <a th:href="@{RecodeAdd}" class="btn btn-primary">新規記録</a>
+                <a th:href="@{RecodeSearch}" class="btn btn-primary">検索</a>
+            </div>
             <div class="user-list">
-
-                <div class="float-end">
-                    <a th:href="@{RecodeAdd}" class="btn btn-primary">新規記録</a>
-                    <a th:href="@{RecodeSearch}" class="btn btn-primary">検索</a>
-                </div>
                 <table class="table-striped">
                     <thead>
                         <tr>
@@ -195,7 +197,7 @@
                             </td>
                             <td>
                                 <form th:action="@{/usefulltools/RecodeDelete}" method="post">
-                                    <input type="submit" class="btn btn-primary" name="delete" value="削除">
+                                    <input type="submit" class="btn btn-primary custom-login-button" name="delete" value="削除">
                                     <input type="hidden" name="id" th:value="${user.save_id}">
                                 </form>
                             </td>

@@ -13,6 +13,7 @@ import com.firstProject.usefulltools.content.UrlConst;
 import com.firstProject.usefulltools.entity.RecodeInfo;
 import com.firstProject.usefulltools.form.RmForm;
 import com.firstProject.usefulltools.form.BmiForm;
+import com.firstProject.usefulltools.form.PfcForm;
 import com.firstProject.usefulltools.service.RecodeService;
 import org.springframework.ui.Model;
 
@@ -32,12 +33,17 @@ public class WorkOut {
     }
 
     @RequestMapping(UrlConst.WORKOUTTOP)
-    public String topPage(Model model, RmForm rmForm, BmiForm bmiForm) {
+    public String topPage(Model model, RmForm rmForm, BmiForm bmiForm, PfcForm pfcForm) {
 
         String username = getCurrentUsername();
         double maxWeight = Analytics.rmExchange(rmForm);
-        double Bmi=Analytics.bmiConverter(bmiForm);
-        
+        double Bmi = Analytics.bmiConverter(bmiForm);
+        double basalMetabolismRate = Analytics.basalMetabolismRateCalculator(pfcForm);
+        double idealBasalMetabolism = Analytics.idealBasalMetabolismCalculator(pfcForm);
+        double totalCal = Analytics.totalCalCalculator(pfcForm);
+        double fat = Analytics.fatCalculator(pfcForm);
+        double protein = Analytics.proteinCalculator(pfcForm);
+        double carbohydrate = Analytics.carbohydrateCalculator(pfcForm);
 
         if (username != null) {
 
@@ -58,9 +64,16 @@ public class WorkOut {
             model.addAttribute("dayfromday", dayfromday);
             model.addAttribute("RmForm", rmForm);
             model.addAttribute("BmiForm", bmiForm);
+            model.addAttribute("PfcForm", pfcForm);
             model.addAttribute("maxWeight", maxWeight);
+            model.addAttribute("basalMetabolismRate", basalMetabolismRate);
+            model.addAttribute("idealBasalMetabolism", idealBasalMetabolism);
+            model.addAttribute("totalCal", totalCal);
+            model.addAttribute("fat", fat);
+            model.addAttribute("protein", protein);
+            model.addAttribute("carbohydrate", carbohydrate);
             model.addAttribute("bmi", Bmi);
-            
+
         } else {
             model.addAttribute("calculatePreviousDayCountPercentage", "0");
             model.addAttribute("username", "ゲスト");
@@ -70,14 +83,19 @@ public class WorkOut {
             model.addAttribute("username", username);
             model.addAttribute("RmForm", rmForm);
             model.addAttribute("BmiForm", bmiForm);
+            model.addAttribute("PfcForm", pfcForm);
             model.addAttribute("maxWeight", maxWeight);
             model.addAttribute("bmi", Bmi);
+            model.addAttribute("basalMetabolismRate", basalMetabolismRate);
+            model.addAttribute("idealBasalMetabolism", idealBasalMetabolism);
+            model.addAttribute("totalCal", totalCal);
+            model.addAttribute("fat", fat);
+            model.addAttribute("protein", protein);
+            model.addAttribute("carbohydrate", carbohydrate);
         }
 
         return "content-work-out-top";
     }
-
-    
 
     @GetMapping(UrlConst.help)
     public String helpview(Model model) {
@@ -101,7 +119,7 @@ public class WorkOut {
             model.addAttribute("yearAndMonthAndDay", yearAndMonthAndDay);
             model.addAttribute("dayfromday", dayfromday);
             model.addAttribute("username", username);
-    
+
         } else {
             model.addAttribute("calculatePreviousDayCountPercentage", "0");
             model.addAttribute("username", "ゲスト");
