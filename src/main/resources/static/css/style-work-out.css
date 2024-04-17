@@ -501,7 +501,7 @@ body {
 @media screen and (max-width: 700px) {
 
     .container {
-        width: 95%;
+        width: 170%;
         grid-template-columns: 5.5rem auto 23rem;
     }
 

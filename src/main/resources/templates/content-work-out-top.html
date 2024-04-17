@@ -10,6 +10,7 @@
 </head>
 
 <body>
+    <script src="/js/calculate.js"></script>
     <style>
         .form-control {
             border: 2px solid #ccc;
@@ -99,15 +100,14 @@
             width: 70%;
             box-sizing: border-box;
             text-align: center;
-            
+
         }
 
         .horizontal-row input,
         .horizontal-row output {
-           font-size: 30px;
-           
-        }
+            font-size: 30px;
 
+        }
     </style>
 
     <div class="container">
@@ -247,24 +247,18 @@
                         <div class="rmconverter">
                             <h1 class="subtitle">RM</h1>
                             <div>
-                                <form th:action="@{/usefulltools/content-work-out-top}" method="post"
-                                    th:object="${RmForm}">
-                                    <div class="form-group horizontal-row">
-                                        <label>使用重量(Kg)</label>
-                                        <input type="number" th:field="*{RmWeight}" class="form-control" required>
-                                    </div>
-                                    <div class="form-group horizontal-row">
-                                        <label>REP数</label>
-                                        <input type="number" th:field="*{rep}" class="form-control" required>
-                                    </div>
-                                    <div class="form-group horizontal-row">
-                                        <label>最大重量(Kg)</label>
-                                        <output th:text="${maxWeight}" class="form-control"></output>
-                                    </div>
-                                    <div class="d-grid mb-3">
-                                        <button class="btn btn-primary custom-login-button">GO</button>
-                                    </div>
-                                </form>
+                                <div class="form-group horizontal-row">
+                                    <label>使用重量(Kg)</label>
+                                    <input id="useweightInput" type="number" step="any" class="form-control" required>
+                                </div>
+                                <div class="form-group horizontal-row">
+                                    <label>REP数</label>
+                                    <input id="repInput" type="number" step="any" class="form-control" required>
+                                </div>
+                                <div class="form-group horizontal-row">
+                                    <label>最大重量(Kg)</label>
+                                    <output id="rmOutput" class="form-control">0.0</output>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -274,24 +268,18 @@
                         <div class="bmiconverter">
                             <h1 class="subtitle">BMI</h1>
                             <div>
-                                <form th:action="@{/usefulltools/content-work-out-top}" method="post"
-                                    th:object="${BmiForm}">
-                                    <div class="form-group horizontal-row">
-                                        <label>身長(cm)</label>
-                                        <input type="number" step="any" th:field="*{hight}" class="form-control" required>
-                                    </div>
-                                    <div class="form-group horizontal-row">
-                                        <label>体重(kg)</label>
-                                        <input type="number" step="any" th:field="*{BmiWeight}" class="form-control" required>
-                                    </div>
-                                    <div class="form-group horizontal-row">
-                                        <label>BMI</label>
-                                        <output th:text="${bmi}" class="form-control"></output>
-                                    </div>
-                                    <div class="d-grid mb-3">
-                                        <button class="btn btn-primary custom-login-button">GO</button>
-                                    </div>
-                                </form>
+                                <div class="form-group horizontal-row">
+                                    <label>身長(cm)</label>
+                                    <input id="heightInput" type="number" step="any" class="form-control" required>
+                                </div>
+                                <div class="form-group horizontal-row">
+                                    <label>体重(kg)</label>
+                                    <input id="weightInput" type="number" step="any" class="form-control" required>
+                                </div>
+                                <div class="form-group horizontal-row">
+                                    <label>BMI</label>
+                                    <output id="bmiOutput" class="form-control">0.0</output>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -304,83 +292,75 @@
                         <div class="pfcconverter">
                             <h1 class="subtitle">PFC</h1>
                             <div>
-                                <form th:action="@{/usefulltools/content-work-out-top}" method="post"
-                                    th:object="${PfcForm}">
-                                    <div class="form-group horizontal-row">
-                                        <label>性別</label>
-                                        <select th:field="*{pfcSex}" class="form-control" id="age" required>
-                                            <option value="男">男</option>
-                                            <option value="女">女</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group horizontal-row">
-                                        <label>体重(kg)</label>
-                                        <input type="number" step="any" th:field="*{pfcWeight}" class="form-control" required>
-                                    </div>
-                                    <div class="form-group horizontal-row">
-                                        <label>身長</label>
-                                        <input type="number" step="any" th:field="*{pfcHight}" class="form-control" required>
-                                    </div>
-                                    <div class="form-group horizontal-row">
-                                        <label>年齢</label>
-                                        <input type="number" th:field="*{pfcAge}" class="form-control" required>
-                                    </div>
-                                    <div class="form-group horizontal-row">
-                                        <label>活動量</label>
-                                        <select th:field="*{activelevel}" class="form-control" id="age" required>
-                                            <option value="1.3">強度Ⅰ.日常生活以外で体を動かす運動をしない。仕事もワークデスクなど。</option>
-                                            <option value="1.5">強度Ⅱ.通勤通学などで歩くことがある。また、通勤通学、仕事、家事などで立っていることが多い。</option>
-                                            <option value="1.7">強度Ⅲ.仕事は常に体を動かしている。週2.3日トレーニングをしている。</option>
-                                            <option value="1.9">強度Ⅳ.毎日トレーニングをしている。仕事は重いものを運んだりで常に体を動かしている。</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group horizontal-row">
-                                        <label>目的</label>
-                                        <select th:field="*{purpose}" class="form-control" id="purpose" required>
-                                            <option value="1.3">減量</option>
-                                            <option value="1.5">維持</option>
-                                            <option value="1.7">増量</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group horizontal-row">
-                                        <label>基礎代謝</label>
-                                        <output th:text="${basalMetabolismRate}" class="form-control"></output>
-                                    </div>
-                                    <div class="form-group horizontal-row">
-                                        <label>基礎消費カロリー</label>
-                                        <output th:text="${idealBasalMetabolism}" class="form-control"></output>
-                                    </div>
-                                    <div class="form-group horizontal-row">
-                                        <label>摂取カロリー</label>
-                                        <output th:text="${totalCal}" class="form-control"></output>
-                                    </div>
-                                    <div class="form-group horizontal-row">
-                                        <label>タンパク質</label>
-                                        <output th:text="${protein}" class="form-control"></output>
-                                    </div>
-                                    <div class="form-group horizontal-row">
-                                        <label>脂質</label>
-                                        <output th:text="${fat}" class="form-control"></output>
-                                    </div>
-                                    <div class="form-group horizontal-row">
-                                        <label>炭水化物</label>
-                                        <output th:text="${carbohydrate}" class="form-control"></output>
-                                    </div>
-                                    <div class="d-grid mb-3">
-                                        <button class="btn btn-primary custom-login-button">GO</button>
-                                    </div>
-                                </form>
+                                <div class="form-group horizontal-row">
+                                    <label>性別</label>
+                                    <select id="pfcSexInput" class="form-control" required>
+                                        <option value="男">男</option>
+                                        <option value="女">女</option>
+                                    </select>
+                                </div>
+                                <div class="form-group horizontal-row">
+                                    <label>体重(kg)</label>
+                                    <input type="number" step="any" id="pfcWeightInput" class="form-control" required>
+                                </div>
+                                <div class="form-group horizontal-row">
+                                    <label>身長</label>
+                                    <input type="number" step="any" id="pfcHeightInput" class="form-control" required>
+                                </div>
+                                <div class="form-group horizontal-row">
+                                    <label>年齢</label>
+                                    <input type="number" id="pfcAgeInput" class="form-control" required>
+                                </div>
+                                <div class="form-group horizontal-row">
+                                    <label>活動量</label>
+                                    <select id="activelevelInput" class="form-control" required>
+                                        <option value="1.3">強度Ⅰ.日常生活以外で体を動かす運動をしない。仕事もワークデスクなど。</option>
+                                        <option value="1.5">強度Ⅱ.通勤通学などで歩くことがある。また、通勤通学、仕事、家事などで立っていることが多い。</option>
+                                        <option value="1.7">強度Ⅲ.仕事は常に体を動かしている。週2.3日トレーニングをしている。</option>
+                                        <option value="1.9">強度Ⅳ.毎日トレーニングをしている。仕事は重いものを運んだりで常に体を動かしている。</option>
+                                    </select>
+                                </div>
+                                <div class="form-group horizontal-row">
+                                    <label>目的</label>
+                                    <select id="purposeInput" class="form-control" required>
+                                        <option value="-500">減量</option>
+                                        <option value="0">維持</option>
+                                        <option value="500">増量</option>
+                                    </select>
+                                </div>
+                                <div class="form-group horizontal-row">
+                                    <label>基礎代謝</label>
+                                    <output id="basalMetabolismOutput" class="form-control">0.0</output>
+                                </div>
+                                <div class="form-group horizontal-row">
+                                    <label>摂取カロリー</label>
+                                    <output id="totalCalOutput" class="form-control">0.0</output>
+                                </div>
+                                <div class="form-group horizontal-row">
+                                    <label>タンパク質</label>
+                                    <output id="proteinOutput" class="form-control">0.0</output>
+                                </div>
+                                <div class="form-group horizontal-row">
+                                    <label>脂質</label>
+                                    <output id="fatOutput" class="form-control">0.0</output>
+                                </div>
+                                <div class="form-group horizontal-row">
+                                    <label>炭水化物</label>
+                                    <output id="carbohydrateOutput" class="form-control">0.0</output>
+                                </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
-    </div>
-    </div>
-
-    </main>
+        </main>
 
     </div>
+
+
+
+
 
 </body>
 

@@ -12,7 +12,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import com.firstProject.usefulltools.entity.RecodeInfo;
 import com.firstProject.usefulltools.form.BmiForm;
-import com.firstProject.usefulltools.form.PfcForm;
 import com.firstProject.usefulltools.form.RmForm;
 import com.firstProject.usefulltools.service.RecodeService;
 
@@ -284,7 +283,7 @@ public class Analytics { // 様々なデータを計算しているクラス
     public static double maxDeadLift(List<RecodeInfo> itemlist) { // デットリフトの最高記録
 
         double maxWeight = 0.0;
-        String BenchPress = "デットリフト";
+        String BenchPress = "デッドリフト";
 
         for (RecodeInfo info : itemlist) {
             if (BenchPress.equals(info.getEvent()) && info.getWeight() > maxWeight)
@@ -344,7 +343,7 @@ public class Analytics { // 様々なデータを計算しているクラス
 
         double maxWeight = 0.0;
         long daysBetween = 0;
-        String BenchPress = "デットリフト";
+        String BenchPress = "デッドリフト";
 
         for (RecodeInfo info : itemlist) {
             if (BenchPress.equals(info.getEvent()) && info.getWeight() > maxWeight) {
@@ -390,73 +389,5 @@ public class Analytics { // 様々なデータを計算しているクラス
 
     }
 
-    public static double basalMetabolismRateCalculator(PfcForm pfcform) {
-        double bmr = 0.0;
-
-        String sex = pfcform.getPfcSex();
-        if (sex != null && sex.equals("男")) {
-            bmr = Math.floor(
-                    (66.5 + pfcform.getPfcWeight() * 13.8 + pfcform.getPfcHight() * 5.0 - pfcform.getPfcAge() * 6.8));
-        } else if (sex != null) {
-            bmr = Math.floor(
-                    (665 + pfcform.getPfcWeight() * 9.6 + pfcform.getPfcHight() * 1.9 - pfcform.getPfcAge() * 4.7));
-        }
-
-        return bmr;
-    }
-
-    public static double totalCalCalculator(PfcForm pfcform) {
-        double totalCal = 0.0;
-        totalCal = Math.floor(basalMetabolismRateCalculator(pfcform) * pfcform.getActivelevel());
-
-        return totalCal;
-    }
-
-    public static double idealBasalMetabolismCalculator(PfcForm pfcform) {
-        double bmr = 0.0;
-
-        String sex = pfcform.getPfcSex();
-        if (sex != null && sex.equals("男")) {
-            bmr = Math.floor((66.5 + (pfcform.getPfcWeight() * 13.8) + (pfcform.getPfcHight() * 5.0)
-                    - (pfcform.getPfcAge() * 6.8))
-                    * pfcform.getActivelevel());
-        } else if (sex != null) {
-            bmr = Math.floor(
-                    (665 + pfcform.getPfcWeight() * 9.6 + pfcform.getPfcHight() * 1.9 - pfcform.getPfcAge() * 4.7)
-                            * pfcform.getActivelevel());
-        }
-
-        return bmr;
-    }
-
-    public static double idealTotalCalCalculator(PfcForm pfcform) {
-        double idealTotalCal = 0.0;
-        idealTotalCal = Math.floor(basalMetabolismRateCalculator(pfcform) + totalCalCalculator(pfcform) / 2);
-
-        return idealTotalCal;
-    }
-
-    public static double proteinCalculator(PfcForm pfcform) {
-        double protein = 0.0;
-        protein = Math.floor(pfcform.getPfcWeight() * 1.6);
-
-        return protein;
-    }
-
-    public static double fatCalculator(PfcForm pfcform) {
-        double fat = 0.0;
-
-        fat = Math.floor((0.3 * idealTotalCalCalculator(pfcform)) / 9);
-
-        return fat;
-    }
-
-    public static double carbohydrateCalculator(PfcForm pfcform) {
-        double carbohydrate = 0.0;
-
-        carbohydrate = Math.floor((0.7 * idealTotalCalCalculator(pfcform)) / 4);
-
-        return carbohydrate;
-    }
-
+   
 }

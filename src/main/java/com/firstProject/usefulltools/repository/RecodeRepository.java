@@ -10,15 +10,15 @@ import com.firstProject.usefulltools.entity.RecodeInfo;
 public interface RecodeRepository extends JpaRepository<RecodeInfo, Long> {
         List<RecodeInfo> findByUsername(String username);
 
-        @Query("SELECT r FROM RecodeInfo r WHERE r.username = :username AND r.item = :item AND r.date_column = :date_column")
+        @Query("SELECT r FROM RecodeInfo r WHERE r.username = :username AND r.item = :item AND r.date_column = :date_column ORDER BY r.date_column DESC")
         List<RecodeInfo> findByUsernameAndItemAndDateColumn(@Param("username") String username,
                         @Param("item") String item,
                         @Param("date_column") String date_column);
 
-        @Query("SELECT r FROM RecodeInfo r WHERE r.username = :username AND r.item = :item ")
+        @Query("SELECT r FROM RecodeInfo r WHERE r.username = :username AND r.item = :item ORDER BY r.date_column DESC")
         List<RecodeInfo> findByUsernameAndItem(@Param("username") String username, @Param("item") String item);
 
-        @Query("SELECT r FROM RecodeInfo r WHERE r.username = :username  AND r.date_column = :date_column")
+        @Query("SELECT r FROM RecodeInfo r WHERE r.username = :username  AND r.date_column = :date_column ORDER BY r.date_column DESC")
         List<RecodeInfo> findByUsernameAndDateColumn(@Param("username") String username,
                         @Param("date_column") String date_column);
 
