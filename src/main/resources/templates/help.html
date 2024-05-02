@@ -17,7 +17,7 @@
 
     <title>Training Record</title>
 </head>
-
+<script src="/js/userinterface.js"></script>
 <body>
     <style>
         body {
@@ -168,10 +168,11 @@
             <a th:if="${username != null}">
                 <span th:text="|Welcome,${username}|"></span>
                 <span th:text="|${yearAndMonthAndDay}|"></span>
+                <span id="currentDateTimeNow"></span>
             </a>
             <a th:unless="${username != null}">
                 <span>Welcome,ゲスト</span>
-
+                <span id="currentDateTimeNow"></span>
             </a>
             <!-- Analyses -->
             <div class="analyse">
@@ -240,15 +241,17 @@
                         <a th:href="@{/usefulltools/AccountDelete}">アカウント削除はこちらをクリック</a>
                     </div>
                 </div>
-
-
             </div>
-
-
         </main>
-
+        <div class="right-section">
+            <div class="nav">
+                <button id="menu-btn">
+                    <span class="material-icons-sharp">
+                        menu
+                    </span>
+                </button>
+            </div>
+        </div>
     </div>
-
 </body>
-
 </html>

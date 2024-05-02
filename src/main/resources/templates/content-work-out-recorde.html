@@ -16,6 +16,7 @@
 </head>
 
 <body>
+    <script src="/js/userinterface.js"></script>
     <style>
         .user-list {
             display: flex;
@@ -105,6 +106,7 @@
             <h1>Analytics</h1>
             <span th:text="|Welcome,${username}|"></span>
             <span th:text="|${yearAndMonthAndDay}|"></span>
+            <span id="currentDateTimeNow"></span>
             <!-- Analyses -->
             <div class="analyse">
                 <div class="sales">
@@ -211,6 +213,16 @@
 
 
         </main>
+
+        <div class="right-section">
+            <div class="nav">
+                <button id="menu-btn">
+                    <span class="material-icons-sharp">
+                        menu
+                    </span>
+                </button>
+            </div>
+        </div>
 
     </div>
 

@@ -1,6 +1,7 @@
 package com.firstProject.usefulltools.content;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.HashSet;
@@ -38,6 +39,15 @@ public class Analytics { // 様々なデータを計算しているクラス
 
         return formattedDate;
     }
+
+    public static String currentDateTimeNow(){
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyy-MM-dd HH:mm:ss");
+        String formattedDateTime = currentDateTime.format(formatter);
+
+        return formattedDateTime;
+    }
+    
 
     public static String yearAndMonth() { // 現在の年月取得
 

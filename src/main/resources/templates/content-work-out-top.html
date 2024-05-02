@@ -177,10 +177,11 @@
             <a th:if="${username != null}">
                 <span th:text="|Welcome,${username}|"></span>
                 <span th:text="|${yearAndMonthAndDay}|"></span>
+                <span id="currentDateTimeNow"></span>
             </a>
             <a th:unless="${username != null}">
                 <span>Welcome,ゲスト</span>
-
+                <span id="currentDateTimeNow"></span>
             </a>
             <!-- Analyses -->
             <div class="analyse">
@@ -356,7 +357,15 @@
             </div>
         </main>
 
-    </div>
+        <div class="right-section">
+            <div class="nav">
+                <button id="menu-btn">
+                    <span class="material-icons-sharp">
+                        menu
+                    </span>
+                </button>
+            </div>
+        </div>
 
 
 

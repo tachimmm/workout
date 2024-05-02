@@ -19,7 +19,7 @@
 </head>
 
 <body>
-
+    <script src="/js/userinterface.js"></script>
     <style>
         .user-list {
             display: flex;
@@ -37,7 +37,7 @@
             transition: all 0.3s ease;
             overflow-y: auto;
             max-height: 600px;
-            
+
         }
 
         .recodelistlogo {
@@ -109,6 +109,7 @@
             <h1>Analytics</h1>
             <span th:text="|Welcome,${username}|"></span>
             <span th:text="|${yearAndMonthAndDay}|"></span>
+            <span id="currentDateTimeNow"></span>
             <!-- Analyses -->
             <div class="analyse">
                 <div class="sales">
@@ -188,7 +189,6 @@
                 </form>
             </div>
             <div class="user-list">
-              
                 <div></div>
                 <table class="table-striped">
                     <thead>
@@ -224,15 +224,19 @@
                                 </form>
                             </td>
                         </tr>
-
                     </tbody>
-
                 </table>
-
             </div>
-
         </main>
-
+        <div class="right-section">
+            <div class="nav">
+                <button id="menu-btn">
+                    <span class="material-icons-sharp">
+                        menu
+                    </span>
+                </button>
+            </div>
+        </div>
     </div>
 
 </body>
