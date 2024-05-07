@@ -11,104 +11,7 @@
 
 <body>
     <script src="/js/calculate.js"></script>
-    <style>
-        .form-control {
-            border: 2px solid #ccc;
 
-        }
-
-
-        .custom-login-button {
-            background-color: orange;
-            border-color: orange;
-        }
-
-        .subtitle {
-            margin-bottom: 10px;
-        }
-
-        .horizontal-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .horizontal-row label {
-            width: 80px;
-
-
-        }
-
-        .horizontal-row input {
-            flex: 1;
-
-        }
-
-        .rmconverter {
-            display: flex;
-            flex-direction: column;
-            /* 子要素を縦に配置するための設定 */
-            align-items: center;
-            /* 子要素を中央に配置するための設定 */
-        }
-
-        .bmiconverter {
-            display: flex;
-            flex-direction: column;
-            /* 子要素を縦に配置するための設定 */
-            align-items: center;
-            /* 子要素を中央に配置するための設定 */
-
-        }
-
-        .d-grid {
-            display: grid;
-            place-items: center;
-            /* 中央に配置するための設定 */
-        }
-
-        .Tools {
-            display: flex;
-
-        }
-
-        .toolslogo {
-            font-size: 30px;
-            margin-top: 30px;
-        }
-
-        .toolslogo .ten {
-            color: palevioletred;
-        }
-
-
-        .form-control {
-            border: 1px solid #ccc;
-            border-radius: 50px;
-        }
-
-        .horizontal-row {
-            display: flex;
-            flex-direction: column;
-            margin-bottom: 10px;
-        }
-
-
-        .horizontal-row input,
-        .horizontal-row select,
-        .horizontal-row output {
-            width: 70%;
-            box-sizing: border-box;
-            text-align: center;
-
-        }
-
-        .horizontal-row input,
-        .horizontal-row output {
-            font-size: 30px;
-
-        }
-    </style>
 
     <div class="container">
         <!-- Sidebar Section -->
@@ -185,7 +88,7 @@
             </a>
             <!-- Analyses -->
             <div class="analyse">
-                <div class="sales">
+                <div class="blockA">
                     <div class="status">
                         <div class="info">
                             <h3>前回からの経過日数</h3>
@@ -203,7 +106,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="visits">
+                <div class="blockB">
                     <div class="status">
                         <div class="info">
                             <h3>今日のトータルSET</h3>
@@ -221,7 +124,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="searches">
+                <div class="blockC">
                     <div class="status">
                         <div class="info">
                             <h3>今日のトータル重量</h3>
@@ -243,7 +146,7 @@
             <!-- End of Analyses -->
             <h1 class="toolslogo">Converter Tools<a class="ten">.</a></h1>
             <div class="analyse">
-                <div class="sales">
+                <div class="blockA">
                     <div class="status">
                         <div class="rmconverter">
                             <h1 class="subtitle">RM</h1>
@@ -264,7 +167,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="visits">
+                <div class="blockB">
                     <div class="status">
                         <div class="bmiconverter">
                             <h1 class="subtitle">BMI</h1>
@@ -285,10 +188,9 @@
                         </div>
                     </div>
                 </div>
-
             </div>
             <div class="analyse">
-                <div class="searches">
+                <div class="blockC">
                     <div class="status">
                         <div class="pfcconverter">
                             <h1 class="subtitle">PFC</h1>

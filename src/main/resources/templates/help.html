@@ -14,93 +14,10 @@
     <script th:inline="javascript">
         //var chartData = [[${chartData}]];
     </script>
-
     <title>Training Record</title>
 </head>
 <script src="/js/userinterface.js"></script>
 <body>
-    <style>
-        body {
-            background-color: #f1f3f6;
-        }
-
-        .login-form {
-            max-width: 400px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-control {
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            size: 6px;
-        }
-
-        .custom-login-button {
-            background-color: orange;
-            border-color: orange;
-        }
-
-        .subtitle {
-            margin-top: 30px;
-        }
-
-        .horizontal-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .horizontal-row label {
-            width: 150px;
-
-            margin-right: 10px;
-
-        }
-
-        .horizontal-row input {
-            flex: 1;
-
-        }
-
-        .help a {
-            font-size: 15px;
-            margin: 20px;
-        }
-
-        .help h2 {
-            margin-top: 20px;
-        }
-
-        .info{
-            display: flex;
-            flex-direction: column;
-            /* 子要素を縦に配置するための設定 */
-            align-items: center;
-            /* 子要素を中央に配置するための設定 */
-            background-color: var(--color-white);
-            padding: var(--card-padding);
-            border-radius: var(--card-border-radius);
-            margin-top: 1rem;
-            box-shadow: var(--box-shadow);
-            gap: 0.1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            
-        }
-
-        .info a{
-            font-size: 20px;
-        }
-    </style>
-
     <div class="container">
         <!-- Sidebar Section -->
         <aside>
@@ -176,7 +93,7 @@
             </a>
             <!-- Analyses -->
             <div class="analyse">
-                <div class="sales">
+                <div class="blockA">
                     <div class="status">
                         <div class="info">
                             <h3>前回からの経過日数</h3>
@@ -194,7 +111,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="visits">
+                <div class="blockB">
                     <div class="status">
                         <div class="info">
                             <h3>今日のトータルSET</h3>
@@ -212,7 +129,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="searches">
+                <div class="blockC">
                     <div class="status">
                         <div class="info">
                             <h3>今日のトータル重量</h3>

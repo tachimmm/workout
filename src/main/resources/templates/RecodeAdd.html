@@ -5,57 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" th:href="@{/css/style-work-out-form.css}">
   <title>ログイン</title>
-  <style>
-    body {
-      background-color: #f1f3f6;
-    }
-
-    .login-form {
-      max-width: 400px;
-      margin: 0 auto;
-      background-color: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    }
-
-
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    .form-control {
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-
-    .form-control:focus {
-      border-color: #007bff;
-      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-    }
-
-    .login-btn {
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      padding: 10px 20px;
-      cursor: pointer;
-    }
-
-    .login-btn:hover {
-      background-color: #0056b3;
-    }
-
-    .custom-login-button {
-      background-color: orange;
-      border-color: orange;
-    }
-
-    
-  </style>
 </head>
 
 <body>
@@ -67,7 +18,7 @@
             <span th:text="${errorMsg}"></span>
             <form th:action="@{/usefulltools/RecodeAdd}" method="post" th:object="${RecodeForm}">
                 <div class="form-group">
-              <label for="loginId">日付</label>
+              <label for="date">日付</label>
               <input type="date" class="form-control" th:field="*{date}" id="loginId" required>
             </div>
             <div class="form-group">
@@ -82,26 +33,21 @@
               </select>
           </div>          
             <div class="form-group">
-              <label for="password">種目</label>
-              <input type="text" th:field="*{event}" class="form-control" id="password" required>
+              <label for="event">種目</label>
+              <input type="text" th:field="*{event}" class="form-control" id="event" required>
             </div>
             <div class="form-group">
-                <label for="password">SET</label>
-                <input type="number" th:field="*{set}" class="form-control" id="password" required>
+                <label for="setCount">SET</label>
+                <input type="number" th:field="*{set}" class="form-control" id="setCount" required>
             </div>
             <div class="form-group">
-                <label for="password">重さ(Kg)</label>
-                <input type="number" th:field="*{weight}" class="form-control" id="password" required>
+                <label for="weight">重さ(Kg)</label>
+                <input type="number" th:field="*{weight}" class="form-control" id="weight" required>
               </div>
             <div class="form-group">
-                <label for="confirmPassword">REP</label>
-                <input type="number" th:field="*{rep}" class="form-control" id="password" required>
+                <label for="repCount">REP</label>
+                <input type="number" th:field="*{rep}" class="form-control" id="repCount" required>
             </div>
-            
-              <div th:if="${password != null and confirmPassword != null}">
-                <p th:if="${password != confirmPassword}" class="text-danger">※空欄です。</p>
-            </div>
-            
             <div class="d-grid mb-3">
               <button class="btn btn-primary custom-login-button">登録</button>
             </div>

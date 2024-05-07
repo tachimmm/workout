@@ -252,19 +252,19 @@ main .analyse svg circle {
     transform: translate(5px, 5px);
 }
 
-main .analyse .sales svg circle {
+main .analyse .blockA svg circle {
     stroke: var(--color-success);
     stroke-dashoffset: -10;
     stroke-dasharray: 200;
 }
 
-main .analyse .visits svg circle {
+main .analyse .blockB svg circle {
     stroke: var(--color-danger);
     stroke-dashoffset: -10;
     stroke-dasharray: 200;
 }
 
-main .analyse .searches svg circle {
+main .analyse .blockC svg circle {
     stroke: var(--color-primary);
     stroke-dashoffset: -10;
     stroke-dasharray: 200;
@@ -312,23 +312,6 @@ main .new-calender .calendar-list {
     /* 適切な幅を設定 */
     margin-right: 10px;
     /* 適切な間隔を設定 */
-}
-
-.table-container {
-    overflow-y: auto;
-    /* 垂直方向のスクロールバーを表示 */
-    max-height: 600px;
-    /* コンテナの最大高さを設定 */
-}
-
-th,
-td {
-    padding: 8px;
-    /* セルの内側の余白を設定 */
-    text-align: left;
-    /* 文字を左寄せに設定 */
-    border-bottom: 1px solid #ddd;
-    /* セルの下に境界線を表示 */
 }
 
 
@@ -494,6 +477,127 @@ body {
     display: none;
 }
 
+.form-control {
+    border: 2px solid #ccc;
+
+}
+
+
+.custom-login-button {
+    background-color: orange;
+    border-color: orange;
+}
+
+.subtitle {
+    margin-bottom: 10px;
+}
+
+.horizontal-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.horizontal-row label {
+    width: 80px;
+
+
+}
+
+.horizontal-row input {
+    flex: 1;
+
+}
+
+.rmconverter {
+    display: flex;
+    flex-direction: column;
+    /* 子要素を縦に配置するための設定 */
+    align-items: center;
+    /* 子要素を中央に配置するための設定 */
+}
+
+.bmiconverter {
+    display: flex;
+    flex-direction: column;
+    /* 子要素を縦に配置するための設定 */
+    align-items: center;
+    /* 子要素を中央に配置するための設定 */
+
+}
+
+.d-grid {
+    display: grid;
+    place-items: center;
+    /* 中央に配置するための設定 */
+}
+
+.Tools {
+    display: flex;
+
+}
+
+.toolslogo {
+    font-size: 30px;
+    margin-top: 30px;
+}
+
+.toolslogo .ten {
+    color: palevioletred;
+}
+
+
+.form-control {
+    border: 1px solid #ccc;
+    border-radius: 50px;
+}
+
+.horizontal-row {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+
+.horizontal-row input,
+.horizontal-row select,
+.horizontal-row output {
+    width: 70%;
+    box-sizing: border-box;
+    text-align: center;
+
+}
+
+.horizontal-row input,
+.horizontal-row output {
+    font-size: 30px;
+
+}
+
+.user-list {
+    display: flex;
+    flex-direction: column;
+    /* 子要素を縦に配置するための設定 */
+    align-items: center;
+    /* 子要素を中央に配置するための設定 */
+    background-color: var(--color-white);
+    padding: var(--card-padding);
+    border-radius: var(--card-border-radius);
+    margin-top: 1rem;
+    box-shadow: var(--box-shadow);
+    gap: 0.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow-y: auto;
+    max-height: 600px;
+
+}
+
+.recodelistlogo {
+    margin-top: 30px;
+    font-size: 30px;
+}
+
 @media screen and (max-width: 1200px) {
 
     aside .sidebar a {
@@ -524,6 +628,27 @@ body {
 
     main .recent-orders table {
         width: 83vw;
+    }
+
+    .info{
+        display: flex;
+        flex-direction: column;
+        /* 子要素を縦に配置するための設定 */
+        align-items: center;
+        /* 子要素を中央に配置するための設定 */
+        background-color: var(--color-white);
+        padding: var(--card-padding);
+        border-radius: var(--card-border-radius);
+        margin-top: 1rem;
+        box-shadow: var(--box-shadow);
+        gap: 0.1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        
+    }
+
+    .info a{
+        font-size: 20px;
     }
 
     
@@ -644,4 +769,6 @@ body {
         position: absolute;
         left: 1rem;
     }
+
+    
 }
