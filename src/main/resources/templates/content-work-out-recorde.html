@@ -4,9 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="_csrf" th:content="${_csrf.token}" />
-    <meta name='_csrf'>
-    <meta name='_csrf_header'>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/style-work-out.css}">
 
@@ -16,6 +15,7 @@
 
 <body>
     <script src="/js/userinterface.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <div class="container">
         <!-- Sidebar Section -->
         <aside>
@@ -138,51 +138,79 @@
                 </div>
             </div>
             <!-- End of Analyses -->
-            <h2 class="recodelistlogo">Recode List</h2>
-            <div class="float-end">
-                <a th:href="@{RecodeAdd}" class="btn btn-primary">新規記録</a>
-                <a th:href="@{RecodeSearch}" class="btn btn-primary">検索</a>
-            </div>
-            <div class="user-list">
-                <table class="table-striped">
-                    <thead>
-                        <tr>
-                            <th>日付</th>
-                            <th>部位</th>
-                            <th>種目</th>
-                            <th>SET</th>
-                            <th>重量</th>
-                            <th>REP</th>
-                            <th>削除</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="user : ${itemlist}" th:object="${user}" class="align-middle">
-                            <td th:text="*{date_column}"></td>
-                            <td th:text="*{item}"></td>
-                            <td th:text="*{event}"></td>
-                            <td>
-                                <span th:text="${user.set_column}"></span> set
-                            </td>
-                            <td>
-                                <span th:text="${user.weight}"></span> kg
-                            </td>
-                            <td>
-                                <span th:text="${user.rep}"></span> rep
-                            </td>
-                            <td>
-                                <form th:action="@{/usefulltools/RecodeDelete}" method="post">
-                                    <input type="submit" class="btn btn-primary custom-login-button" name="delete" value="削除">
-                                    <input type="hidden" name="id" th:value="${user.save_id}">
-                                </form>
-                            </td>
-                        </tr>
+            <h1 class="toolslogo">Recode List</h2>
+                <div class="float-end">
+                    <a th:href="@{RecodeAdd}" class="btn btn-primary">新規記録</a>
+                    <a th:href="@{RecodeSearch}" class="btn btn-primary">検索</a>
+                </div>
+                <div class="user-list">
+                    <form action="recodeForm">
+                        <label for="date">日付:</label>
+                        <input type="date" class="form-controlA" id="date" name="date" required>
+                        <label for="item">部位:</label>
+                        <select class="form-controlA" id="item" required name="item">
+                            <option value="背中">背中</option>
+                            <option value="肩">肩</option>
+                            <option value="腕">腕</option>
+                            <option value="胸">胸</option>
+                            <option value="腹筋">腹筋</option>
+                            <option value="脚">脚</option>
+                        </select>
+                        <label for="event">種目</label>
+                        <input type="text" class="form-controlA" id="event" required name="event" value="">
+                        <label for="setCount">SET:</label>
+                        <input type="number" class="form-controlA" id="setCount" required name="set" value="0">
+                        <label for="weight">重さ(Kg):</label>
+                        <input type="number" step="0.1" class="form-controlA" id="weight" required name="weight"
+                            value="0.0">
+                        <label for="repCount">REP:</label>
+                        <input type="number" class="form-controlA" id="repCount" required name="rep" value="0">
+                        <button type="button" class="btn btn-primary custom-login-button"
+                            onclick="submitForm()">登録</button>
+                    </form>
+                </div>
 
-                    </tbody>
+                <div class="user-list">
+                    <table class="table-striped">
+                        <thead>
+                            <tr>
+                                <th>日付</th>
+                                <th>部位</th>
+                                <th>種目</th>
+                                <th>SET</th>
+                                <th>重量</th>
+                                <th>REP</th>
+                                <th>削除</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="user : ${itemlist}" th:object="${user}" class="align-middle">
+                                <td th:text="*{date_column}"></td>
+                                <td th:text="*{item}"></td>
+                                <td th:text="*{event}"></td>
+                                <td>
+                                    <span th:text="${user.set_column}"></span> set
+                                </td>
+                                <td>
+                                    <span th:text="${user.weight}"></span> kg
+                                </td>
+                                <td>
+                                    <span th:text="${user.rep}"></span> rep
+                                </td>
+                                <td>
+                                    <form th:action="@{/usefulltools/RecodeDelete}" method="post">
+                                        <input type="submit" class="btn btn-primary custom-login-button" name="delete"
+                                            value="削除">
+                                        <input type="hidden" name="id" th:value="${user.save_id}">
+                                    </form>
+                                </td>
+                            </tr>
 
-                </table>
+                        </tbody>
 
-            </div>
+                    </table>
+
+                </div>
 
 
         </main>

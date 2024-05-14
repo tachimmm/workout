@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/style-work-out.css}">
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/fullcalendar.css' />
@@ -145,7 +146,7 @@
             <!-- End of Analyses -->
 
             <div class="new-calender">
-                <h2 class="schedulelogo">Schedule</h2>
+                <h1 class="toolslogo">Schedule</h1>
                 <!-- 追加ボタン -->
                 <!-- 予定を追加するためのフォーム -->
                 <div class="float-end">

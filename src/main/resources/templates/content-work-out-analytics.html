@@ -156,7 +156,7 @@
                                 <circle cx="38" cy="38" r="36"></circle>
                             </svg>
                             <div class="percentage">
-                                <p></p>
+                                <p th:text="${calculatePreviousMonthCountPercentage}+'%' "></p>
                             </div>
                         </div>
                     </div>
@@ -222,8 +222,7 @@
                                 <circle cx="38" cy="38" r="36"></circle>
                             </svg>
                             <div class="percentage">
-                                <pt th:text="${lastMaxSquat} + ' 日経過'">
-                                    </p>
+                                <p th:text="${lastMaxSquat} + ' 日経過'"></p>
                             </div>
                         </div>
                     </div>

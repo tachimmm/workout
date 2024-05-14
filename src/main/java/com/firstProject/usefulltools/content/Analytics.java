@@ -78,6 +78,8 @@ public class Analytics { // 様々なデータを計算しているクラス
 
     }
 
+    
+
     public static double calculatePreviousTotalWeight(List<RecodeInfo> itemlist) { // 前日のトータル重量を計算
 
         double alllWeight = 0.0;
@@ -90,31 +92,20 @@ public class Analytics { // 様々なデータを計算しているクラス
 
     }
 
-    public static double calculatePreviousDayCountPercentage(List<RecodeInfo> itemlist) { // 前月比を計算
+    
 
-        double currentMonthCount = caculateTotalCount(itemlist);
-        double previousMonthCount = caculatePreviousTotalCount(itemlist);
-
-        // パーセンテージを計算
-        if (previousMonthCount == 0) {
-            return 0.0; // 前月のデータがない場合、0% を返す
-        } else {
-            return ((double) (currentMonthCount - previousMonthCount) / previousMonthCount) * 100.0;
-        }
-    }
-
-    public static double calculatePreviousMonthWeightPercentage(List<RecodeInfo> itemlist) {
+    public static double calculatePreviousMonthWeightPercentage(List<RecodeInfo> itemlist) { //トータル重量の前月比
         // 現在の月の合計重量を計算
-        double currentMonthCount = calculateTotalWeight(itemlist);
+        double currentMonthCount = calculateMonthTotalWeight(itemlist);
 
         // 前月の合計重量を計算
-        double previousMonthCount = calculatePreviousTotalWeight(itemlist);
+        double previousMonthCount = calculatePreviousMonthTotalWeight(itemlist);
 
         // パーセンテージを計算
         if (previousMonthCount == 0) {
             return 0.0; // 前月のデータがない場合、0.0% を返す
         } else {     
-            return Math.floor(((currentMonthCount - previousMonthCount) / previousMonthCount) * 100.0) ;
+            return (int) ((double) (currentMonthCount - previousMonthCount) / previousMonthCount * 100.0);
             // 小数点以下二桁までの計算として切り捨て
         }
     }
@@ -128,6 +119,16 @@ public class Analytics { // 様々なデータを計算しているクラス
                 alllWeight += info.getWeight() * info.getRep();
         }
         return alllWeight;
+    }
+
+    public static double calculatePreviousMonthTotalWeight(List<RecodeInfo>itemlList){ // 前月のトータル重量
+        double totalWeight = 0;
+        for(RecodeInfo info : itemlList){
+            if (getPreviousYearMonth().equals(info.getDate_column().substring(0,7))) {
+                totalWeight += info.getWeight() * info.getRep();
+            }
+        }
+        return totalWeight;
     }
 
     @Autowired
@@ -152,7 +153,7 @@ public class Analytics { // 様々なデータを計算しているクラス
         return daysBetween;
     }
 
-    public static int caculateTotalCount(List<RecodeInfo> itemlist) { // 当日のトータル重量を取得
+    public static int caculateTotalCount(List<RecodeInfo> itemlist) { // 当日のトータルセットを取得
 
         int allCount = 0;
 
@@ -163,32 +164,7 @@ public class Analytics { // 様々なデータを計算しているクラス
         return allCount;
     }
 
-    public static int calculatepreviousMonthWeight(List<RecodeInfo> itemlist) { // 当月のトータル重量を計算
-
-        int alllWeight = 0;
-
-        for (RecodeInfo info : itemlist) {
-            if (getPreviousYearMonth().equals(info.getDate_column().substring(0, 7)))
-                alllWeight += info.getWeight() * info.getRep();
-        }
-
-        return alllWeight;
-
-    }
-
-    public static double calculateMonthTotalWeightPercentage(List<RecodeInfo> itemlist) {
-        double currentMonthWeight = 100;
-        double previousMonthWeight = 51;
-
-        // パーセンテージを計算
-        if (previousMonthWeight == 0) {
-            return 0.0; // 前月のデータがない場合、0.0% を返す
-        } else {
-            double percentage = ((currentMonthWeight - previousMonthWeight) / previousMonthWeight) * 100.0;
-            return Math.floor(percentage * 100.0) / 1.0;
-            // 小数点以下二桁までの計算として切り捨て
-        }
-    }
+    
 
     public static int caculatePreviousTotalCount(List<RecodeInfo> itemlist) { // 当日のトレーニング回数を計算
 
@@ -230,7 +206,7 @@ public class Analytics { // 様々なデータを計算しているクラス
         return previousMonthDate.format(DateTimeFormatter.ofPattern("yyyy-MM"));
     }
 
-    public static double calculatePreviousMonthPercentage(List<RecodeInfo> itemlist) {
+    public static double calculatePreviousMonthPercentage(List<RecodeInfo> itemlist) {// トータルセットの前月比
 
         int currentMonthCount = calculateMonthTotalCount(itemlist);
         int previousMonthCount = calculatepreviousMonthCount(itemlist);
@@ -262,6 +238,37 @@ public class Analytics { // 様々なデータを計算しているクラス
         }
 
         return count;
+    }
+
+    public static int calculatePreviousTotalTrainingCount(List<RecodeInfo> itemlist) { // 前月のトレーニング回数
+
+        int count = 0;
+        String currentYearAndMonth = getPreviousYearMonth();
+        Set<String> countedDates = new HashSet<>(); // 既にカウントした日付を追跡するためのセット
+
+        for (RecodeInfo info : itemlist) {
+            String dateColumn = info.getDate_column();
+            if (currentYearAndMonth.equals(dateColumn.substring(0, 7))) {
+                String day = dateColumn.substring(8, 10); // 日を取得
+
+                if (!countedDates.contains(day)) {
+                    countedDates.add(day); // 既にカウントした日付をセットに追加
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
+
+    public static double calculatePreviousMonthCountPercentage(List<RecodeInfo> itemlist){ //トレーニング回数の前月比
+        double totalTrainingCount = calculateTotalTrainingCount(itemlist);
+        double totalPreviousTrainingCount = calculatePreviousTotalTrainingCount(itemlist);
+        if (totalPreviousTrainingCount == 0) {
+            return 0.0;
+        }else{
+            return (int) ((double) (totalTrainingCount - totalPreviousTrainingCount) / totalPreviousTrainingCount * 100.0);
+        }
     }
 
     public static double maxBenchPress(List<RecodeInfo> itemlist) { // ベンチプレスの最高記録

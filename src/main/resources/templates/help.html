@@ -17,6 +17,7 @@
     <title>Training Record</title>
 </head>
 <script src="/js/userinterface.js"></script>
+
 <body>
     <div class="container">
         <!-- Sidebar Section -->
@@ -151,12 +152,10 @@
             <!-- End of Analyses -->
 
             <div class="tools">
-                <h1 class="subtitle">INFO</h1>
-                <div class="help">
-                    <div class="info">
-                        <a th:href="@{/usefulltools/register}">アカウント登録はこちらをクリック</a>
-                        <a th:href="@{/usefulltools/AccountDelete}">アカウント削除はこちらをクリック</a>
-                    </div>
+                <h1 class="toolslogo">INFO</h1>
+                <div class="analyse">
+                    <div class="blockA"><a th:href="@{/usefulltools/register}">アカウント登録はこちらをクリック</a></div>
+                    <div class="blockB"><a th:href="@{/usefulltools/AccountDelete}">アカウント削除はこちらをクリック</a></div>
                 </div>
             </div>
         </main>
@@ -171,4 +170,5 @@
         </div>
     </div>
 </body>
+
 </html>

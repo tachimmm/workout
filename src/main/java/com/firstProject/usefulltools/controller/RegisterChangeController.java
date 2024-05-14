@@ -45,8 +45,9 @@ public class RegisterChangeController {
             return "register-change";
         }
 
-        var isCorrectUserAuth = userInfo.isPresent()
-                && passwordEncoder.matches(form.getPassword(), userInfo.get().getPassword());
+        //下記条件を満たせばisCorrectUserAuthに"true"
+        var isCorrectUserAuth = userInfo.isPresent()//userInfoが空でないかどうかをチェック
+                && passwordEncoder.matches(form.getPassword(), userInfo.get().getPassword());//入力されたパスワードがDB内のパスワードと一致するかどうかを確認
 
         if (isCorrectUserAuth) {
             // データベースに新しいパスワードを上書きする処理

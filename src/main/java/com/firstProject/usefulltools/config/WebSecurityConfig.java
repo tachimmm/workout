@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import com.firstProject.usefulltools.content.UrlConst;
 import lombok.RequiredArgsConstructor;
@@ -57,15 +58,17 @@ public class WebSecurityConfig {
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
 		http
+				.csrf(csrf -> csrf
+						.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
 				.authorizeHttpRequests(
-						authorize -> authorize.requestMatchers(UrlConst.NO_AUTHENTICATION).permitAll()
+						authorize -> authorize.requestMatchers(UrlConst.NO_AUTHENTICATION).permitAll()// ←常にアクセス可能
 								.anyRequest().authenticated())
 				.formLogin(
 						login -> login.loginPage(UrlConst.LOGIN) // 自作ログイン画面(Controller)を使うための設定
-								.usernameParameter(USERNAME_PARAMETER) // ユーザ名パラメータのname属性
+								.usernameParameter(USERNAME_PARAMETER) // ユーザ名パラメータのname属性,DBでのusernameに当たる名前今回はlogin_id
 								.defaultSuccessUrl(UrlConst.WORKOUTTOP)); // ログイン成功後のリダイレクトURL
 		http.logout(logout -> {
-			logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
+			logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout"));// ログアウトする処理、セッションを終了する
 		});
 
 		return http.build();

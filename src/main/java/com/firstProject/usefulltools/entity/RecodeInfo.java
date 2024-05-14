@@ -29,6 +29,6 @@ public class RecodeInfo {
 
     private int rep;
 
-    private int weight;
+    private double weight;
 
 }

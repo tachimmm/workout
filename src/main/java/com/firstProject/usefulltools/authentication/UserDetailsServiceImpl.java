@@ -25,9 +25,9 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	 * @throws UsernameNotFoundException
 	 */
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		var userInfo = repository.findById(username)
-				.orElseThrow(() -> new UsernameNotFoundException(username));
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {//ユーザー情報をDBから取得しログイン認証する
+		var userInfo = repository.findById(username)//実際にはusernameに当たるlogin_Idを今回は取得している
+				.orElseThrow(() -> new UsernameNotFoundException(username));//当するユーザー情報が見つからない場合はUsernameNotFoundExceptionをスロー
 
 		return User.withUsername(userInfo.getLoginId())
 				.password(userInfo.getPassword())

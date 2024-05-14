@@ -17,6 +17,6 @@ public class RecodeForm {
 
     private int rep;
 
-    private int weight;
+    private double weight;
 
 }

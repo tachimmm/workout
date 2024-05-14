@@ -47,11 +47,9 @@ public class WorkOut {
 
             double totalWeight = Analytics.calculateTotalWeight(itemlist);
             double totalCount = Analytics.caculateTotalCount(itemlist);
-            double calculatePreviousDayCountPercentage = Analytics.calculatePreviousDayCountPercentage(itemlist);
             String yearAndMonthAndDay = Analytics.yearAndMonthAndDay();
             long dayfromday = Analytics.caculatefromday(LastList);
 
-            model.addAttribute("calculatePreviousDayCountPercentage", calculatePreviousDayCountPercentage);
             model.addAttribute("username", username);
             model.addAttribute("totalWeight", totalWeight);
             model.addAttribute("totalCount", totalCount);
@@ -64,7 +62,6 @@ public class WorkOut {
             model.addAttribute("bmi", Bmi);
 
         } else {
-            model.addAttribute("calculatePreviousDayCountPercentage", "0");
             model.addAttribute("username", "ゲスト");
             model.addAttribute("totalWeight", "0");
             model.addAttribute("totalCount", "0");
@@ -91,11 +88,9 @@ public class WorkOut {
 
             double totalWeight = Analytics.calculateTotalWeight(itemlist);
             double totalCount = Analytics.caculateTotalCount(itemlist);
-            double calculatePreviousDayCountPercentage = Analytics.calculatePreviousDayCountPercentage(itemlist);
             String yearAndMonthAndDay = Analytics.yearAndMonthAndDay();
             long dayfromday = Analytics.caculatefromday(LastList);
 
-            model.addAttribute("calculatePreviousDayCountPercentage", calculatePreviousDayCountPercentage);
             model.addAttribute("username", username);
             model.addAttribute("totalWeight", totalWeight);
             model.addAttribute("totalCount", totalCount);
@@ -104,7 +99,6 @@ public class WorkOut {
             model.addAttribute("username", username);
 
         } else {
-            model.addAttribute("calculatePreviousDayCountPercentage", "0");
             model.addAttribute("username", "ゲスト");
             model.addAttribute("totalWeight", "0");
             model.addAttribute("totalCount", "0");

@@ -61,9 +61,8 @@ public class WorkOutnalytics {
             double maxSquat = Analytics.maxSquat(itemlist);
             double maxDeadLift = Analytics.maxDeadLift(itemlist);
             double calculatePreviousMonthPercentage = Analytics.calculatePreviousMonthPercentage(itemlist);
-            double calculateMonthTotalWeightPercentage = Analytics.calculateMonthTotalWeightPercentage(itemlist);
-            double calculatePreviousDayCountPercentage = Analytics.calculatePreviousDayCountPercentage(itemlist);
             double calculatePreviousMonthWeightPercentage = Analytics.calculatePreviousMonthWeightPercentage(itemlist);
+            double calculatePreviousMonthCountPercentage = Analytics.calculatePreviousMonthCountPercentage(itemlist);
             int totalCount = Analytics.caculateTotalCount(itemlist);
             int calculateMonthTotalCount = Analytics.calculateMonthTotalCount(itemlist);
             int calculateTotalTrainingCount = Analytics.calculateTotalTrainingCount(itemlist);
@@ -78,9 +77,8 @@ public class WorkOutnalytics {
             model.addAttribute("totalCount", totalCount);
             model.addAttribute("calculateMonthTotalCount", calculateMonthTotalCount);
             model.addAttribute("calculatePreviousMonthPercentage", calculatePreviousMonthPercentage);
-            model.addAttribute("calculateMonthTotalWeightPercentage", calculateMonthTotalWeightPercentage);
-            model.addAttribute("calculatePreviousDayCountPercentage", calculatePreviousDayCountPercentage);
             model.addAttribute("calculatePreviousMonthWeightPercentage", calculatePreviousMonthWeightPercentage);
+            model.addAttribute("calculatePreviousMonthCountPercentage", calculatePreviousMonthCountPercentage);
             model.addAttribute("calculateTotalTrainingCount", calculateTotalTrainingCount);
             model.addAttribute("yearAndMonthAndDay", yearAndMonthAndDay);
             model.addAttribute("maxBenchPress", maxBenchPress);
