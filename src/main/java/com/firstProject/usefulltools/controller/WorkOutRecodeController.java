@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.firstProject.usefulltools.content.Analytics;
 import com.firstProject.usefulltools.entity.RecodeInfo;
 import com.firstProject.usefulltools.form.RecodeForm;
@@ -22,6 +24,39 @@ import com.firstProject.usefulltools.form.RecodeSearchForm;
 @Controller
 
 public class WorkOutRecodeController {
+
+    public class AnalyticsData {
+        private double totalWeight;
+        private double totalCount;
+        private String dayfromday;
+    
+        // Getters and Setters
+        public double getTotalWeight() {
+            return totalWeight;
+        }
+    
+        public void setTotalWeight(double totalWeight) {
+            this.totalWeight = totalWeight;
+        }
+    
+        public double getTotalCount() {
+            return totalCount;
+        }
+    
+        public void setTotalCount(double totalCount) {
+            this.totalCount = totalCount;
+        }
+    
+        public String getDayfromday() {
+            return dayfromday;
+        }
+        
+    
+        public void setDayfromday(String dayfromday) {
+            this.dayfromday = dayfromday;
+        }
+    }
+    
 
     private String getCurrentUsername() {
 
@@ -37,6 +72,43 @@ public class WorkOutRecodeController {
 
     @Autowired
     RecodeService recodeService;
+
+    @GetMapping("/usefulltools/RecodeDataAjax")
+    @ResponseBody
+    public List<RecodeInfo> itemlist(){
+        String username = getCurrentUsername();
+        List<RecodeInfo> itemlist = recodeService.findByUsername(username); 
+        Collections.reverse(itemlist);//リストを逆順にしてからクライアントに送信
+        return itemlist;
+    } 
+
+    @GetMapping("/usefulltools/AnalyticsDataAjax")
+    @ResponseBody
+    public AnalyticsData getAnalyticsDataAjax() {
+        String username = getCurrentUsername();
+        double totalWeight = 0;
+        double totalCount = 0;
+        String dayFromDayStr = ""; 
+
+        if (username != null) {
+            List<RecodeInfo> LastList = recodeService.findLatesRecodeInfo(username);
+            List<RecodeInfo> itemlist = recodeService.findByUsername(username);
+            Collections.reverse(itemlist);
+            
+            totalWeight = Analytics.calculateTotalWeight(itemlist);
+            totalCount = Analytics.caculateTotalCount(itemlist);
+            long dayFromDay = Analytics.caculatefromday(LastList);
+            dayFromDayStr = String.valueOf(dayFromDay); 
+        }
+
+        AnalyticsData analyticsData = new AnalyticsData();
+        analyticsData.setTotalWeight(totalWeight);
+        analyticsData.setTotalCount(totalCount);
+        analyticsData.setDayfromday(dayFromDayStr); 
+
+        return analyticsData;
+    }
+
 
     @GetMapping("/usefulltools/content-work-out-recorde")
     public String WorkOutRecodeView(Model model) {
@@ -63,7 +135,7 @@ public class WorkOutRecodeController {
             model.addAttribute("yearAndMonthAndDay", yearAndMonthAndDay);
             model.addAttribute("dayfromday", dayfromday);
 
-            model.addAttribute("itemlist", itemlist);
+            
 
         }
 
@@ -77,6 +149,7 @@ public class WorkOutRecodeController {
 
         return "RecodeAdd";
     }
+    
 
     @PostMapping("/usefulltools/RecodeAdd")
     public String RecodeAdd(Model model, RecodeForm form) {
@@ -150,7 +223,6 @@ public class WorkOutRecodeController {
     }
 
     @PostMapping("/usefulltools/RecodeDelete")
-
     String delete(@RequestParam Integer id) {
 
         Long longId = Long.valueOf(id);

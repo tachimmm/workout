@@ -25,8 +25,8 @@
         <aside>
             <div class="toggle">
                 <div class="logo">
-                    <img th:src="@{/images/hash-regular-24.png}">
-                    <h2>Work<span class="danger">Out</span></h2>
+                    <img th:src="@{/images/maccho.png}">
+                    <h2>Work<span style="color:purple;">Out</span></h2>
                 </div>
                 <div class="close" id="close-btn">
                     <span class="material-icons-sharp">
@@ -144,7 +144,7 @@
             <!-- End of Analyses -->
 
             <h1 class="toolslogo">Recode List</h1>
-            <div class="float-end">
+            <div class="user-list">
                 <form th:action="@{/usefulltools/RecodeSearch}" method="post" th:object="${RecodeSearchForm}">
                     <label for="item">部位</label>
                     <select class="form-control" id="item" name="item">
@@ -157,7 +157,7 @@
                         <option value="">なし</option>
                     </select>
                     <label>日付</label>
-                    <input type="date" name="date_column">
+                    <input type="date" class="form-controlB" name="date_column">
                     <button class="btn btn-primary">検索</button>
                     <a th:href="@{RecodeAdd}" class="btn btn-primary">新規記録</a>
                 </form>

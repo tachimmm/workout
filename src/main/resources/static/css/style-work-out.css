@@ -453,6 +453,12 @@ td {
     width: 8%;
 }
 
+.form-controlB {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 25%;
+}
+
 .form-controlA:focus {
     border-color: #007bff;
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
