@@ -3,11 +3,10 @@ package com.firstProject.usefulltools.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -32,18 +31,8 @@ public class WorkOutSchedule {
     @Autowired
     private EventInfoRepository eventInfoRepository; // EventInfoRepositoryを使用する
 
-    private String getCurrentUsername() {
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-            return userDetails.getUsername();
-        }
-
-        return null; // 認証されていない場合はnullを返す
-    }
+    @Autowired
+    private SecuritySession securitySession;
 
     @PostMapping("/usefulltools/content-work-out-ScheduleCalender")
     public ResponseEntity<String> createEvent(@RequestBody EventInfo eventInfo) {
@@ -57,13 +46,13 @@ public class WorkOutSchedule {
     @GetMapping("/usefulltools/content-work-out-ScheduleList")
     public String ListView(Model model) {
 
-        String username = getCurrentUsername();
+        String username = securitySession.getUsername();
 
         if (username != null) {
 
             model.addAttribute("username", username);
 
-            List<RecodeInfo> LastList = recodeService.findLatesRecodeInfo(getCurrentUsername());
+            List<RecodeInfo> LastList = recodeService.findLatesRecodeInfo(username);
             List<RecodeInfo> itemlist = recodeService.findByUsername(username);
 
             double totalWeight = Analytics.calculateTotalWeight(itemlist);
@@ -76,10 +65,9 @@ public class WorkOutSchedule {
             model.addAttribute("totalCount", totalCount);
             model.addAttribute("yearAndMonthAndDay", yearAndMonthAndDay);
             model.addAttribute("dayfromday", dayfromday);
-          
 
             List<EventInfo> itemlists = eventService.findByUsername(username);
-
+            Collections.reverse(itemlists);
             model.addAttribute("itemlist", itemlists);
         }
 
@@ -92,11 +80,11 @@ public class WorkOutSchedule {
     @GetMapping("/usefulltools/content-work-out-ScheduleCalender")
     public String WorkOutScheduleCalenderView(Model model) {
 
-        String username = getCurrentUsername();
+        String username = securitySession.getUsername();
 
         if (username != null) {
 
-            List<RecodeInfo> LastList = recodeService.findLatesRecodeInfo(getCurrentUsername());
+            List<RecodeInfo> LastList = recodeService.findLatesRecodeInfo(username);
             List<RecodeInfo> itemlist = recodeService.findByUsername(username);
 
             double totalWeight = Analytics.calculateTotalWeight(itemlist);
@@ -138,7 +126,7 @@ public class WorkOutSchedule {
     @PostMapping("/usefulltools/ScheduleAdd")
     public String ScheduleAdd(Model model, ScheduleForm form) {
 
-        String username = getCurrentUsername();
+        String username = securitySession.getUsername();
         form.setUsername(username); // RecodeFormにusernameをセット
 
         eventService.create(form);
@@ -153,7 +141,7 @@ public class WorkOutSchedule {
         @GetMapping("/fetch-events")
         public List<EventInfo> getAllCalendarEvents() {
 
-            String username = getCurrentUsername();
+            String username = securitySession.getUsername();
 
             return eventInfoRepository.findByUsername(username);
 

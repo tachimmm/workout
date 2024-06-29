@@ -5,6 +5,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+//セッション中のユーザーを取得してくるクラス
 @Component
 public class SecuritySession {
 
@@ -30,3 +31,4 @@ public class SecuritySession {
     
 
 }
+

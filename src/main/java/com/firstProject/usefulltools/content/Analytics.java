@@ -8,28 +8,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import com.firstProject.usefulltools.entity.RecodeInfo;
 import com.firstProject.usefulltools.form.BmiForm;
 import com.firstProject.usefulltools.form.RmForm;
 import com.firstProject.usefulltools.service.RecodeService;
 
 public class Analytics { // 様々なデータを計算しているクラス
-
-    public String getCurrentUsername() { // ログインしているusernameを取ってくる
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
-            return userDetails.getUsername();
-        }
-        return null; // 認証されていない場合はnullを返す
-    }
 
     public static String yearAndMonthAndDay() { // 現在の日付を取得
 

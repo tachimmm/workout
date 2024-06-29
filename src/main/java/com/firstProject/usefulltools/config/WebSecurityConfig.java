@@ -17,9 +17,6 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * Spring Securityカスタマイズクラス
- * 
- * @author ys-fj
- *
  */
 @EnableWebSecurity
 @Configuration
@@ -62,7 +59,7 @@ public class WebSecurityConfig {
 						.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
 				.authorizeHttpRequests(
 						authorize -> authorize.requestMatchers(UrlConst.NO_AUTHENTICATION).permitAll()// ←常にアクセス可能
-								.anyRequest().authenticated())
+								.anyRequest().authenticated())//←ユーザー済みの場合アクセス可能。.requestMatchersで指定したURL以外のURLが対象
 				.formLogin(
 						login -> login.loginPage(UrlConst.LOGIN) // 自作ログイン画面(Controller)を使うための設定
 								.usernameParameter(USERNAME_PARAMETER) // ユーザ名パラメータのname属性,DBでのusernameに当たる名前今回はlogin_id
@@ -76,6 +73,9 @@ public class WebSecurityConfig {
 
 	/**
 	 * Providerのカスタマイズを行い、独自Providerを返却します。
+	 * <li>UserDetailsService</li>
+	 * <li>PasswordEncoder</li>
+	 * ↑↑も記載しないとからの状態になってしまう。
 	 * 
 	 * <p>
 	 * カスタマイズ設定するのは、以下のフィールドになります。

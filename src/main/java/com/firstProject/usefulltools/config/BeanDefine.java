@@ -9,9 +9,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * Bean定義クラス
- * 
- * @author ys-fj
- *
  */
 @Configuration
 public class BeanDefine {

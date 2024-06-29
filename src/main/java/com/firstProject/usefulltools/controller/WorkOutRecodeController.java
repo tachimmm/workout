@@ -5,9 +5,7 @@ import java.util.List;
 import com.firstProject.usefulltools.service.RecodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,18 +55,8 @@ public class WorkOutRecodeController {
         }
     }
     
-
-    private String getCurrentUsername() {
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            return userDetails.getUsername();
-        }
-
-        return null; // 認証されていない場合はnullを返す
-    }
+    @Autowired
+    private SecuritySession securitySession;
 
     @Autowired
     RecodeService recodeService;
@@ -76,7 +64,7 @@ public class WorkOutRecodeController {
     @GetMapping("/usefulltools/RecodeDataAjax")
     @ResponseBody
     public List<RecodeInfo> itemlist(){
-        String username = getCurrentUsername();
+        String username = securitySession.getUsername();
         List<RecodeInfo> itemlist = recodeService.findByUsername(username); 
         Collections.reverse(itemlist);//リストを逆順にしてからクライアントに送信
         return itemlist;
@@ -85,7 +73,7 @@ public class WorkOutRecodeController {
     @GetMapping("/usefulltools/AnalyticsDataAjax")
     @ResponseBody
     public AnalyticsData getAnalyticsDataAjax() {
-        String username = getCurrentUsername();
+        String username = securitySession.getUsername();
         double totalWeight = 0;
         double totalCount = 0;
         String dayFromDayStr = ""; 
@@ -113,13 +101,13 @@ public class WorkOutRecodeController {
     @GetMapping("/usefulltools/content-work-out-recorde")
     public String WorkOutRecodeView(Model model) {
 
-        String username = getCurrentUsername();
+        String username = securitySession.getUsername();
 
         if (username != null) {
 
             model.addAttribute("username", username);
 
-            List<RecodeInfo> LastList = recodeService.findLatesRecodeInfo(getCurrentUsername());
+            List<RecodeInfo> LastList = recodeService.findLatesRecodeInfo(username);
             List<RecodeInfo> itemlist = recodeService.findByUsername(username);
 
             Collections.reverse(itemlist);
@@ -154,7 +142,7 @@ public class WorkOutRecodeController {
     @PostMapping("/usefulltools/RecodeAdd")
     public String RecodeAdd(Model model, RecodeForm form) {
 
-        String username = getCurrentUsername();
+        String username = securitySession.getUsername();
 
         form.setUsername(username); // RecodeFormにusernameをセット
         recodeService.create(form);
@@ -164,7 +152,7 @@ public class WorkOutRecodeController {
 
     @PostMapping("/usefulltools/RecodeAddAjax")
     public ResponseEntity<String> recodeAddAjax(@RequestBody RecodeForm form) {
-        String username = getCurrentUsername();
+        String username = securitySession.getUsername();
         form.setUsername(username); // RecodeFormにusernameをセット
         recodeService.create(form);
         return ResponseEntity.ok("Success");
@@ -173,11 +161,11 @@ public class WorkOutRecodeController {
     @GetMapping("/usefulltools/RecodeSearch")
     public String SearchView(Model model) {
 
-        String username = getCurrentUsername();
+        String username = securitySession.getUsername();
 
         if (username != null) {
 
-            List<RecodeInfo> LastList = recodeService.findLatesRecodeInfo(getCurrentUsername());
+            List<RecodeInfo> LastList = recodeService.findLatesRecodeInfo(username);
             List<RecodeInfo> itemlist = recodeService.findByUsername(username);
 
             double totalWeight = Analytics.calculateTotalWeight(itemlist);
@@ -198,11 +186,11 @@ public class WorkOutRecodeController {
     @PostMapping("usefulltools/RecodeSearch")
     public String Search(Model model, RecodeSearchForm form) {
 
-        String username = getCurrentUsername();
+        String username = securitySession.getUsername();
 
         form.setUsername(username);
         // 検索にヒットするワークアウト情報を取得
-        List<RecodeInfo> LastList = recodeService.findLatesRecodeInfo(getCurrentUsername());
+        List<RecodeInfo> LastList = recodeService.findLatesRecodeInfo(username);
         List<RecodeInfo> itemlist = recodeService.findByUsername(username);
         List<RecodeInfo> itemlists = recodeService.findByUsernameSearch(form);
 

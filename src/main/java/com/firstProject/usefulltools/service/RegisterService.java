@@ -12,9 +12,6 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * ユーザー登録画面Service
- * 
- * @author ys-fj
- * 
  */
 
 @Service
@@ -35,14 +32,15 @@ public class RegisterService {
     public Optional<UserInfo> resistUserInfo(RegisterForm form){
         var userInfoExstedOpt = repository.findById(form.getLoginId());
         if(userInfoExstedOpt.isPresent()){
-            return Optional.empty();
+            return Optional.empty();//ユーザーが既に存在する場合（isPresent() が true の場合）、空の Optional を返します。
         }
 
-        var mapper = new DozerBeanMapper();
+        //存在しなかったらDBへ登録
+        var mapper = new DozerBeanMapper();//registerFormをuserInfoへマッピング
         var userInfo = mapper.map(form, UserInfo.class);
 
-        var encodedPassword = passwordEncoder.encode(form.getPassword());
-        userInfo.setPassword(encodedPassword);
+        var encodedPassword = passwordEncoder.encode(form.getPassword());//registerFormのパスワードをエンコードし格納
+        userInfo.setPassword(encodedPassword);//エンコードしたパスワードをuserInfoにセット
 
         return Optional.of(repository.save(userInfo));
     }

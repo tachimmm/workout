@@ -2,9 +2,6 @@ package com.firstProject.usefulltools.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,19 +20,13 @@ public class WorkOut {
     @Autowired
     private RecodeService recodeService;
 
-    private String getCurrentUsername() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            return userDetails.getUsername();
-        }
-        return null; // 認証されていない場合はnullを返す
-    }
+    @Autowired
+    private SecuritySession securitySession;
 
     @RequestMapping(UrlConst.WORKOUTTOP)
     public String topPage(Model model, RmForm rmForm, BmiForm bmiForm, PfcForm pfcForm) {
 
-        String username = getCurrentUsername();
+        String username = securitySession.getUsername();
         double maxWeight = Analytics.rmExchange(rmForm);
         double Bmi = Analytics.bmiConverter(bmiForm);
 
@@ -79,11 +70,11 @@ public class WorkOut {
 
     @GetMapping(UrlConst.help)
     public String helpview(Model model) {
-        String username = getCurrentUsername();
+        String username = securitySession.getUsername();
 
         if (username != null) {
 
-            List<RecodeInfo> LastList = recodeService.findLatesRecodeInfo(getCurrentUsername());
+            List<RecodeInfo> LastList = recodeService.findLatesRecodeInfo(username);
             List<RecodeInfo> itemlist = recodeService.findByUsername(username);
 
             double totalWeight = Analytics.calculateTotalWeight(itemlist);

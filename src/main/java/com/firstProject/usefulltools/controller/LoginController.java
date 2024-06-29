@@ -12,9 +12,6 @@ import lombok.RequiredArgsConstructor;
 
 /**
  * ログイン画面Controllerクラス
- * 
- * @author ys-fj
- *
  */
 @Controller
 @RequiredArgsConstructor
@@ -45,7 +42,7 @@ public class LoginController {
 	@GetMapping(value = UrlConst.LOGIN, params = "error")
 	public String viewWithError(Model model, LoginForm form) {
 
-		var errorInfo = (Exception) session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+		var errorInfo = (Exception) session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);//Spring securityから渡ってきたエラーメッセージを格納
 		
 		model.addAttribute("errorMsg", errorInfo.getMessage());
 		return "login";

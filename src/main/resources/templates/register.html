@@ -15,15 +15,16 @@
       <div class="col-md-6 mx-auto">
         <div class="login-form">
           <h2>ユーザー登録</h2>
-          <span th:text="${errorMsg}"></span>
+          <span th:text="${errorMsg}" class="error-message"></span>
           <form th:action="@{/usefulltools/register-s}" method="post" th:object="${registerForm}">
             <div class="form-group">
               <label for="userId">ユーザーID</label>
+              <p>6文字以上かつ英数字</p>
               <input type="text" class="form-control" th:field="*{loginId}" id="userId" required>
             </div>
             <div class="form-group">
               <label for="password">パスワード</label>
-              <p>6文字以上かつ、英字と数字を含む必要があります</p>
+              <p>6文字以上かつ英字と数字を含む必要があります</p>
               <input type="password" th:field="*{password}" class="form-control" id="password" required>
             </div>
             <div class="form-group">

@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import com.firstProject.usefulltools.content.UrlConst;
 import com.firstProject.usefulltools.form.LoginForm;
 import com.firstProject.usefulltools.form.RegisterForm;
@@ -35,20 +34,26 @@ public class RegisterController {
     public String register(Model model, RegisterForm form) {
         // ユーザーIDが既に存在するかチェック
 
+        if (form.getLoginId() == null || form.getLoginId().length() < 6 || !form.getLoginId().matches(".*[a-zA-Z].*")
+                || form.getLoginId().matches(".*[\u3040-\u309F].*")) {
+            model.addAttribute("errorMsg", "※ユーザーIDは6文字以上かつ英数字のみ");
+            return "register";
+        }
+
         if (form.getPassword() == null || form.getPassword().length() < 6 || !form.getPassword().matches(".*[a-zA-Z].*")
                 || !form.getPassword().matches(".*\\d.*")) {
-            model.addAttribute("errorMsg", "パスワードは6文字以上かつ、英字と数字を含む必要があります");
+            model.addAttribute("errorMsg", "※パスワードは6文字以上かつ英字と数字を含む必要があります");
             return "register";
         }
 
         if (!form.getPassword().equals(form.getConfirmPassword())) {
-            model.addAttribute("errorMsg", "パスワードと確認用パスワードが一致しません。");
+            model.addAttribute("errorMsg", "※パスワードと確認用パスワードが一致しません。");
             return "register";
         }
 
         var userInfoOpt = service.resistUserInfo(form);
-        if (userInfoOpt.isEmpty()) {
-            model.addAttribute("errorMsg", "このユーザーIDは既に登録されています");
+        if (userInfoOpt.isEmpty()) {//ユーザー情報が存在した場合、service.resistUserInfo(form)から空が返ってくるのでtrueとなる。
+            model.addAttribute("errorMsg", "※このユーザーIDは既に登録されています");
             return "register"; // 登録失敗時は登録画面に戻る
         }
 
