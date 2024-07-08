@@ -20,10 +20,16 @@ import com.firstProject.usefulltools.form.RecodeForm;
 import com.firstProject.usefulltools.form.RecodeSearchForm;
 
 @Controller
-
 public class WorkOutRecodeController {
 
     public class AnalyticsData {
+  
+/**
+ * データの保持: 総重量、総回数、経過日数のデータを保持します。
+ * データのカプセル化: 分析結果に関連する複数のデータを一つのオブジェクトとしてカプセル化します。
+ * データの転送: コントローラからビューへのデータ転送を容易にします。
+ * データの操作: ゲッターとセッターを通じてデータの安全な操作を提供します。
+ */
         private double totalWeight;
         private double totalCount;
         private String dayfromday;
@@ -71,7 +77,7 @@ public class WorkOutRecodeController {
     } 
 
     @GetMapping("/usefulltools/AnalyticsDataAjax")
-    @ResponseBody
+    @ResponseBody//@ResponseBody を使用することで、このオブジェクトは自動的に JSON 形式に変換されてクライアントに返される
     public AnalyticsData getAnalyticsDataAjax() {
         String username = securitySession.getUsername();
         double totalWeight = 0;

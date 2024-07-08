@@ -8,6 +8,10 @@ import org.springframework.stereotype.Component;
 import com.firstProject.usefulltools.repository.UserInfoRepository;
 import lombok.RequiredArgsConstructor;
 
+/*
+ * UserDetailsServiceインターフェースは、ユーザーの認証情報を取得するためのインターフェースです。
+ * このインターフェースを実装することで、Spring Securityの認証処理にユーザー情報を提供することができます。
+ */
 @Component
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {

@@ -375,7 +375,7 @@ public class Analytics { // 様々なデータを計算しているクラス
 
     }
 
-    public static double bmiConverter(BmiForm bmiForm) {
+    public static double bmiConverter(BmiForm bmiForm) {//BMI計算
         double weight = bmiForm.getBmiWeight();
         double height = bmiForm.getHight() / 100.0;
         double bmi = 0.0;

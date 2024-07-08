@@ -35,8 +35,8 @@ public class RegisterService {
             return Optional.empty();//ユーザーが既に存在する場合（isPresent() が true の場合）、空の Optional を返します。
         }
 
-        //存在しなかったらDBへ登録
-        var mapper = new DozerBeanMapper();//registerFormをuserInfoへマッピング
+        //ユーザーが存在しなかったらDBへ登録
+        var mapper = new DozerBeanMapper();//Dozerを使って、registerFormをuserInfoへマッピング
         var userInfo = mapper.map(form, UserInfo.class);
 
         var encodedPassword = passwordEncoder.encode(form.getPassword());//registerFormのパスワードをエンコードし格納

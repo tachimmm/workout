@@ -18,8 +18,8 @@ import lombok.RequiredArgsConstructor;
 /**
  * Spring Securityカスタマイズクラス
  */
-@EnableWebSecurity
-@Configuration
+@EnableWebSecurity//（@Configuration が付いたクラス）Spring Boot アプリケーションで Spring Security を有効にする
+@Configuration//Spring Security の設定を簡単に始めることができる
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 
@@ -75,7 +75,7 @@ public class WebSecurityConfig {
 	 * Providerのカスタマイズを行い、独自Providerを返却します。
 	 * <li>UserDetailsService</li>
 	 * <li>PasswordEncoder</li>
-	 * ↑↑も記載しないとからの状態になってしまう。
+	 * ↑↑も記載しないと空の状態になってしまう。
 	 * 
 	 * <p>
 	 * カスタマイズ設定するのは、以下のフィールドになります。

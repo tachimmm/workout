@@ -17,14 +17,6 @@ public class EventService {
     @Autowired
     EventInfoRepository eventInfoRepository;
 
-
-    public EventService(EventInfoRepository eventInfoRepository) {
-
-        this.eventInfoRepository = eventInfoRepository;
-
-    }
-
-
     public List<EventInfo> getAllCalendarEvents() {
 
         return eventInfoRepository.findAll();

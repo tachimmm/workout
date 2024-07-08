@@ -1,6 +1,5 @@
 package com.firstProject.usefulltools.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,8 +21,12 @@ public class RegisterController {
     private final LoginService loginService;
 
     private final PasswordEncoder passwordEncoder;
+    
+    private final RegisterService registerService;
 
-    private final RegisterService service;
+    private final RecodeService recodeService;
+
+    private final EventService eventService;
 
     @GetMapping(UrlConst.REGISTER)
     public String view(Model model, RegisterForm form) {
@@ -51,7 +54,7 @@ public class RegisterController {
             return "register";
         }
 
-        var userInfoOpt = service.resistUserInfo(form);
+        var userInfoOpt = registerService.resistUserInfo(form);
         if (userInfoOpt.isEmpty()) {//ユーザー情報が存在した場合、service.resistUserInfo(form)から空が返ってくるのでtrueとなる。
             model.addAttribute("errorMsg", "※このユーザーIDは既に登録されています");
             return "register"; // 登録失敗時は登録画面に戻る
@@ -67,15 +70,6 @@ public class RegisterController {
 
         return "AccountDelete";
     }
-
-    @Autowired
-    private final RegisterService registerService;
-
-    @Autowired
-    private final RecodeService recodeService;
-
-    @Autowired
-    private final EventService eventService;
 
     @PostMapping(UrlConst.AccountDelete)
     public String accountDelete(Model model, LoginForm form) {
