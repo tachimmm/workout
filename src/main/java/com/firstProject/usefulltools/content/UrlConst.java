@@ -29,10 +29,11 @@ public class UrlConst {
 
     /**Ajax */
     public static final String RecodeAddAjax = "/usefulltools/RecodeAddAjax";
+    
 
     /**ログイン画面 */
     public static final String [] NO_AUTHENTICATION = {REGISTER,REGISTERS,LOGIN,
-        WORKOUTTOP,WORKOUT,LOGINS,REGISTERCHANGE,help,AccountDelete,RecodeAddAjax,"/css/**", "/js/**","/images/**","/templates/**"} ;
+        WORKOUTTOP,WORKOUT,LOGINS,REGISTERCHANGE,help,AccountDelete,"/css/**", "/js/**","/images/**","/templates/**"} ;
     
 
 

@@ -4,21 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/style-work-out.css}">
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/fullcalendar.css' />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.5.1/fullcalendar.js'></script>
-    <!-- Thymeleafを使用してサーバーサイドからデータを渡す -->
-    <script th:inline="javascript">
-        //var chartData = [[${chartData}]];
-    </script>
 
+    <!-- Thymeleafを使用してサーバーサイドからデータを渡す -->
     <title>Training Record</title>
 </head>
 
 <body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/js/userinterface.js"></script>
     <div class="container">
         <!-- Sidebar Section -->
@@ -88,9 +84,9 @@
             <div class="analyse">
                 <div class="blockA">
                     <div class="status">
-                        <div class="info">
+                        <div class="info" id="dayfromday">
                             <h3>前回からの経過日数</h3>
-                            <h1 th:text="${dayfromday} + '日'">日</h1>
+                            <h1></h1>
                         </div>
                         <div class="progresss">
                             <svg>
@@ -106,9 +102,9 @@
                 </div>
                 <div class="blockB">
                     <div class="status">
-                        <div class="info">
+                        <div class="info" id="totalCount">
                             <h3>今日のトータルSET</h3>
-                            <h1 th:text="${totalCount} + ' set'">set</h1>
+                            <h1></h1>
                         </div>
                         <div class="progresss">
                             <svg>
@@ -123,10 +119,10 @@
                     </div>
                 </div>
                 <div class="blockC">
-                    <div class="status">
+                    <div class="status" id="totalWeight">
                         <div class="info">
                             <h3>今日のトータル重量</h3>
-                            <h1 th:text="${totalWeight} + ' kg'">kg</h1>
+                            <h1></h1>
                         </div>
                         <div class="progresss">
                             <svg>
@@ -145,9 +141,9 @@
 
             <h1 class="toolslogo">Recode List</h1>
             <div class="user-list">
-                <form th:action="@{/usefulltools/RecodeSearch}" method="post" th:object="${RecodeSearchForm}">
-                    <label for="item">部位</label>
-                    <select class="form-control" id="item" name="item">
+                <form method="post" id="item">
+                    <label>部位</label>
+                    <select class="form-control" id="item_select" >
                         <option value="背中">背中</option>
                         <option value="肩">肩</option>
                         <option value="腕">腕</option>
@@ -156,15 +152,15 @@
                         <option value="脚">脚</option>
                         <option value="">なし</option>
                     </select>
-                    <label>日付</label>
-                    <input type="date" class="form-controlB" name="date_column">
-                    <button class="btn btn-primary">検索</button>
+                    <label for="date_column">日付</label>
+                    <input type="date" class="form-controlB" name="date_column" id="date_column">
+                    <button type="button" class="btn btn-primary custom-login-button"
+                            onclick="submitSerch()">検索</button>
                     <a th:href="@{RecodeAdd}" class="btn btn-primary">新規記録</a>
                 </form>
             </div>
             <div class="user-list">
-                <div></div>
-                <table class="table-striped">
+                <table id="data-table" class="table-striped">
                     <thead>
                         <tr>
                             <th>日付</th>
@@ -177,31 +173,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="user : ${itemlist}" th:object="${user}" class="align-middle">
-                            <td th:text="*{date_column}"></td>
-                            <td th:text="*{item}"></td>
-                            <td th:text="*{event}"></td>
-                            <td>
-                                <span th:text="${user.set_column}"></span> set
-                            </td>
-                            <td>
-                                <span th:text="${user.weight}"></span> kg
-                            </td>
-                            <td>
-                                <span th:text="${user.rep}"></span> rep
-                            </td>
-                            <td>
-                                <form th:action="@{/usefulltools/RecodeDelete}" method="post">
-                                    <input type="submit" class="btn btn-primary custom-login-button" name="delete"
-                                        value="削除">
-                                    <input type="hidden" name="id" th:value="${user.save_id}">
-                                </form>
-                            </td>
-                        </tr>
+                        <!-- データはJavaScriptによって動的に追加される -->
                     </tbody>
                 </table>
             </div>
-        </main>
+    </main>
         <div class="right-section">
             <div class="nav">
                 <button id="menu-btn">

@@ -141,10 +141,9 @@
             <h1 class="toolslogo">Recode List</h2>
                 <div class="float-end">
                     <a th:href="@{RecodeAdd}" class="btn btn-primary">新規記録</a>
-                    <a th:href="@{RecodeSearch}" class="btn btn-primary">検索</a>
                 </div>
                 <div class="user-list">
-                    <form action="recodeForm">
+                    <form >
                         <label for="date">日付:</label>
                         <input type="date" class="form-controlA" id="date" name="date" required>
                         <label for="item">部位:</label>
@@ -167,9 +166,29 @@
                         <input type="number" class="form-controlA" id="repCount" required name="rep" value="0">
                         <button type="button" class="btn btn-primary custom-login-button"
                             onclick="submitForm()">登録</button>
+                        
                     </form>
                 </div>
-
+                <div class="user-list">
+                    <form method="post" id="item">
+                        <label>部位</label>
+                        <select class="form-control" id="item_select" >
+                            <option value="背中">背中</option>
+                            <option value="肩">肩</option>
+                            <option value="腕">腕</option>
+                            <option value="胸">胸</option>
+                            <option value="腹筋">腹筋</option>
+                            <option value="脚">脚</option>
+                            <option value="">なし</option>
+                        </select>
+                        <label for="date_column">日付</label>
+                        <input type="date" class="form-controlB" name="date_column" id="date_column">
+                        <button type="button" class="btn btn-primary custom-login-button"
+                                onclick="submitSerch()">検索</button>
+                                <button type="button" class="btn btn-primary custom-login-button"
+                                onclick="submitAll()">全て</button>
+                    </form>
+                </div>
                 <div class="user-list">
                     <table id="data-table" class="table-striped">
                         <thead>

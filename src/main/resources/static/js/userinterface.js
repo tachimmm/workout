@@ -40,11 +40,45 @@ window.onload = function () {
     });
 
 }
+function submitSerch() {
 
+    // フォームの各フィールドの値を取得
+    var item = $('#item_select').val();
+    var date_column = $('#date_column').val();
+    var searchForm = {
+        item: item,
+        date_column: date_column,
+    }
+    // CSRFトークンの取得
+    var csrfToken = $('meta[name="_csrf"]').attr('content');
+    var csrfHeader = $('meta[name="_csrf_header"]').attr('content');
+
+    // AJAXリクエストの送信
+    $.ajax({
+        url: '/usefulltools/RecodeSearchAjax',// リクエストを送信する先のURLを指定します。この場合、'/usefulltools/RecodeAddAjax'にPOSTリクエストが送信される。
+        type: 'POST',
+        contentType: 'application/json',//送信するデータの形式を指定します。この場合、JSON形式のデータを送信するために'application/json'が指定される。
+        data: JSON.stringify(searchForm),//送信するデータを指定します。formDataオブジェクトをJSON文字列に変換しています。これにより、サーバーにJSON形式のデータが送信される。
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(csrfHeader, csrfToken);//CSRFトークンを認証の処理をしないと403 Forbiddenエラーが出る
+        },
+        success: function (response) {
+            displayData(response);
+        },
+        error: function (error) {
+            console.error("エラーが発生しました: " + error);
+        }
+    });
+
+}
+
+function submitAll(){
+    recodeList()
+}
 
 function submitForm() {//Ajaxで非同期通信を使用してDBへ登録する
 
-      // フォームの各フィールドの値を取得
+    // フォームの各フィールドの値を取得
     var date = $('#date').val();
     var item = $('#item').val();
     var event = $('#event').val();
@@ -54,7 +88,7 @@ function submitForm() {//Ajaxで非同期通信を使用してDBへ登録する
 
     // 各フィールドのバリデーションを行う
     if (!date || !item || !event || isNaN(set) || isNaN(weight) || isNaN(rep)) {
-         // 必須フィールドが空白であるか、数値フィールドに数値以外の値が入力されている場合
+        // 必須フィールドが空白であるか、数値フィールドに数値以外の値が入力されている場合
         alert('すべて入力してください');
         return; // フォームの送信を中止
     }
@@ -73,7 +107,7 @@ function submitForm() {//Ajaxで非同期通信を使用してDBへ登録する
     var csrfToken = $('meta[name="_csrf"]').attr('content');
     var csrfHeader = $('meta[name="_csrf_header"]').attr('content');
 
-     // AJAXリクエストの送信
+    // AJAXリクエストの送信
     $.ajax({
         url: '/usefulltools/RecodeAddAjax',// リクエストを送信する先のURLを指定します。この場合、'/usefulltools/RecodeAddAjax'にPOSTリクエストが送信される。
         type: 'POST',
@@ -82,12 +116,12 @@ function submitForm() {//Ajaxで非同期通信を使用してDBへ登録する
         beforeSend: function (xhr) {
             xhr.setRequestHeader(csrfHeader, csrfToken);//CSRFトークンを認証の処理をしないと403 Forbiddenエラーが出る
         },
-        success: function () {
+        success: function (response) {
             // データ登録成功後に一覧を更新
-            recodeList();
-            AnalyticsData()
+            displayData(response);
+            AnalyticsData();
         },
-        error: function ( error) {
+        error: function (error) {
             console.error("エラーが発生しました: " + error);
         }
     });
@@ -116,13 +150,30 @@ function displayData(data) {
         row += '<td>' + item.date_column + '</td>';
         row += '<td>' + item.item + '</td>';
         row += '<td>' + item.event + '</td>';
-        row += '<td>' + item.set_column  + "set" +'</td>';
+        row += '<td>' + item.set_column + "set" + '</td>';
         row += '<td>' + item.weight + "kg" + '</td>';
-        row += '<td>' + item.rep  + "rep" +'</td>';
+        row += '<td>' + item.rep + "rep" + '</td>';
         row += '<td><button class="btn btn-primary delete-btn" data-id="' + item.save_id + '">削除</button></td>';
         row += '</tr>';
         tableBody.append(row);
     });
+}
+    function displayData(response) {
+        var tableBody = $('#data-table tbody');
+        tableBody.empty();
+    
+        response.forEach(function (item) {
+            var row = '<tr>';
+            row += '<td>' + item.date_column + '</td>';
+            row += '<td>' + item.item + '</td>';
+            row += '<td>' + item.event + '</td>';
+            row += '<td>' + item.set_column + "set" + '</td>';
+            row += '<td>' + item.weight + "kg" + '</td>';
+            row += '<td>' + item.rep + "rep" + '</td>';
+            row += '<td><button class="btn btn-primary delete-btn" data-id="' + item.save_id + '">削除</button></td>';
+            row += '</tr>';
+            tableBody.append(row);
+        });
 
     $('.delete-btn').click(function () {
         var id = $(this).data('id');
@@ -173,11 +224,11 @@ function AnalyticsData() {
 function displayAnalyticsData(responseData) {
     var totalWeight = responseData.totalWeight;
     var totalCount = responseData.totalCount;
-    var dayFromDay = responseData.dayfromday; 
+    var dayFromDay = responseData.dayfromday;
 
     $('#totalWeight h1').text(totalWeight + "kg");
     $('#totalCount h1').text(totalCount + "set");
-    $('#dayfromday h1').text(dayFromDay + "日"); 
+    $('#dayfromday h1').text(dayFromDay + "日");
 }
 
 $(document).ready(function () {

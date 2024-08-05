@@ -23,44 +23,43 @@ import com.firstProject.usefulltools.form.RecodeSearchForm;
 public class WorkOutRecodeController {
 
     public class AnalyticsData {
-  
-/**
- * データの保持: 総重量、総回数、経過日数のデータを保持します。
- * データのカプセル化: 分析結果に関連する複数のデータを一つのオブジェクトとしてカプセル化します。
- * データの転送: コントローラからビューへのデータ転送を容易にします。
- * データの操作: ゲッターとセッターを通じてデータの安全な操作を提供します。
- */
+
+        /**
+         * データの保持: 総重量、総回数、経過日数のデータを保持します。
+         * データのカプセル化: 分析結果に関連する複数のデータを一つのオブジェクトとしてカプセル化します。
+         * データの転送: コントローラからビューへのデータ転送を容易にします。
+         * データの操作: ゲッターとセッターを通じてデータの安全な操作を提供します。
+         */
         private double totalWeight;
         private double totalCount;
         private String dayfromday;
-    
+
         // Getters and Setters
         public double getTotalWeight() {
             return totalWeight;
         }
-    
+
         public void setTotalWeight(double totalWeight) {
             this.totalWeight = totalWeight;
         }
-    
+
         public double getTotalCount() {
             return totalCount;
         }
-    
+
         public void setTotalCount(double totalCount) {
             this.totalCount = totalCount;
         }
-    
+
         public String getDayfromday() {
             return dayfromday;
         }
-        
-    
+
         public void setDayfromday(String dayfromday) {
             this.dayfromday = dayfromday;
         }
     }
-    
+
     @Autowired
     private SecuritySession securitySession;
 
@@ -69,40 +68,39 @@ public class WorkOutRecodeController {
 
     @GetMapping("/usefulltools/RecodeDataAjax")
     @ResponseBody
-    public List<RecodeInfo> itemlist(){
+    public List<RecodeInfo> itemlist() {
         String username = securitySession.getUsername();
-        List<RecodeInfo> itemlist = recodeService.findByUsername(username); 
-        Collections.reverse(itemlist);//リストを逆順にしてからクライアントに送信
+        List<RecodeInfo> itemlist = recodeService.findByUsername(username);
+        Collections.reverse(itemlist);// リストを逆順にしてからクライアントに送信
         return itemlist;
-    } 
+    }
 
     @GetMapping("/usefulltools/AnalyticsDataAjax")
-    @ResponseBody//@ResponseBody を使用することで、このオブジェクトは自動的に JSON 形式に変換されてクライアントに返される
+    @ResponseBody // @ResponseBody を使用することで、このオブジェクトは自動的に JSON 形式に変換されてクライアントに返される
     public AnalyticsData getAnalyticsDataAjax() {
         String username = securitySession.getUsername();
         double totalWeight = 0;
         double totalCount = 0;
-        String dayFromDayStr = ""; 
+        String dayFromDayStr = "";
 
         if (username != null) {
             List<RecodeInfo> LastList = recodeService.findLatesRecodeInfo(username);
             List<RecodeInfo> itemlist = recodeService.findByUsername(username);
             Collections.reverse(itemlist);
-            
+
             totalWeight = Analytics.calculateTotalWeight(itemlist);
             totalCount = Analytics.caculateTotalCount(itemlist);
             long dayFromDay = Analytics.caculatefromday(LastList);
-            dayFromDayStr = String.valueOf(dayFromDay); 
+            dayFromDayStr = String.valueOf(dayFromDay);
         }
 
         AnalyticsData analyticsData = new AnalyticsData();
         analyticsData.setTotalWeight(totalWeight);
         analyticsData.setTotalCount(totalCount);
-        analyticsData.setDayfromday(dayFromDayStr); 
+        analyticsData.setDayfromday(dayFromDayStr);
 
         return analyticsData;
     }
-
 
     @GetMapping("/usefulltools/content-work-out-recorde")
     public String WorkOutRecodeView(Model model) {
@@ -129,8 +127,6 @@ public class WorkOutRecodeController {
             model.addAttribute("yearAndMonthAndDay", yearAndMonthAndDay);
             model.addAttribute("dayfromday", dayfromday);
 
-            
-
         }
 
         return "content-work-out-recorde";
@@ -143,7 +139,6 @@ public class WorkOutRecodeController {
 
         return "RecodeAdd";
     }
-    
 
     @PostMapping("/usefulltools/RecodeAdd")
     public String RecodeAdd(Model model, RecodeForm form) {
@@ -157,11 +152,13 @@ public class WorkOutRecodeController {
     }
 
     @PostMapping("/usefulltools/RecodeAddAjax")
-    public ResponseEntity<String> recodeAddAjax(@RequestBody RecodeForm form) {
+    public ResponseEntity<List<RecodeInfo>> recodeAddAjax(@RequestBody RecodeForm form) {
         String username = securitySession.getUsername();
         form.setUsername(username); // RecodeFormにusernameをセット
         recodeService.create(form);
-        return ResponseEntity.ok("Success");
+        List<RecodeInfo> itemlist = recodeService.findByUsername(username);
+        Collections.reverse(itemlist);// リストを逆順にしてからクライアントに送信
+        return ResponseEntity.ok(itemlist);
     }
 
     @GetMapping("/usefulltools/RecodeSearch")
@@ -171,49 +168,20 @@ public class WorkOutRecodeController {
 
         if (username != null) {
 
-            List<RecodeInfo> LastList = recodeService.findLatesRecodeInfo(username);
-            List<RecodeInfo> itemlist = recodeService.findByUsername(username);
-
-            double totalWeight = Analytics.calculateTotalWeight(itemlist);
-            double totalCount = Analytics.caculateTotalCount(itemlist);
-            String yearAndMonthAndDay = Analytics.yearAndMonthAndDay();
-            long dayfromday = Analytics.caculatefromday(LastList);
-
             model.addAttribute("username", username);
-            model.addAttribute("totalWeight", totalWeight);
-            model.addAttribute("totalCount", totalCount);
-            model.addAttribute("yearAndMonthAndDay", yearAndMonthAndDay);
-            model.addAttribute("dayfromday", dayfromday);
         }
 
         return "RecodeSearch";
     }
 
-    @PostMapping("usefulltools/RecodeSearch")
-    public String Search(Model model, RecodeSearchForm form) {
-
+    @PostMapping("/usefulltools/RecodeSearchAjax")
+    public ResponseEntity<List<RecodeInfo>> search(@RequestBody RecodeSearchForm form) {
         String username = securitySession.getUsername();
 
         form.setUsername(username);
-        // 検索にヒットするワークアウト情報を取得
-        List<RecodeInfo> LastList = recodeService.findLatesRecodeInfo(username);
-        List<RecodeInfo> itemlist = recodeService.findByUsername(username);
-        List<RecodeInfo> itemlists = recodeService.findByUsernameSearch(form);
 
-        double totalWeight = Analytics.calculateTotalWeight(itemlist);
-        double totalCount = Analytics.caculateTotalCount(itemlist);
-        String yearAndMonthAndDay = Analytics.yearAndMonthAndDay();
-        long dayfromday = Analytics.caculatefromday(LastList);
-
-        model.addAttribute("username", username);
-        model.addAttribute("totalWeight", totalWeight);
-        model.addAttribute("totalCount", totalCount);
-        model.addAttribute("yearAndMonthAndDay", yearAndMonthAndDay);
-        model.addAttribute("dayfromday", dayfromday);
-        model.addAttribute("itemlist", itemlists);
-        model.addAttribute("username", username);
-
-        return "RecodeSearch";
+        List<RecodeInfo> searchResult = recodeService.findByUsernameSearch(form);
+        return ResponseEntity.ok(searchResult);
     }
 
     @PostMapping("/usefulltools/RecodeDelete")
