@@ -141,7 +141,7 @@ function recodeList() {//一覧データをDBから非同期通信で拾って�
     });
 }
 
-function displayData(data) {
+function displayData(data) {//recodeList()で一覧データをDBから非同期通信で受けとったデータをView
     var tableBody = $('#data-table tbody');
     tableBody.empty();
 
@@ -158,7 +158,7 @@ function displayData(data) {
         tableBody.append(row);
     });
 }
-    function displayData(response) {
+    function displayData(response) {//返り値で受けとったデータをView
         var tableBody = $('#data-table tbody');
         tableBody.empty();
     

@@ -156,7 +156,7 @@ public class WorkOutRecodeController {
         String username = securitySession.getUsername();
         form.setUsername(username); // RecodeFormにusernameをセット
         recodeService.create(form);
-        List<RecodeInfo> itemlist = recodeService.findByUsername(username);
+        List<RecodeInfo> itemlist = recodeService.findByUsername(username);//最新のRecordリストを取得
         Collections.reverse(itemlist);// リストを逆順にしてからクライアントに送信
         return ResponseEntity.ok(itemlist);
     }
